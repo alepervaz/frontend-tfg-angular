@@ -4,27 +4,36 @@ import { AppComponent } from './app.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { AppRoutingModule } from './app.routes';
-import { HttpClient, HttpClientModule, provideHttpClient } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule, provideHttpClient } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouteReuseStrategy } from '@angular/router';
 import { DataManagementService } from './services/data-management.service.service';
 import { RegisterComponent } from './register/register.component';
+import { LoginComponent } from './login/login.component';
+import { JwtInterceptor, JwtModule } from '@auth0/angular-jwt';
 
 
 
 
 @NgModule({
-  declarations: [AppComponent,RegisterComponent],
+  declarations: [AppComponent,RegisterComponent, LoginComponent,],
   imports: [
     BrowserModule,
+    ReactiveFormsModule, 
     IonicModule.forRoot(),
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: () => localStorage.getItem('token')
+      }
+    })
   ],
   providers:[
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     DataManagementService,
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
   
   ],
   bootstrap: [AppComponent],
