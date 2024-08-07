@@ -11,12 +11,13 @@ import { DataManagementService } from './services/data-management.service.servic
 import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
 import { JwtInterceptor, JwtModule } from '@auth0/angular-jwt';
+import { TabsPage } from './tabs/tabs.page';
 
 
 
 
 @NgModule({
-  declarations: [AppComponent,RegisterComponent, LoginComponent,],
+  declarations: [AppComponent,RegisterComponent, LoginComponent],
   imports: [
     BrowserModule,
     ReactiveFormsModule, 

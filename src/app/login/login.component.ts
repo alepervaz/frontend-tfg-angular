@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
+import { NavController } from '@ionic/angular';
 import { Router } from '@angular/router';
 
 @Component({
@@ -11,7 +12,13 @@ import { Router } from '@angular/router';
 export class LoginComponent {
   loginForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
+  ngOnInit() {
+   this.isAuthenticate();
+  }
+
+  constructor(private fb: FormBuilder,private navCtrl: NavController, private authService: AuthService, private router: Router,
+    private auth: AuthService
+  ) {
     this.loginForm = this.fb.group({
       username: ['', Validators.required],
       password: ['', Validators.required]
@@ -29,5 +36,15 @@ export class LoginComponent {
         }
       });
     }
+  }
+
+  isAuthenticate(): void{
+    if(this.authService.isAuthenticated()){
+      this.navCtrl.navigateRoot('');
+    }
+  }
+
+  async goToRegister() {
+    this.navCtrl.navigateRoot('register');
   }
 }
