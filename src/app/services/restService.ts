@@ -28,7 +28,7 @@ export class RestService  {
         `${this.path}/api/users/register/`,
         user,
         { headers }
-      ).toPromise(); // Convertir el Observable a una Promesa
+      ).toPromise(); 
 
       console.log("Request successful");
       return response;
