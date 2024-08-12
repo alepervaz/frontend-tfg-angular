@@ -4,6 +4,7 @@ import { addIcons } from 'ionicons';
 import { triangle, ellipse, square } from 'ionicons/icons';
 import { IonicModule,  } from '@ionic/angular';
 import { AuthService } from '../services/auth.service';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-tabs',
@@ -15,7 +16,7 @@ import { AuthService } from '../services/auth.service';
 export class TabsPage {
   public environmentInjector = inject(EnvironmentInjector);
 
-  constructor( private authService: AuthService) {
+  constructor( private authService: AuthService, private navCtrl: NavController) {
     addIcons({ triangle, ellipse, square });
   }
 
@@ -24,5 +25,9 @@ export class TabsPage {
     if(localStorage.key(1)=== null){
       this.authService.logout();
     }
+  }
+
+  async goToEdit() {
+    this.navCtrl.navigateRoot('edit');
   }
 }

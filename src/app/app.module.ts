@@ -12,12 +12,13 @@ import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
 import { JwtInterceptor, JwtModule } from '@auth0/angular-jwt';
 import { TabsPage } from './tabs/tabs.page';
+import { EditComponent } from './user/edit/edit.component';
 
 
 
 
 @NgModule({
-  declarations: [AppComponent,RegisterComponent, LoginComponent],
+  declarations: [AppComponent,RegisterComponent, LoginComponent, EditComponent],
   imports: [
     BrowserModule,
     ReactiveFormsModule, 

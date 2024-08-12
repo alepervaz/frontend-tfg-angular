@@ -19,9 +19,6 @@ export class RestService  {
 
   async register(user: User): Promise<any> {
     try {
-      console.log(user);
-      console.log(`${this.path}/api/users/register/`);
-
       const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
       const response = await this.http.post(
@@ -39,4 +36,32 @@ export class RestService  {
   }
   
 
+
+  async editUser(user: User): Promise<any> {
+    try {
+
+      const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+      const response = await this.http.put(
+        `${this.path}/api/users/edit/`,
+        user,
+        { headers }
+      ).toPromise(); 
+
+      console.log("Request successful");
+      return response;
+    } catch (error) {
+      console.error("Request failed", error);
+      throw error;
+    }
+  }
+
+  async getUser(username: string): Promise<User | undefined> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+    return await this.http.get<User>(
+      `${this.path}/api/users/get/${username}`,
+      { headers }
+    ).toPromise();
+  }
 }

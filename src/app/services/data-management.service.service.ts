@@ -18,4 +18,22 @@ export class DataManagementService {
       return err
     });
   }
+
+  async editUser(user: User): Promise<any> {
+    return this.rest.editUser(user)
+    .then((data)=>data)
+    .catch((err)=>{
+      return err
+    });
+  }
+
+  async getUser(username: string): Promise<User> {
+    return this.rest.getUser(username)
+    .then((data)=>data)
+    .catch((err)=>{
+      return err
+    });
+  }
+
+  
 }
