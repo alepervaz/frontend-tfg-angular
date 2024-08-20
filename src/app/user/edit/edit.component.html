@@ -1,0 +1,37 @@
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <form (ngSubmit)="onSubmit()" #editForm="ngForm">
+          <!-- Campo de usuario -->
+          <ion-item>
+            <ion-label position="floating">Username</ion-label>
+            <ion-input type="text" [(ngModel)]="user.username" name="username" required></ion-input>
+          </ion-item>
+      
+      <!-- Campo de dni -->
+          <ion-item>
+            <ion-label position="floating">dni</ion-label>
+            <ion-input type="text" [(ngModel)]="user.dni" name="dni" required></ion-input>
+          </ion-item>
+      
+          <!-- Campo de email -->
+          <ion-item>
+            <ion-label position="floating">Email</ion-label>
+            <ion-input type="text" [(ngModel)]="user.email" name="email" required></ion-input>
+          </ion-item>
+      
+          <!-- Campo de contraseña -->
+          <ion-item>
+            <ion-label position="floating">Password</ion-label>
+            <ion-input type="password" [(ngModel)]="user.password" name="password" required></ion-input>
+          </ion-item>
+      
+          <!-- Botón de registro -->
+          <ion-button expand="block" type="submit" color="primary">Edit Uset</ion-button>
+        </form>
+      
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
