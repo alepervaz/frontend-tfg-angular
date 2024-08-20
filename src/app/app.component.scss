@@ -1,0 +1,33 @@
+ion-toolbar {
+    display: flex;
+    justify-content: center; /* Centra la imagen horizontalmente */
+    align-items: center;     /* Centra la imagen verticalmente */
+  }
+  
+  .responsive-img {
+    width: 20%;             /* La imagen ocupa todo el ancho disponible */
+    height: auto;            /* Mantiene la proporción de la imagen */
+    object-fit: contain;  
+    justify-content: center; /* Centra la imagen horizontalmente */
+    align-items: center;   /* Asegura que la imagen no se distorsione */
+  }
+  
+  
+  ion-toolbar {
+    --background: #B5B2B2; /* Color de fondo del toolbar dentro del menú */
+    color: #ffffff;        /* Color del texto del toolbar */
+  }
+  
+  ion-content {
+    --background: #fff; /* Color de fondo del contenido del menú */
+    color: #000;        /* Color del texto del contenido */
+  }
+  ion-menu::part(backdrop) {
+    background-color: rgba(255, 255, 255, 0.5);
+  }
+  
+  ion-menu::part(container) {
+    border-radius: 0 20px 20px 0;
+  
+    box-shadow: 4px 0px 16px rgba(206, 32, 32, 0.18);
+  }

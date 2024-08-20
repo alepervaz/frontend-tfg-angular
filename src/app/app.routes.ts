@@ -11,7 +11,7 @@ export const routes: Routes = [
     loadChildren: () => import('./tabs/tabs.routes').then((m) => m.routes),
     canActivate:[AuthGuard]
   },
-  //{ path: 'register', component: RegisterComponent, canActivate: [AuthGuard] },
+  
   { path: 'register', component: RegisterComponent},
   { path: 'login', component: LoginComponent },
   { path: 'edit', component: EditComponent, canActivate: [AuthGuard] },
