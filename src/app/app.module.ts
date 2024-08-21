@@ -10,9 +10,10 @@ import { RouteReuseStrategy } from '@angular/router';
 import { DataManagementService } from './services/data-management.service.service';
 import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
-import { JwtInterceptor, JwtModule } from '@auth0/angular-jwt';
+import { JwtModule } from '@auth0/angular-jwt';
 import { TabsPage } from './tabs/tabs.page';
 import { EditComponent } from './user/edit/edit.component';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
 
 
 
@@ -35,7 +36,7 @@ import { EditComponent } from './user/edit/edit.component';
   providers:[
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     DataManagementService,
-    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor , multi: true }
   
   ],
   bootstrap: [AppComponent],
