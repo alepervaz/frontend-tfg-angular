@@ -12,14 +12,17 @@ import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
 import { JwtModule } from '@auth0/angular-jwt';
 import { TabsPage } from './tabs/tabs.page';
-import { EditComponent } from './user/edit/edit.component';
+import { EditUserComponent } from './user/edit/edit-group.component';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { GroupComponent } from './group/group.component';
+import { CreateGroupComponent } from './group/create-group/create-group.component';
+
 
 
 
 
 @NgModule({
-  declarations: [AppComponent,RegisterComponent, LoginComponent, EditComponent],
+  declarations: [AppComponent,RegisterComponent, LoginComponent, EditUserComponent,GroupComponent, CreateGroupComponent],
   imports: [
     BrowserModule,
     ReactiveFormsModule, 

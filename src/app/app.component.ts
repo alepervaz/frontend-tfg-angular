@@ -29,6 +29,11 @@ export class AppComponent {
     this.menuCtrl.close();
   }
 
+  async goToGroup() {
+    this.navCtrl.navigateRoot('group');
+    this.menuCtrl.close();
+  }
+
   isAuthenticated(): boolean {
     return this.authService.isAuthenticated();
   }

@@ -3,7 +3,8 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './guard/auth.guard';
-import { EditComponent } from './user/edit/edit.component';
+import { EditUserComponent } from './user/edit/edit-group.component';
+import { GroupComponent } from './group/group.component';
 
 export const routes: Routes = [
   {
@@ -14,7 +15,8 @@ export const routes: Routes = [
   
   { path: 'register', component: RegisterComponent},
   { path: 'login', component: LoginComponent },
-  { path: 'edit', component: EditComponent, canActivate: [AuthGuard] },
+  { path: 'edit', component: EditUserComponent, canActivate: [AuthGuard] },
+  { path: 'group', component: GroupComponent, canActivate: [AuthGuard] },
 ];
 
 @NgModule({
