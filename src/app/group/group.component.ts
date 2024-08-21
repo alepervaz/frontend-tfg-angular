@@ -15,7 +15,7 @@ export class GroupComponent  implements OnInit {
 
 
   async goToCreateGroup() {
-    this.navCtrl.navigateRoot('group');
+    this.navCtrl.navigateRoot('group/create');
     this.menuCtrl.close();
   }
 }

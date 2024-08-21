@@ -5,6 +5,7 @@ import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './guard/auth.guard';
 import { EditUserComponent } from './user/edit/edit-group.component';
 import { GroupComponent } from './group/group.component';
+import { CreateGroupComponent } from './group/create-group/create-group.component';
 
 export const routes: Routes = [
   {
@@ -17,6 +18,7 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'edit', component: EditUserComponent, canActivate: [AuthGuard] },
   { path: 'group', component: GroupComponent, canActivate: [AuthGuard] },
+  { path: 'group/create', component: CreateGroupComponent, canActivate: [AuthGuard] },
 ];
 
 @NgModule({

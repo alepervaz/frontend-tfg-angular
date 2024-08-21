@@ -1,3 +1,20 @@
-<p>
-  create-group works!
-</p>
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <form (ngSubmit)="onSubmit()" #registerForm="ngForm">
+          <!-- Campo de usuario -->
+          <ion-item>
+            <ion-label position="floating">Titulo del grupo</ion-label>
+            <ion-input type="text" [(ngModel)]="group.title" name="Title" required></ion-input>
+          </ion-item>
+      
+     
+          <!-- Botón de registro -->
+          <ion-button expand="block" type="submit" color="primary">Crear grupo</ion-button>
+        </form>
+      
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
