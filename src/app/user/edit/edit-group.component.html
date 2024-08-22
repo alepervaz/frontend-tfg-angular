@@ -11,7 +11,7 @@
       
       <!-- Campo de dni -->
           <ion-item>
-            <ion-label position="floating">dni</ion-label>
+            <ion-label position="floating">DNI</ion-label>
             <ion-input type="text" [(ngModel)]="user.dni" name="dni" required></ion-input>
           </ion-item>
       
@@ -28,7 +28,8 @@
           </ion-item>
       
           <!-- Botón de registro -->
-          <ion-button expand="block" type="submit" color="primary">Edit Uset</ion-button>
+          <ion-button expand="block" type="submit" color="primary">Editar usuario</ion-button>
+          <ion-button  (click)="deleteUser()" color="danger"> Borrar usuario</ion-button>
         </form>
       
       </ion-col>

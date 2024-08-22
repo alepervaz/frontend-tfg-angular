@@ -44,5 +44,13 @@ export class DataManagementService {
     });
   }
 
+  async deleteUser(username: string): Promise<any> {
+    return this.rest.deleteUser(username)
+    .then((data)=>data)
+    .catch((err)=>{
+      return err
+    });
+  }
+
   
 }

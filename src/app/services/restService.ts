@@ -84,4 +84,13 @@ export class RestService  {
       throw error;
     }
   }
+
+  async deleteUser(username: string): Promise<any> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+    return await this.http.delete<User>(
+      `${this.path}/api/users/delete/${username}`,
+      { headers }
+    ).toPromise();
+  }
 }
