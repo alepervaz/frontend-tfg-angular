@@ -16,13 +16,15 @@ import { EditUserComponent } from './user/edit/edit-group.component';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { GroupComponent } from './group/group.component';
 import { CreateGroupComponent } from './group/create-group/create-group.component';
+import { FriendUserComponent } from './user/friend-user/friend-user.component';
+import { ListUserComponent } from './user/list-user/list-user.component';
 
 
 
 
 
 @NgModule({
-  declarations: [AppComponent,RegisterComponent, LoginComponent, EditUserComponent,GroupComponent, CreateGroupComponent],
+  declarations: [AppComponent,RegisterComponent, LoginComponent, EditUserComponent,GroupComponent, CreateGroupComponent,FriendUserComponent,ListUserComponent],
   imports: [
     BrowserModule,
     ReactiveFormsModule, 
