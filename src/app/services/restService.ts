@@ -6,6 +6,7 @@ import { environment } from 'src/environments/environment';
 import { WsAbstractService } from './ws-astract.service';
 import { User } from '../models/user';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Group } from '../models/group';
 
 @Injectable({
   providedIn: 'root',
@@ -63,5 +64,24 @@ export class RestService  {
       `${this.path}/api/users/get/${username}`,
       { headers }
     ).toPromise();
+  }
+
+
+  async registerGroup(group: Group): Promise<any> {
+    try {
+      const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+      const response = await this.http.post(
+        `${this.path}/api/group/create/`,
+        group,
+        { headers }
+      ).toPromise(); 
+
+      console.log("Request successful");
+      return response;
+    } catch (error) {
+      console.error("Request failed", error);
+      throw error;
+    }
   }
 }

@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { RestService } from './restService';
 import { User } from '../models/user';
+import { Group } from '../models/group';
 
 @Injectable({
   providedIn: 'root',
@@ -29,6 +30,14 @@ export class DataManagementService {
 
   async getUser(username: string): Promise<User> {
     return this.rest.getUser(username)
+    .then((data)=>data)
+    .catch((err)=>{
+      return err
+    });
+  }
+
+  async registerGroup(group: Group): Promise<any> {
+    return this.rest.registerGroup(group)
     .then((data)=>data)
     .catch((err)=>{
       return err

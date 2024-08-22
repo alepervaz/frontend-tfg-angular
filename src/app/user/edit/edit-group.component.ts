@@ -6,10 +6,10 @@ import {jwtDecode} from 'jwt-decode';
 
 @Component({
   selector: 'app-edit',
-  templateUrl: './edit.component.html',
-  styleUrls: ['./edit.component.scss'],
+  templateUrl: './edit-group.component.html',
+  styleUrls: ['./edit-group.component.scss'],
 })
-export class EditComponent  implements OnInit {
+export class EditUserComponent  implements OnInit {
 
   ngOnInit() {
     this.getUser();
