@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { ActionSheetController } from '@ionic/angular';
+import { ActionSheetController, InfiniteScrollCustomEvent  } from '@ionic/angular';
 import { addIcons } from 'ionicons';
 import { pin, share, trash } from 'ionicons/icons';
 import { NavController,MenuController } from '@ionic/angular';
@@ -15,12 +15,15 @@ import { jwtDecode } from 'jwt-decode';
 })
 export class ListUserComponent  implements OnInit {
   listUser: User[] | undefined= [];
+  filterListUser: User[] | undefined= [];
   constructor(private actionSheetCtrl: ActionSheetController,  private navCtrl: NavController,private menuCtrl: MenuController, private dataManagementService: DataManagementService) {
     addIcons({ pin, share, trash });
    }
 
   ngOnInit() {
-    this.listAllUser();
+    this.listAllUser().then(() => {
+      this.handleInput({ target: { value: '' } });
+    });
   }
 
   public actionSheetButtons = [
@@ -74,6 +77,8 @@ export class ListUserComponent  implements OnInit {
 
   cancelAction() {
     console.log('Cancel action triggered');
+    this.navCtrl.navigateRoot('user/list');
+    this.menuCtrl.close();
     // Lógica para cancelar la acción
   }
 
@@ -86,8 +91,22 @@ export class ListUserComponent  implements OnInit {
       console.log(users?.length);
       this.listUser=users;  
     }
-    
   }
 
+  onIonInfinite(ev:any) {
+    this.listAllUser();
+    setTimeout(() => {
+      (ev as InfiniteScrollCustomEvent).target.complete();
+    }, 500);
+  }
+
+  handleInput(event:any) {
+    const query = event.target.value?.toLowerCase() || '';
+    if (query.trim() === '') {
+      this.filterListUser = this.listUser ?? [];
+    } else {
+        this.filterListUser = this.listUser?.filter((d) => d.username?.toLowerCase().includes(query));
+      }
+}
   
 }
