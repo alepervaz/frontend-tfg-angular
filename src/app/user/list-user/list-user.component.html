@@ -1,0 +1,33 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Usuarios Activos</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-searchbar [debounce]="1000" (ionInput)="handleInput($event)"></ion-searchbar>
+  <ion-list [inset]="true">
+    <ion-item-sliding *ngFor="let user of filterListUser; let i = index">
+      <ion-item [button]="true">
+        <ion-avatar aria-hidden="true" slot="start">
+          <img alt="" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+        </ion-avatar>
+        <ion-label>{{ user.username }}</ion-label>
+      </ion-item>
+      <ion-item-options slot="end">
+        <ion-item-option color="warning">
+          <ion-button [id]="'open-action-sheet-' + i" expand="block" fill="clear">
+            <ion-icon name="person-add-outline"></ion-icon>
+          </ion-button>
+          <ion-action-sheet [trigger]="'open-action-sheet-' + i" header="¿Quieres añadirlo como amigo?" [buttons]="actionSheetButtons"></ion-action-sheet>
+        </ion-item-option>
+        <ion-item-option color="tertiary">
+          <ion-icon slot="icon-only" name="share"></ion-icon>
+        </ion-item-option>
+        <ion-item-option color="danger">
+          <ion-icon slot="icon-only" name="trash"></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+  <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>

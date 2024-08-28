@@ -4,12 +4,14 @@ import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@capacitor/splash-screen';
 import { AuthService } from './services/auth.service';
 import { NavController,MenuController } from '@ionic/angular';
+import { FriendUserComponent } from './user/friend-user/friend-user.component';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
+  
   constructor(private platform: Platform,  private authService: AuthService, private navCtrl: NavController,private menuCtrl: MenuController) {
     this.platform.ready().then((_) => this.closeSplash());
   }
@@ -31,6 +33,11 @@ export class AppComponent {
 
   async goToGroup() {
     this.navCtrl.navigateRoot('group');
+    this.menuCtrl.close();
+  }
+
+  async goToFriend() {
+    this.navCtrl.navigateRoot('user/friends');
     this.menuCtrl.close();
   }
 

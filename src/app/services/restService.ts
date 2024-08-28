@@ -93,4 +93,17 @@ export class RestService  {
       { headers }
     ).toPromise();
   }
+
+  async listAllUsers(username: string): Promise<User[]| undefined> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const users= await this.http.get<User[]>(
+      `${this.path}/api/users/get/allUser/${username}`,
+      { headers }
+    ).toPromise();
+
+    if (!users) {
+      throw new Error('No users found');
+    }
+    return users;
+  }
 }

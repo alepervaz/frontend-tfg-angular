@@ -52,5 +52,11 @@ export class DataManagementService {
     });
   }
 
-  
+  async listAllUser(username: string): Promise<User[] | undefined> {
+    return this.rest.listAllUsers(username)
+    .then((data)=>data)
+    .catch((err)=>{
+      return err
+    });
+  }
 }
