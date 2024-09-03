@@ -21,7 +21,8 @@ export class RestService  {
   async register(user: User): Promise<any> {
     try {
       const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-
+      console.log("HOLA");
+      console.log(user);
       const response = await this.http.post(
         `${this.path}/api/users/register/`,
         user,

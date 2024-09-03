@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { User } from '../models/user';
+import { Gender, User,obtenerValoresEnum  } from '../models/user';
 import { DataManagementService } from '../services/data-management.service.service';
 import { NavController } from '@ionic/angular';
 
@@ -11,10 +11,22 @@ import { NavController } from '@ionic/angular';
 })
 export class RegisterComponent {
   user: User = new User();
-  
+  genders: String[]= obtenerValoresEnum(Gender); 
+  avatares = [
+    'avatar1.png',
+    'avatar2.png',
+    'avatar3.png',
+    'avatar4.png',
+    'avatar5.png',
+    'avatar6.png',
+    'avatar7.png',
+  ];
+  avatarSeleccionado: string = this.avatares[0]; // Inicializa con el primer avatar
+
   constructor(private userService: DataManagementService, private navCtrl: NavController) { }
 
   async onSubmit() {
+    console.log(this.user);
     this.userService.register(this.user).then(
       data => {
         console.log('User registered successfully!', data);
@@ -25,4 +37,13 @@ export class RegisterComponent {
       }
     );
   }
+
+  seleccionarAvatar(avatar: string) {
+    this.avatarSeleccionado = avatar;
+  }
+
+  getAvatarName(avatar: string): string {
+    return avatar.split('.')[0];
+  }
+  
 }

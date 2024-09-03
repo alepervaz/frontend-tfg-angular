@@ -6,8 +6,8 @@ import { AuthGuard } from './guard/auth.guard';
 import { EditUserComponent } from './user/edit/edit-group.component';
 import { GroupComponent } from './group/group.component';
 import { CreateGroupComponent } from './group/create-group/create-group.component';
-import { FriendUserComponent } from './user/friend-user/friend-user.component';
 import { ListUserComponent } from './user/list-user/list-user.component';
+import { FriendUserComponent } from './user/friend-user/friend-user.component';
 
 export const routes: Routes = [
   {

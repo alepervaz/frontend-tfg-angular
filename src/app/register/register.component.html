@@ -9,7 +9,7 @@
             <ion-input type="text" [(ngModel)]="user.username" name="username" required></ion-input>
           </ion-item>
       
-      <!-- Campo de dni -->
+          <!-- Campo de dni -->
           <ion-item>
             <ion-label position="floating">dni</ion-label>
             <ion-input type="text" [(ngModel)]="user.dni" name="dni" required></ion-input>
@@ -26,11 +26,49 @@
             <ion-label position="floating">Password</ion-label>
             <ion-input type="password" [(ngModel)]="user.password" name="password" required></ion-input>
           </ion-item>
+
+          <!-- Campo de género -->
+          <ion-item>
+            <ion-label>Género</ion-label>
+            <ion-select [(ngModel)]="user.gender" name="gender" placeholder="género" >
+              <ion-select-option *ngFor="let gender of genders" [value]="gender">{{ gender }}</ion-select-option>
+            </ion-select>
+          </ion-item>
+
+          <!-- Campo de avatar -->
+          <ion-item>
+            <ion-label>Elige tu propio avatar</ion-label>
+            <ion-select [(ngModel)]="user.avatar" name="avatar" (ionChange)="seleccionarAvatar($event.detail.value)" interface="popover">
+              <ion-select-option *ngFor="let avatar of avatares" [value]="avatar">
+                <img [src]="'assets/perfiles/' + avatar" [alt]="avatar" width="30" height="30" style="border-radius: 50%; margin-right: 10px;">
+                {{ getAvatarName(avatar) }}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+      
+          <!-- Mostrar avatar seleccionado -->
+          <ion-item *ngIf="user.avatar">
+            <ion-label>Avatar seleccionado:</ion-label>
+            <img [src]="'assets/perfiles/' + user.avatar" [alt]="user.avatar" width="75" height="75" style="border-radius: 50%;">
+          </ion-item>
+
+          <!-- Campo de fecha de nacimiento (Birthday) -->
+          <ion-item>
+            <ion-label>Fecha de Nacimiento</ion-label>
+            <ion-datetime 
+              [(ngModel)]="user.birthday" 
+              name="birthday" 
+              display-format="DD MMMM YYYY" 
+              picker-format="DD MMMM YYYY"
+              placeholder="Selecciona tu fecha de nacimiento"
+              presentation="date">
+            </ion-datetime>
+          </ion-item>
+          
       
           <!-- Botón de registro -->
           <ion-button expand="block" type="submit" color="primary">Register</ion-button>
         </form>
-      
       </ion-col>
     </ion-row>
   </ion-grid>
