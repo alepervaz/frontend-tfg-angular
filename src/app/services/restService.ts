@@ -107,4 +107,23 @@ export class RestService  {
     }
     return users;
   }
+
+
+  async sendRequestFriend(userSend: string|undefined, userReceived: string|undefined): Promise<any> {
+    try {
+      const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+      const response = await this.http.post(
+        `${this.path}/api/friends/sendRequest/`,
+        {userSend,userReceived},
+        { headers }
+      ).toPromise(); 
+
+      console.log("Request successful");
+      return response;
+    } catch (error) {
+      console.error("Request failed", error);
+      throw error;
+    }
+  }
 }

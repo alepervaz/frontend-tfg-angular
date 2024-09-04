@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { ActionSheetController, InfiniteScrollCustomEvent  } from '@ionic/angular';
+import { ActionSheetController, InfiniteScrollCustomEvent, ToastController   } from '@ionic/angular';
 import { addIcons } from 'ionicons';
 import { pin, share, trash } from 'ionicons/icons';
 import { NavController,MenuController } from '@ionic/angular';
@@ -17,7 +17,7 @@ import { AuthService } from 'src/app/services/auth.service';
 export class ListUserComponent  implements OnInit {
   listUser: User[] | undefined= [];
   filterListUser: User[] | undefined= [];
-  constructor(private authService: AuthService, private navCtrl: NavController,private menuCtrl: MenuController, private dataManagementService: DataManagementService) {
+  constructor(private authService: AuthService, private navCtrl: NavController,private menuCtrl: MenuController, private dataManagementService: DataManagementService, private toastController: ToastController) {
   }
 
  ngOnInit() {
@@ -53,6 +53,31 @@ handleInput(event:any) {
       this.filterListUser = this.listUser?.filter((d) => d.username?.toLowerCase().includes(query));
     }
 }
+
+async sendRequestFriend(userReceived: string | undefined):Promise<void>{
+  const userSend= await this.authService.getUser();
+  console.log(userReceived);
+  if(userReceived){
+    console.log("hola");
+    this.dataManagementService.sendRequestFriend(userSend?.username,userReceived)
+  }else{
+    this.showErrorToast();
+  }  
+
+}
+
+
+async showErrorToast() {
+  const toast = await this.toastController.create({
+    message: 'Error: Usuario no válido o indefinido.',
+    duration: 2000,   // Duración en milisegundos
+    color: 'danger',  // Color del toast (opcional)
+    position: 'bottom'  // Posición: 'top', 'middle' o 'bottom'
+  });
+  await toast.present();
+}
+
+
  
   
 }

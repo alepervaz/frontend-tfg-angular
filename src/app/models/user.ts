@@ -6,6 +6,7 @@ export class User {
     gender?: Gender;
     avatar?: string;
     birthday?:Date;
+    valuation?: number;
   }
 
   export enum Gender {

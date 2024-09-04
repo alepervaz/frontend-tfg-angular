@@ -8,15 +8,18 @@
     <ion-item-sliding *ngFor="let user of filterListUser; let i = index">
   
       <ion-card>
-        <img alt="Silhouette of mountains" src="assets/perfiles/1.png" />
+        <img alt="Silhouette of mountains" src="assets/perfiles/avatar1.png" />
         <ion-card-header>
-          <ion-card-title>Card Title</ion-card-title>
-          <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
+          <ion-card-title>{{user.username}}</ion-card-title>
+          <ion-card-subtitle>Tiene: x amigos</ion-card-subtitle>
         </ion-card-header>
       
         <ion-card-content>
-          Here's a small text description for the card content. Nothing more, nothing less.
+          <h1>Valoración: {{user.valuation}}</h1>
         </ion-card-content>
+
+        <ion-button expand="clear"  (click)="sendRequestFriend(user.username)" color="primary">Agregar amigo</ion-button>
+      
       </ion-card>
     </ion-item-sliding>
   </ion-list>

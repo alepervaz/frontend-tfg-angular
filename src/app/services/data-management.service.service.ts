@@ -59,4 +59,12 @@ export class DataManagementService {
       return err
     });
   }
+
+  async sendRequestFriend(userSend: string|undefined, userReceived: string|undefined): Promise<void> {
+    return this.rest.sendRequestFriend(userSend,userReceived)
+    .then((data)=>data)
+    .catch((err)=>{
+      return err
+    });
+  }
 }
