@@ -126,4 +126,17 @@ export class RestService  {
       throw error;
     }
   }
+
+  async listFriendUser(username: string| undefined): Promise<User[]| undefined> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const users= await this.http.get<User[]>(
+      `${this.path}/api/friends/MyFriends/${username}`,
+      { headers }
+    ).toPromise();
+
+    if (!users) {
+      throw new Error('No friends found');
+    }
+    return users;
+  }
 }

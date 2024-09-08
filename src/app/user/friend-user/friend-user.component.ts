@@ -4,7 +4,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { NavController,MenuController } from '@ionic/angular';
 import { addIcons } from 'ionicons';
 import { pin, share, trash } from 'ionicons/icons';
-import { User } from 'src/app/models/user';
+import { Friend, User } from 'src/app/models/user';
 import { ActionSheetController, InfiniteScrollCustomEvent  } from '@ionic/angular';
 import { DataManagementService } from 'src/app/services/data-management.service.service';
 import { jwtDecode } from 'jwt-decode';
@@ -17,14 +17,19 @@ import { jwtDecode } from 'jwt-decode';
 export class FriendUserComponent  implements OnInit {
   listUser: User[] | undefined= [];
   filterListUser: User[] | undefined= [];
-  constructor(private actionSheetCtrl: ActionSheetController,  private navCtrl: NavController,private menuCtrl: MenuController, private dataManagementService: DataManagementService) {
+  userAuth: User| undefined;
+  constructor(private actionSheetCtrl: ActionSheetController,  private navCtrl: NavController,private menuCtrl: MenuController, private dataManagementService: DataManagementService,
+    private authService: AuthService
+  ) {
     addIcons({ pin, share, trash });
    }
 
-  ngOnInit() {
-    this.listAllUser().then(() => {
+  async ngOnInit() {
+    await this.getUser()
+    await this.listAllUser().then(() => {
       this.handleInput({ target: { value: '' } });
     });
+    console.log(this.listAllUser.length)
   }
 
   public actionSheetButtons = [
@@ -80,19 +85,20 @@ export class FriendUserComponent  implements OnInit {
     // Lógica para cancelar la acción
   }
 
-  async listAllUser():Promise<void>{
-    const token = localStorage.getItem('token');
-    if (token) {
-      const decodedToken: any = jwtDecode(token);
-      const username = decodedToken.sub;  // Aquí `sub` corresponde al subject, que es el username.
-      const users: User[]| undefined= await this.dataManagementService.listAllUser(username);
-      console.log(users?.length);
-      this.listUser=users;  
-    }
+  async getUser(): Promise<User|undefined>{
+    return await this.authService.getUser().then(data=>
+      this.userAuth=data
+    )
+  }
+
+  async listAllUser(){
+      this.listUser =await this.dataManagementService.listFriendUser(this.userAuth?.username)
+    
+     
   }
 
   onIonInfinite(ev:any) {
-    this.listAllUser();
+    this.listUser;
     setTimeout(() => {
       (ev as InfiniteScrollCustomEvent).target.complete();
     }, 500);

@@ -15,6 +15,7 @@ export class User {
     id?: number;
     requestDate?:Date;
     blockDate?:Date;
+    users?:User[];
 
   }
   export enum Gender {

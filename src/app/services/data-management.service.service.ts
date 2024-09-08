@@ -67,4 +67,12 @@ export class DataManagementService {
       return err
     });
   }
+
+  async listFriendUser(username: string|undefined): Promise<User[] | undefined> {
+    return this.rest.listFriendUser(username)
+    .then((data)=>data)
+    .catch((err)=>{
+      return err
+    });
+  }
 }
