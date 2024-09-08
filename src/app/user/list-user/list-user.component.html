@@ -8,7 +8,7 @@
     <ion-item-sliding *ngFor="let user of filterListUser; let i = index">
   
       <ion-card>
-        <img alt="Silhouette of mountains" src="assets/perfiles/avatar1.png" />
+        <img alt="Avatares" [src]="'assets/perfiles/' + user.avatar" />
         <ion-card-header>
           <ion-card-title>{{user.username}}</ion-card-title>
           <ion-card-subtitle>Tiene: x amigos</ion-card-subtitle>
@@ -18,7 +18,17 @@
           <h1>Valoración: {{user.valuation}}</h1>
         </ion-card-content>
 
-        <ion-button expand="clear"  (click)="sendRequestFriend(user.username)" color="primary">Agregar amigo</ion-button>
+        <ng-container *ngIf="!isFriend(user.friends); else friendText">
+          <ion-button expand="clear" 
+            (click)="sendRequestFriend(user.username)" 
+            color="primary">
+            Agregar amigo
+          </ion-button>
+        </ng-container>
+        
+        <ng-template #friendText>
+          <h2>Ya está en tu lista de amigos</h2>
+        </ng-template>
       
       </ion-card>
     </ion-item-sliding>

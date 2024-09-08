@@ -1,4 +1,5 @@
 export class User {
+    id?:number;
     username?: string;
     dni?:string;
     email?: string;
@@ -7,8 +8,15 @@ export class User {
     avatar?: string;
     birthday?:Date;
     valuation?: number;
+    friends?: Friend[];
   }
 
+  export class Friend {
+    id?: number;
+    requestDate?:Date;
+    blockDate?:Date;
+
+  }
   export enum Gender {
     MASCULINO ='Masculino', 
     FEMENINO = 'Femenino',

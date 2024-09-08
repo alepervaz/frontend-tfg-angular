@@ -4,10 +4,11 @@ import { ActionSheetController, InfiniteScrollCustomEvent, ToastController   } f
 import { addIcons } from 'ionicons';
 import { pin, share, trash } from 'ionicons/icons';
 import { NavController,MenuController } from '@ionic/angular';
-import { User } from 'src/app/models/user';
+import { Friend, User } from 'src/app/models/user';
 import { DataManagementService } from 'src/app/services/data-management.service.service';
 import { jwtDecode } from 'jwt-decode';
 import { AuthService } from 'src/app/services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-list-user',
@@ -17,13 +18,23 @@ import { AuthService } from 'src/app/services/auth.service';
 export class ListUserComponent  implements OnInit {
   listUser: User[] | undefined= [];
   filterListUser: User[] | undefined= [];
-  constructor(private authService: AuthService, private navCtrl: NavController,private menuCtrl: MenuController, private dataManagementService: DataManagementService, private toastController: ToastController) {
+  userAuth: User| undefined;
+
+  constructor(private authService: AuthService, private navCtrl: NavController,private menuCtrl: MenuController, private dataManagementService: DataManagementService, private toastController: ToastController,
+    private router: Router
+  ) {
   }
 
  ngOnInit() {
   this.listAllUser().then(() => {
     this.handleInput({ target: { value: '' } });
   });
+
+  this.authService.getUser().then(user => {
+    this.userAuth = user;
+    console.log(this.userAuth)
+  });
+  
  }
 
 
@@ -58,8 +69,8 @@ async sendRequestFriend(userReceived: string | undefined):Promise<void>{
   const userSend= await this.authService.getUser();
   console.log(userReceived);
   if(userReceived){
-    console.log("hola");
     this.dataManagementService.sendRequestFriend(userSend?.username,userReceived)
+    window.location.reload();
   }else{
     this.showErrorToast();
   }  
@@ -78,6 +89,8 @@ async showErrorToast() {
 }
 
 
- 
+ isFriend(user: Friend[]| undefined): boolean | undefined{
+  return this.userAuth?.friends?.some(friend=> user?.find(friends=> friends.id === friend.id));
+ }
   
 }
