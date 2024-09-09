@@ -5,7 +5,7 @@ import { NavController,MenuController } from '@ionic/angular';
 import { addIcons } from 'ionicons';
 import { pin, share, trash } from 'ionicons/icons';
 import { Friend, User } from 'src/app/models/user';
-import { ActionSheetController, InfiniteScrollCustomEvent  } from '@ionic/angular';
+import { ActionSheetController, InfiniteScrollCustomEvent, IonModal   } from '@ionic/angular';
 import { DataManagementService } from 'src/app/services/data-management.service.service';
 import { jwtDecode } from 'jwt-decode';
 
@@ -18,6 +18,9 @@ export class FriendUserComponent  implements OnInit {
   listUser: User[] | undefined= [];
   filterListUser: User[] | undefined= [];
   userAuth: User| undefined;
+  isModalOpen = false;
+  selectedUser: any = null; 
+  
   constructor(private actionSheetCtrl: ActionSheetController,  private navCtrl: NavController,private menuCtrl: MenuController, private dataManagementService: DataManagementService,
     private authService: AuthService
   ) {
@@ -31,6 +34,8 @@ export class FriendUserComponent  implements OnInit {
     });
     console.log(this.listAllUser.length)
   }
+  
+
 
   public actionSheetButtons = [
     {
@@ -65,6 +70,14 @@ export class FriendUserComponent  implements OnInit {
   ];
 
 
+  openUserModal(user: User) {
+    this.selectedUser = user;
+    this.isModalOpen = true;
+  }
+
+  setOpen(isOpen: boolean) {
+    this.isModalOpen = isOpen;
+  }
 
   deleteAction() {
     console.log('Delete action triggered');

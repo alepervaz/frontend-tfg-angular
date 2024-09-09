@@ -16,19 +16,21 @@
       
         <ion-card-content>
           <h1>Valoración: {{user.valuation}}</h1>
+
+          <ng-container *ngIf="!isFriend(user.friends); else friendText">
+            <ion-button expand="clear" 
+              (click)="sendRequestFriend(user.username)" 
+              color="primary">
+              Agregar amigo
+            </ion-button>
+          </ng-container>
+          
+          <ng-template #friendText>
+            <h2>Ya está en tu lista de amigos</h2>
+          </ng-template>
         </ion-card-content>
 
-        <ng-container *ngIf="!isFriend(user.friends); else friendText">
-          <ion-button expand="clear" 
-            (click)="sendRequestFriend(user.username)" 
-            color="primary">
-            Agregar amigo
-          </ion-button>
-        </ng-container>
         
-        <ng-template #friendText>
-          <h2>Ya está en tu lista de amigos</h2>
-        </ng-template>
       
       </ion-card>
     </ion-item-sliding>
