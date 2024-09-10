@@ -11,6 +11,27 @@ export class User {
     friends?: Friend[];
   }
 
+  export class RegisterUser {
+    username?: string;
+    dni?:string;
+    email?: string;
+    password?: string;
+    gender?: Gender;
+    avatar?: string;
+    birthday?:Date;
+  }
+
+  export class EditUser {
+    id?:number;
+    username?: string;
+    dni?:string;
+    email?: string;
+    password?: string;
+    gender?: Gender;
+    avatar?: string;
+    birthday?:Date;
+  }
+
   export class Friend {
     id?: number;
     requestDate?:Date;

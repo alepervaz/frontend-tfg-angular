@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Gender, obtenerValoresEnum, User } from 'src/app/models/user';
+import { EditUser, Gender, obtenerValoresEnum, User } from 'src/app/models/user';
 import { DataManagementService } from 'src/app/services/data-management.service.service';
 import { NavController } from '@ionic/angular';
 import {jwtDecode} from 'jwt-decode';
@@ -31,7 +31,7 @@ export class EditUserComponent  implements OnInit {
     this.getUser();
   }
 
-  user: User = new User();
+  user: EditUser = new EditUser();
 
   
   constructor(private userService: DataManagementService, private navCtrl: NavController, private auth: AuthService) { }

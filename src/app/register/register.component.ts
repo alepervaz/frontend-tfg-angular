@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Gender, User,obtenerValoresEnum  } from '../models/user';
+import { Gender, RegisterUser, User,obtenerValoresEnum  } from '../models/user';
 import { DataManagementService } from '../services/data-management.service.service';
 import { NavController } from '@ionic/angular';
 
@@ -10,7 +10,7 @@ import { NavController } from '@ionic/angular';
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent {
-  user: User = new User();
+  user: RegisterUser = new RegisterUser();
   genders: String[]= obtenerValoresEnum(Gender); 
   avatares = [
     'avatar1.png',
