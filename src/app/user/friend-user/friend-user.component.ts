@@ -15,8 +15,8 @@ import { jwtDecode } from 'jwt-decode';
   styleUrls: ['./friend-user.component.scss'],
 })
 export class FriendUserComponent  implements OnInit {
-  listUser: User[] | undefined= [];
-  filterListUser: User[] | undefined= [];
+  listMyFriendsUser: User[] | undefined= [];
+  filterListMyFriendsUser: User[] | undefined= [];
   userAuth: User| undefined;
   isModalOpen = false;
   selectedUser: any = null; 
@@ -37,15 +37,15 @@ export class FriendUserComponent  implements OnInit {
   
 
 
-  public actionSheetButtons = [
-    {
+  actionSheetButtons(user: User) {
+    return [{
       text: 'Delete',
       role: 'destructive',
       data: {
         action: 'delete',
       },
       handler: () => {
-        this.deleteAction();
+        this.deleteAction(user);
       }
     },
     {
@@ -67,7 +67,8 @@ export class FriendUserComponent  implements OnInit {
         this.cancelAction();
       }
     },
-  ];
+  ]
+  }
 
 
   openUserModal(user: User) {
@@ -79,10 +80,9 @@ export class FriendUserComponent  implements OnInit {
     this.isModalOpen = isOpen;
   }
 
-  deleteAction() {
+  deleteAction(user: User) {
     console.log('Delete action triggered');
-    this.navCtrl.navigateRoot('edit');
-    this.menuCtrl.close();
+    console.log(user)
     // Lógica para eliminar algo
   }
 
@@ -105,13 +105,13 @@ export class FriendUserComponent  implements OnInit {
   }
 
   async listAllUser(){
-      this.listUser =await this.dataManagementService.listFriendUser(this.userAuth?.username)
+      this.listMyFriendsUser =await this.dataManagementService.listFriendUser(this.userAuth?.username)
     
      
   }
 
   onIonInfinite(ev:any) {
-    this.listUser;
+    this.listMyFriendsUser;
     setTimeout(() => {
       (ev as InfiniteScrollCustomEvent).target.complete();
     }, 500);
@@ -120,9 +120,9 @@ export class FriendUserComponent  implements OnInit {
   handleInput(event:any) {
     const query = event.target.value?.toLowerCase() || '';
     if (query.trim() === '') {
-      this.filterListUser = this.listUser ?? [];
+      this.filterListMyFriendsUser = this.listMyFriendsUser ?? [];
     } else {
-        this.filterListUser = this.listUser?.filter((d) => d.username?.toLowerCase().includes(query));
+        this.filterListMyFriendsUser = this.listMyFriendsUser?.filter((d) => d.username?.toLowerCase().includes(query));
       }
 }
   

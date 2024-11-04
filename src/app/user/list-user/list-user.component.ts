@@ -20,7 +20,11 @@ export class ListUserComponent  implements OnInit {
   filterListUser: User[] | undefined= [];
   userAuth: User| undefined;
 
-  constructor(private authService: AuthService, private navCtrl: NavController,private menuCtrl: MenuController, private dataManagementService: DataManagementService, private toastController: ToastController,
+  constructor(private authService: AuthService,
+     private navCtrl: NavController,
+     private menuCtrl: MenuController, 
+      private dataManagementService: DataManagementService, 
+      private toastController: ToastController,
     private router: Router
   ) {
   }
@@ -29,6 +33,7 @@ export class ListUserComponent  implements OnInit {
   this.listAllUser().then(() => {
     this.handleInput({ target: { value: '' } });
   });
+  
 
   this.authService.getUser().then(user => {
     this.userAuth = user;
@@ -45,7 +50,7 @@ export class ListUserComponent  implements OnInit {
     const username = decodedToken.sub;  // Aquí `sub` corresponde al subject, que es el username.
     const users: User[]| undefined= await this.dataManagementService.listAllUser(username);
     console.log(users?.length);
-    this.listUser=users;  
+    this.listUser=[...(users ?? [])];  
   }
 }
 
@@ -69,8 +74,8 @@ async sendRequestFriend(userReceived: string | undefined):Promise<void>{
   const userSend= await this.authService.getUser();
   console.log(userReceived);
   if(userReceived){
-    this.dataManagementService.sendRequestFriend(userSend?.username,userReceived)
-    window.location.reload();
+    await this.dataManagementService.sendRequestFriend(userSend?.username,userReceived)
+    this.ngOnInit();
   }else{
     this.showErrorToast();
   }  

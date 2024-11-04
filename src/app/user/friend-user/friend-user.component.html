@@ -6,7 +6,7 @@
   </ion-header>
   <ion-searchbar [debounce]="1000" (ionInput)="handleInput($event)"></ion-searchbar>
     <ion-list [inset]="true">
-      <ion-item-sliding *ngFor="let user of filterListUser; let i = index">
+      <ion-item-sliding *ngFor="let user of filterListMyFriendsUser; let i = index">
         <ion-item [button]="true">
           <ion-avatar aria-hidden="true" slot="start">
             <img alt="" [src]="'assets/perfiles/' + user.avatar" />
@@ -50,7 +50,7 @@
             <ion-button [id]="'open-action-sheet-' + i" expand="block" fill="clear">
               <ion-icon slot="icon-only" name="trash"></ion-icon>
             </ion-button>
-            <ion-action-sheet [trigger]="'open-action-sheet-' + i" header="¿Quieres bloquear a este amigo?" [buttons]="actionSheetButtons"></ion-action-sheet>
+            <ion-action-sheet [trigger]="'open-action-sheet-' + i" header="¿Quieres bloquear a este amigo?" [buttons]="actionSheetButtons(user)"></ion-action-sheet>
           </ion-item-option>
         </ion-item-options>
       </ion-item-sliding>
