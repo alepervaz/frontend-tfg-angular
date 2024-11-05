@@ -8,6 +8,7 @@ import { Friend, User } from 'src/app/models/user';
 import { ActionSheetController, InfiniteScrollCustomEvent, IonModal   } from '@ionic/angular';
 import { DataManagementService } from 'src/app/services/data-management.service.service';
 import { jwtDecode } from 'jwt-decode';
+import { deleteFriend } from 'src/app/models/deleteFriend';
 
 @Component({
   selector: 'app-friend-user',
@@ -80,9 +81,14 @@ export class FriendUserComponent  implements OnInit {
     this.isModalOpen = isOpen;
   }
 
-  deleteAction(user: User) {
+  deleteAction(friend: User) {
     console.log('Delete action triggered');
-    console.log(user)
+    console.log(friend)
+    const deleteFriendObject: deleteFriend={
+      userId:this.userAuth?.id,
+      friendId:friend.id
+    };
+    this.dataManagementService.deleteFriend(deleteFriendObject)
     // Lógica para eliminar algo
   }
 

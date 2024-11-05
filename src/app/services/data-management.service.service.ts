@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { RestService } from './restService';
 import { User } from '../models/user';
 import { Group } from '../models/group';
+import { deleteFriend } from '../models/deleteFriend';
 
 @Injectable({
   providedIn: 'root',
@@ -70,6 +71,14 @@ export class DataManagementService {
 
   async listFriendUser(username: string|undefined): Promise<User[] | undefined> {
     return this.rest.listFriendUser(username)
+    .then((data)=>data)
+    .catch((err)=>{
+      return err
+    });
+  }
+
+  async deleteFriend(deleteFriend: deleteFriend): Promise<any> {
+    return this.rest.deleteFriend(deleteFriend)
     .then((data)=>data)
     .catch((err)=>{
       return err

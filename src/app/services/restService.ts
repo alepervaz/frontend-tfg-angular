@@ -4,9 +4,11 @@ import { environment } from 'src/environments/environment';
 
 
 import { WsAbstractService } from './ws-astract.service';
-import { User } from '../models/user';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Friend, User } from '../models/user';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Group } from '../models/group';
+import { deleteFriend } from '../models/deleteFriend';
+import { convertToHttpParams } from '../helpers/htttpHelper';
 
 @Injectable({
   providedIn: 'root',
@@ -138,5 +140,15 @@ export class RestService  {
       throw new Error('No friends found');
     }
     return users;
+  }
+
+  async deleteFriend(deleteFriend: deleteFriend): Promise<any> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const params = convertToHttpParams(deleteFriend);
+    
+    return await this.http.delete<Response>(
+      `${this.path}/api/friends/MyFriends/`,
+      { headers, params }
+    ).toPromise();
   }
 }
