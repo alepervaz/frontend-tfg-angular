@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { RestService } from './restService';
 import { User } from '../models/user';
-import { Group } from '../models/group';
+import { postGroup } from '../models/postGroup';
 import { deleteFriend } from '../models/deleteFriend';
 
 @Injectable({
@@ -37,8 +37,8 @@ export class DataManagementService {
     });
   }
 
-  async registerGroup(group: Group): Promise<any> {
-    return this.rest.registerGroup(group)
+  async registerGroup(group: postGroup,photo:File|null): Promise<any> {
+    return this.rest.registerGroup(group,photo)
     .then((data)=>data)
     .catch((err)=>{
       return err

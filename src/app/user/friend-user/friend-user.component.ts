@@ -9,6 +9,8 @@ import { ActionSheetController, InfiniteScrollCustomEvent, IonModal   } from '@i
 import { DataManagementService } from 'src/app/services/data-management.service.service';
 import { jwtDecode } from 'jwt-decode';
 import { deleteFriend } from 'src/app/models/deleteFriend';
+import { ToastHelperService } from 'src/app/helpers/AlertHelper';
+
 
 @Component({
   selector: 'app-friend-user',
@@ -23,7 +25,7 @@ export class FriendUserComponent  implements OnInit {
   selectedUser: any = null; 
   
   constructor(private actionSheetCtrl: ActionSheetController,  private navCtrl: NavController,private menuCtrl: MenuController, private dataManagementService: DataManagementService,
-    private authService: AuthService
+    private authService: AuthService, private toastService: ToastHelperService
   ) {
     addIcons({ pin, share, trash });
    }
@@ -82,13 +84,20 @@ export class FriendUserComponent  implements OnInit {
   }
 
   deleteAction(friend: User) {
-    console.log('Delete action triggered');
-    console.log(friend)
     const deleteFriendObject: deleteFriend={
       userId:this.userAuth?.id,
       friendId:friend.id
     };
-    this.dataManagementService.deleteFriend(deleteFriendObject)
+    this.dataManagementService.deleteFriend(deleteFriendObject).then((response)=>{
+      if(response.status==200){
+        this.toastService.presentToast(response.body.message,undefined,'bottom')
+      }else{
+        this.toastService.presentToast(response.error.error,undefined,'bottom','danger')
+      }
+      
+      this.ngOnInit()
+
+    })
     // Lógica para eliminar algo
   }
 
