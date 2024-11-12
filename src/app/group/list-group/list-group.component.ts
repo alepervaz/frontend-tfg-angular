@@ -12,6 +12,8 @@ import { RestService } from 'src/app/services/restService';
 export class ListGroupComponent  implements OnInit {
   groupList:Group[]|undefined=[];
   groupListParams: getGroupListParams={userId:undefined}
+  isModalOpen: Boolean=false;
+  groupSelected:Group|undefined
 
   constructor(private authService: AuthService, private restService: RestService) { }
 
@@ -24,9 +26,21 @@ export class ListGroupComponent  implements OnInit {
     const user=await this.authService.getUser()
     this.groupListParams.userId = user?.id;
     await this.restService.getListGroup(this.groupListParams).then((response)=>{
-      console.log(response)
+      console.log(response.body.data)
+      this.groupList=response.body.data
+      console.log(this.groupList)
     })
 
+  }
+
+  OpenModal(group:Group){
+    this.groupSelected=group;
+    console.log(group)
+    this.isModalOpen=true;
+  }
+
+  setOpen(boolean: Boolean){
+    this.isModalOpen=boolean;
   }
 
 
