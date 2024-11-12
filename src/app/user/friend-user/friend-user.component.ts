@@ -4,6 +4,13 @@ import { AuthService } from 'src/app/services/auth.service';
 import { NavController,MenuController } from '@ionic/angular';
 import { addIcons } from 'ionicons';
 import { pin, share, trash } from 'ionicons/icons';
+import { Friend, User } from 'src/app/models/user';
+import { ActionSheetController, InfiniteScrollCustomEvent, IonModal   } from '@ionic/angular';
+import { DataManagementService } from 'src/app/services/data-management.service.service';
+import { jwtDecode } from 'jwt-decode';
+import { deleteFriend } from 'src/app/models/deleteFriend';
+import { ToastHelperService } from 'src/app/helpers/AlertHelper';
+
 
 @Component({
   selector: 'app-friend-user',
@@ -11,15 +18,134 @@ import { pin, share, trash } from 'ionicons/icons';
   styleUrls: ['./friend-user.component.scss'],
 })
 export class FriendUserComponent  implements OnInit {
+  listMyFriendsUser: User[] | undefined= [];
+  filterListMyFriendsUser: User[] | undefined= [];
+  userAuth: User| undefined;
+  isModalOpen = false;
+  selectedUser: any = null; 
   
-  constructor(private authService: AuthService, private navCtrl: NavController,private menuCtrl: MenuController) {
+  constructor(private actionSheetCtrl: ActionSheetController,  private navCtrl: NavController,private menuCtrl: MenuController, private dataManagementService: DataManagementService,
+    private authService: AuthService, private toastService: ToastHelperService
+  ) {
+    addIcons({ pin, share, trash });
    }
 
-  ngOnInit() {}
+  async ngOnInit() {
+    await this.getUser()
+    await this.listAllUser().then(() => {
+      this.handleInput({ target: { value: '' } });
+    });
+    console.log(this.listAllUser.length)
+  }
+  
 
 
-  async goToListUser() {
+  actionSheetButtons(user: User) {
+    return [{
+      text: 'Delete',
+      role: 'destructive',
+      data: {
+        action: 'delete',
+      },
+      handler: () => {
+        this.deleteAction(user);
+      }
+    },
+    {
+      text: 'Share',
+      data: {
+        action: 'share',
+      },
+      handler: () => {
+        this.shareAction();
+      }
+    },
+    {
+      text: 'Cancel',
+      role: 'cancel',
+      data: {
+        action: 'cancel',
+      },
+      handler: () => {
+        this.cancelAction();
+      }
+    },
+  ]
+  }
+
+
+  openUserModal(user: User) {
+    this.selectedUser = user;
+    this.isModalOpen = true;
+  }
+
+  setOpen(isOpen: boolean) {
+    this.isModalOpen = isOpen;
+  }
+
+  deleteAction(friend: User) {
+    const deleteFriendObject: deleteFriend={
+      userId:this.userAuth?.id,
+      friendId:friend.id
+    };
+    this.dataManagementService.deleteFriend(deleteFriendObject).then((response)=>{
+      if(response.status==200){
+        this.toastService.presentToast(response.body.message,undefined,'bottom')
+      }else{
+        this.toastService.presentToast(response.error.error,undefined,'bottom','danger')
+      }
+      
+      this.ngOnInit()
+
+    })
+    // Lógica para eliminar algo
+  }
+
+  shareAction() {
+    console.log('Share action triggered');
+    // Lógica para compartir algo
+  }
+
+  cancelAction() {
+    console.log('Cancel action triggered');
     this.navCtrl.navigateRoot('user/list');
     this.menuCtrl.close();
+    // Lógica para cancelar la acción
   }
+
+  async getUser(): Promise<User|undefined>{
+    return await this.authService.getUser().then(data=>
+      this.userAuth=data
+    )
+  }
+
+  async listAllUser(){
+      this.listMyFriendsUser =await this.dataManagementService.listFriendUser(this.userAuth?.username)
+    
+     
+  }
+
+  onIonInfinite(ev:any) {
+    this.listMyFriendsUser;
+    setTimeout(() => {
+      (ev as InfiniteScrollCustomEvent).target.complete();
+    }, 500);
+  }
+
+  handleInput(event:any) {
+    const query = event.target.value?.toLowerCase() || '';
+    if (query.trim() === '') {
+      this.filterListMyFriendsUser = this.listMyFriendsUser ?? [];
+    } else {
+        this.filterListMyFriendsUser = this.listMyFriendsUser?.filter((d) => d.username?.toLowerCase().includes(query));
+      }
+}
+  
+
+async goToList() {
+  this.navCtrl.navigateRoot('user/list');
+  this.menuCtrl.close();
+}
+
+
 }

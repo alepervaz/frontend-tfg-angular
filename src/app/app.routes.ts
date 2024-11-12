@@ -6,8 +6,9 @@ import { AuthGuard } from './guard/auth.guard';
 import { EditUserComponent } from './user/edit/edit-group.component';
 import { GroupComponent } from './group/group.component';
 import { CreateGroupComponent } from './group/create-group/create-group.component';
-import { FriendUserComponent } from './user/friend-user/friend-user.component';
 import { ListUserComponent } from './user/list-user/list-user.component';
+import { FriendUserComponent } from './user/friend-user/friend-user.component';
+import { ListGroupComponent } from './group/list-group/list-group.component';
 
 export const routes: Routes = [
   {
@@ -21,8 +22,11 @@ export const routes: Routes = [
   { path: 'edit', component: EditUserComponent, canActivate: [AuthGuard] },
   { path: 'group', component: GroupComponent, canActivate: [AuthGuard] },
   { path: 'group/create', component: CreateGroupComponent, canActivate: [AuthGuard] },
+  { path: 'group/list', component: ListGroupComponent, canActivate: [AuthGuard] },
   { path: 'user/friends', component: FriendUserComponent, canActivate: [AuthGuard] },
   { path: 'user/list', component: ListUserComponent, canActivate: [AuthGuard] },
+  
+  
 ];
 
 @NgModule({
