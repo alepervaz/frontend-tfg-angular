@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { getGroupListParams } from 'src/app/models/getGroupListParams';
 import { Group } from 'src/app/models/group';
+import { JoinGroup } from 'src/app/models/joinGroup';
+import { User } from 'src/app/models/user';
 import { AuthService } from 'src/app/services/auth.service';
 import { RestService } from 'src/app/services/restService';
 
@@ -14,17 +16,19 @@ export class ListGroupComponent  implements OnInit {
   groupListParams: getGroupListParams={userId:undefined}
   isModalOpen: Boolean=false;
   groupSelected:Group|undefined
+  joinGroupParam:JoinGroup={userId:undefined,groupId:undefined}
+  userAuth:User|undefined
 
   constructor(private authService: AuthService, private restService: RestService) { }
 
-  ngOnInit() {
+  async ngOnInit() {
+    this.userAuth= await this.authService.getUser() 
     this.getListgroup();
   }
 
 
   async getListgroup(){
-    const user=await this.authService.getUser()
-    this.groupListParams.userId = user?.id;
+    this.groupListParams.userId = this.userAuth?.id;
     await this.restService.getListGroup(this.groupListParams).then((response)=>{
       console.log(response.body.data)
       this.groupList=response.body.data
@@ -43,5 +47,13 @@ export class ListGroupComponent  implements OnInit {
     this.isModalOpen=boolean;
   }
 
+  async joinGroup(group:Group){
+    this.joinGroupParam.userId=this.userAuth?.id
+    this.joinGroupParam.groupId=group.id
+    console.log(this.joinGroupParam)
+    await this.restService.joinGroup(this.joinGroupParam).then((response)=>{
+      console.log(response)
+    })
+  }
 
 }

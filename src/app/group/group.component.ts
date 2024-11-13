@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { NavController,MenuController } from '@ionic/angular';
+import { User } from '../models/user';
 
 
 @Component({
@@ -9,12 +10,23 @@ import { NavController,MenuController } from '@ionic/angular';
   styleUrls: ['./group.component.scss'],
 })
 export class GroupComponent  implements OnInit {
-
+  userAuth: User| undefined;
 
   constructor( private authService: AuthService, private navCtrl: NavController,
     private menuCtrl: MenuController) { }
 
-  ngOnInit() {}
+  async ngOnInit() {
+    await this.getUser()
+    console.log(this.userAuth)
+  }
+
+
+  async getUser(): Promise<User|undefined>{
+    return await this.authService.getUser().then(data=>
+      this.userAuth=data
+    )
+  }
+
 
 
   async goToCreateGroup() {

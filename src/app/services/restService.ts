@@ -11,6 +11,7 @@ import { deleteFriend } from '../models/deleteFriend';
 import { convertToHttpParams } from '../helpers/htttpHelper';
 import { getGroupListParams } from '../models/getGroupListParams';
 import { Group } from '../models/group';
+import { JoinGroup } from '../models/joinGroup';
 
 @Injectable({
   providedIn: 'root',
@@ -177,7 +178,22 @@ export class RestService  {
         `${this.path}/api/group/list/`,
         { headers,params, observe: 'response' }
       ).toPromise();
-    
-    
+  }
+
+
+  async joinGroup(joinGroup:JoinGroup): Promise<any> {
+    try {
+      console.log("hola")
+      console.log(joinGroup.groupId)
+      const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+      const response = await this.http.put(
+        `${this.path}/api/group/list/`,
+        joinGroup,
+        {headers,observe:'response'}
+      ).toPromise(); 
+      return response;
+    } catch (error) {
+      throw error;
+    }
   }
 }

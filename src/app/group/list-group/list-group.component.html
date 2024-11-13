@@ -39,7 +39,7 @@
               
               <ion-card-content>
                 <h1>Descripción del grupo: {{groupSelected?.description}}</h1>
-                <ion-button>Default</ion-button>
+                <ion-button (click)="joinGroup(groupSelected!)">Unirse al grupo</ion-button>
               </ion-card-content>
             </ion-card>
           </ion-content>
