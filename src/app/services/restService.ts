@@ -130,10 +130,11 @@ export class RestService  {
       const response = await this.http.post(
         `${this.path}/api/friends/sendRequest/`,
         {userSend,userReceived},
-        { headers }
+        { headers,observe:'response' }
       ).toPromise(); 
 
       console.log("Request successful");
+      console.log(response)
       return response;
     } catch (error) {
       console.error("Request failed", error);
@@ -165,7 +166,8 @@ export class RestService  {
     console.log(response)
       return response
     }catch(error){
-
+      console.error("Request failed", error);
+      throw error;
     }
     
   }
