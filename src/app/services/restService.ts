@@ -12,6 +12,7 @@ import { convertToHttpParams } from '../helpers/htttpHelper';
 import { getGroupListParams } from '../models/getGroupListParams';
 import { Group } from '../models/group';
 import { JoinGroup } from '../models/joinGroup';
+import { getMyGroups } from '../models/getMyGroups';
 
 @Injectable({
   providedIn: 'root',
@@ -197,5 +198,14 @@ export class RestService  {
     } catch (error) {
       throw error;
     }
+  }
+
+  async listAllMyGroups(groupListParams:getMyGroups): Promise<any> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const params = convertToHttpParams(groupListParams);
+     return await this.http.get(
+      `${this.path}/api/group/list-my-groups/`,
+      { headers,params,observe:'response' }
+    ).toPromise();
   }
 }

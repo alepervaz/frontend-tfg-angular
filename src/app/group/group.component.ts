@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
-import { NavController,MenuController } from '@ionic/angular';
+import { NavController,MenuController,InfiniteScrollCustomEvent } from '@ionic/angular';
 import { User } from '../models/user';
+import { Group } from '../models/group';
+import { getMyGroups } from '../models/getMyGroups';
+import { RestService } from '../services/restService';
 
 
 @Component({
@@ -11,12 +14,17 @@ import { User } from '../models/user';
 })
 export class GroupComponent  implements OnInit {
   userAuth: User| undefined;
+  listMyGroups: Group[]|undefined=[];
+  isModalOpen=false;
+  groupListParams: getMyGroups={userId:undefined}
 
   constructor( private authService: AuthService, private navCtrl: NavController,
-    private menuCtrl: MenuController) { }
+    private menuCtrl: MenuController,
+  private restService:RestService) { }
 
   async ngOnInit() {
     await this.getUser()
+    await this.listAllMyGroups()
     console.log(this.userAuth)
   }
 
@@ -39,4 +47,67 @@ export class GroupComponent  implements OnInit {
     this.menuCtrl.close();
   }
 
+  actionSheetButtons() {
+    return [{
+      text: 'Delete',
+      role: 'destructive',
+      data: {
+        action: 'delete',
+      },
+      handler: () => {
+        this.deleteAction();
+      }
+    },
+    {
+      text: 'Share',
+      data: {
+        action: 'share',
+      },
+      handler: () => {
+        this.shareAction();
+      }
+    },
+    {
+      text: 'Cancel',
+      role: 'cancel',
+      data: {
+        action: 'cancel',
+      },
+      handler: () => {
+        this.cancelAction();
+      }
+    },
+  ]
+  }
+  deleteAction() {
+  }
+
+  shareAction() {
+    console.log('Share action triggered');
+    // Lógica para compartir algo
+  }
+
+  cancelAction() {
+    console.log('Cancel action triggered');
+    this.navCtrl.navigateRoot('user/list');
+    this.menuCtrl.close();
+    // Lógica para cancelar la acción
+  }
+
+  onIonInfinite(ev:any) {
+    this.listMyGroups;
+    setTimeout(() => {
+      (ev as InfiniteScrollCustomEvent).target.complete();
+    }, 500);
+  }
+  
+
+  async listAllMyGroups(){
+    this.groupListParams.userId=this.userAuth?.id;
+    await this.restService.listAllMyGroups(this.groupListParams).then((respose)=>{
+      this.listMyGroups=respose.body.data
+      console.log(respose)
+      console.log(this.listMyGroups)
+    })  
+  }
 }

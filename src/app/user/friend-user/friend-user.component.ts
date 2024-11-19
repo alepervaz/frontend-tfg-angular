@@ -121,9 +121,7 @@ export class FriendUserComponent  implements OnInit {
 
   async listAllUser(){
     console.log(this.userAuth)
-      this.listMyFriendsUser =await this.dataManagementService.listFriendUser(this.userAuth?.username)
-    
-     
+      this.listMyFriendsUser =await this.dataManagementService.listFriendUser(this.userAuth?.username)  
   }
 
   onIonInfinite(ev:any) {
