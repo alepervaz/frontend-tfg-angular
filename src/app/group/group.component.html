@@ -18,6 +18,7 @@
     <ion-list [inset]="true">
       <ion-item-sliding *ngFor="let group of listMyGroups; let i = index">
          <ion-item [button]="true">
+          <ion-icon *ngIf="isAdministrator(group)" name="star" slot="start"></ion-icon>
           <ion-avatar aria-hidden="true" slot="start">
             <img *ngIf="group.photo" 
                [src]="'data:image/jpeg;base64,' + group.photo" 

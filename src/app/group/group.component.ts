@@ -16,7 +16,8 @@ export class GroupComponent  implements OnInit {
   userAuth: User| undefined;
   listMyGroups: Group[]|undefined=[];
   isModalOpen=false;
-  groupListParams: getMyGroups={userId:undefined}
+  groupListParams: getMyGroups={userId:undefined};
+  
 
   constructor( private authService: AuthService, private navCtrl: NavController,
     private menuCtrl: MenuController,
@@ -109,5 +110,11 @@ export class GroupComponent  implements OnInit {
       console.log(respose)
       console.log(this.listMyGroups)
     })  
+  }
+
+  isAdministrator(group:Group){
+    if(group.admin?.id==this.userAuth?.id)return true;
+    return false
+   
   }
 }
