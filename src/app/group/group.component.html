@@ -17,8 +17,17 @@
 
     <ion-list [inset]="true">
       <ion-item-sliding *ngFor="let group of listMyGroups; let i = index">
-         <ion-item [button]="true">
-          <ion-icon *ngIf="isAdministrator(group)" name="star" slot="start"></ion-icon>
+         <ion-item [button]="true" type="button" (click)="openUserModal(group)">
+          
+          <ion-icon id="icon-settitng" *ngIf="isAdministrator(group)" name="settings-outline" slot="start"></ion-icon>
+          <ion-icon id="icon-admin" *ngIf="isAdministrator(group)" name="star" slot="start"></ion-icon>
+          <ion-popover trigger="icon-admin" triggerAction="hover">
+            <ng-template>
+              <ion-content class="ion-padding">
+                <p>Eres administrador del grupo</p>
+              </ion-content>
+            </ng-template>
+          </ion-popover>
           <ion-avatar aria-hidden="true" slot="start">
             <img *ngIf="group.photo" 
                [src]="'data:image/jpeg;base64,' + group.photo" 
@@ -39,12 +48,41 @@
           </ion-item-option>
           
           <ion-item-option color="danger">
-            <ion-button [id]="'open-action-sheet-' + i" expand="block" fill="clear">
+            <ion-button [id]="'open-action-sheet-' + i"  fill="clear">
               <ion-icon slot="icon-only" name="trash"></ion-icon>
             </ion-button>
             <ion-action-sheet [trigger]="'open-action-sheet-' + i" header="¿Quieres Eliminar el grupo?" [buttons]="actionSheetButtons()"></ion-action-sheet>
           </ion-item-option>
         </ion-item-options> 
+
+        <ion-modal [isOpen]="isModalOpen">
+          <ng-template>
+          <ion-header>
+            <ion-toolbar>
+              <ion-title>Detalles del grupo</ion-title>
+              <ion-buttons slot="end">
+                <ion-button (click)="setOpen(false)">Close</ion-button>
+              </ion-buttons>
+            </ion-toolbar>
+          </ion-header>
+          <ion-content class="ion-padding">
+            <ion-card>
+              <img *ngIf="group.photo" 
+               [src]="'data:image/jpeg;base64,' + group.photo" 
+               alt="Group Photo" 
+               width="200">
+               <ion-card-header>
+                <ion-card-title>{{group?.title}}</ion-card-title>
+              </ion-card-header>
+              
+              <ion-card-content>
+                <h1>Descripción del grupo: {{group?.description}}</h1>
+                </ion-card-content>
+            </ion-card>
+          </ion-content>
+          </ng-template>
+        </ion-modal>
+
       </ion-item-sliding>
     </ion-list>
     <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">

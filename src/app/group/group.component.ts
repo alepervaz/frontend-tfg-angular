@@ -17,6 +17,7 @@ export class GroupComponent  implements OnInit {
   listMyGroups: Group[]|undefined=[];
   isModalOpen=false;
   groupListParams: getMyGroups={userId:undefined};
+  selectedGroup: Group|undefined;
   
 
   constructor( private authService: AuthService, private navCtrl: NavController,
@@ -116,5 +117,14 @@ export class GroupComponent  implements OnInit {
     if(group.admin?.id==this.userAuth?.id)return true;
     return false
    
+  }
+
+  openUserModal(group: Group) {
+    this.selectedGroup = group;
+    this.isModalOpen = true;
+  }
+
+  setOpen(isOpen: boolean) {
+    this.isModalOpen = isOpen;
   }
 }

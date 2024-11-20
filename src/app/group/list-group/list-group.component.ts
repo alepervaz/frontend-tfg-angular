@@ -52,7 +52,8 @@ export class ListGroupComponent  implements OnInit {
     this.joinGroupParam.groupId=group.id
     console.log(this.joinGroupParam)
     await this.restService.joinGroup(this.joinGroupParam).then((response)=>{
-      console.log(response)
+      this.setOpen(false);
+      this.ngOnInit();
     })
   }
 
