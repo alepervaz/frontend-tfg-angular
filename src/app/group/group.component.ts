@@ -91,7 +91,6 @@ export class GroupComponent  implements OnInit {
 
   cancelAction() {
     console.log('Cancel action triggered');
-    this.navCtrl.navigateRoot('user/list');
     this.menuCtrl.close();
     // Lógica para cancelar la acción
   }
