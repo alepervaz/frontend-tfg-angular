@@ -13,6 +13,7 @@ import { getGroupListParams } from '../models/getGroupListParams';
 import { Group } from '../models/group';
 import { JoinGroup } from '../models/joinGroup';
 import { getMyGroups } from '../models/getMyGroups';
+import { DeleteMemberGroup } from '../models/deleteMemberGroup';
 
 @Injectable({
   providedIn: 'root',
@@ -205,6 +206,15 @@ export class RestService  {
     const params = convertToHttpParams(groupListParams);
      return await this.http.get(
       `${this.path}/api/group/list-my-groups/`,
+      { headers,params,observe:'response' }
+    ).toPromise();
+  }
+
+  async deleteMemberGroup(deleteMember: DeleteMemberGroup): Promise<any> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const params = convertToHttpParams(deleteMember);
+    return await this.http.delete<User>(
+      `${this.path}/api/group/member/`,
       { headers,params,observe:'response' }
     ).toPromise();
   }

@@ -42,7 +42,9 @@
             <ion-icon slot="icon-only" name="chatbox-ellipses-outline"></ion-icon>
           </ion-item-option>
           <ion-item-option color="light">
-            <ion-icon slot="icon-only" name="people-outline"></ion-icon>
+            <ion-button (click)="openUserModal(group)"  fill="clear">
+              <ion-icon slot="icon-only" name="people-outline"></ion-icon>
+            </ion-button>
           </ion-item-option>
           
           <ion-item-option color="danger">
@@ -64,8 +66,13 @@
             </ion-toolbar>
           </ion-header>
           <ion-content class="ion-padding" >
+            <p>
+              <ion-text color="warning"></ion-text>
+              Participantes
+            </p>
             <ion-item [inset]="true" *ngFor="let member of selectedGroup?.miembros; let i = index" class="label-group" >
               <ion-label >{{member.username}}</ion-label>
+              <ion-button *ngIf="selectedGroup && isAdministrator(selectedGroup) && member?.username!==userAuth?.username" color="danger" expand="block" (click)="deleteMember(member,selectedGroup)"><ion-icon name="close-circle"></ion-icon></ion-button>
             </ion-item>
           </ion-content>
           </ng-template>
