@@ -14,12 +14,27 @@
             <ion-input type="text" [(ngModel)]="group.description" name="Description" required></ion-input>
           </ion-item>
 
-          <input type="file" (change)="onFileSelected($event)">
+          <ion-item *ngIf="photo==null">
+            <input type="file" (change)="onFileSelected($event)">
+          </ion-item>
+          
+          <!-- Mostrar el nombre del archivo si ya hay uno -->
+          <ion-item *ngIf="photo">
+            <ion-label position="floating">Foto Actual:</ion-label>
+            <ion-label><img  
+              [src]="'data:image/jpeg;base64,' + photo" 
+              alt="Group Photo" 
+              width="200"> {{ photo.name }}</ion-label>
+            <ion-button color="danger" (click)="clearPhoto()">Eliminar archivo</ion-button>
+          </ion-item>
+          
 
       
      
           <!-- Botón de registro -->
-          <ion-button expand="block" type="submit" color="primary">Crear grupo</ion-button>
+          <ion-button *ngIf="isEditMode==false" expand="block" type="submit" color="primary">Crear grupo</ion-button>
+          <ion-button *ngIf="isEditMode==true" expand="block" type="submit" color="primary">Editar Grupo</ion-button>
+          <ion-button *ngIf="isEditMode==true" expand="block" (click)="deleteGroup(group)" color="danger">Eliminar grupo</ion-button>
         </form>
       
       </ion-col>

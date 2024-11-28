@@ -13,6 +13,8 @@ import { getGroupListParams } from '../models/getGroupListParams';
 import { Group } from '../models/group';
 import { JoinGroup } from '../models/joinGroup';
 import { getMyGroups } from '../models/getMyGroups';
+
+import { EditGroup } from '../models/EditGroup';
 import { DeleteMemberGroup } from '../models/deleteMemberGroup';
 
 @Injectable({
@@ -91,7 +93,6 @@ export class RestService  {
         const response = await this.http.post(
             `${this.path}/api/group/create/`,
             formData
-            // No agregamos headers aquí
         ).toPromise();
 
         console.log("Request successful");
@@ -218,4 +219,37 @@ export class RestService  {
       { headers,params,observe:'response' }
     ).toPromise();
   }
+
+  async editGroup(group: EditGroup, photo:File|null): Promise<any> {
+    try {
+        const formData = new FormData();
+        console.log(group);
+        // Verifica si group.photo está definido y es de tipo File
+        if(group.newFoto==true){
+          if (photo instanceof File) {
+            formData.append('file', photo);
+          } else {
+              console.error("Error: group.photo no es un archivo válido.");
+          }}else{
+            console.log("hola")
+            photo=new File([], "empty.jpg", { type: "image/jpeg" });
+            formData.append('file', photo);
+          }
+        
+
+        formData.append('group', new Blob([JSON.stringify(group)], { type: 'application/json' }));
+
+        const response = await this.http.put(
+            `${this.path}/api/group/`,
+            formData
+            // No agregamos headers aquí
+        ).toPromise();
+
+        console.log("Request successful");
+        return response;
+    } catch (error) {
+        console.error("Request failed", error);
+        throw error;
+    }
+}
 }

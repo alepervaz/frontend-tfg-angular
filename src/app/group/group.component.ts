@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
-import { NavController,MenuController,InfiniteScrollCustomEvent } from '@ionic/angular';
+import { NavController,MenuController,InfiniteScrollCustomEvent,PopoverController } from '@ionic/angular';
 import { User } from '../models/user';
 import { Group } from '../models/group';
 import { getMyGroups } from '../models/getMyGroups';
 import { RestService } from '../services/restService';
 import { DeleteMemberGroup } from '../models/deleteMemberGroup';
+import { CreateGroupComponent } from './create-group/create-group.component';
 
 
 @Component({
@@ -20,11 +21,11 @@ export class GroupComponent  implements OnInit {
   groupListParams: getMyGroups={userId:undefined};
   selectedGroup: Group|undefined;
   deleteMemberParam:DeleteMemberGroup={userId:undefined,groupId:undefined}
-  
+  editGroupComponent=CreateGroupComponent;
 
   constructor( private authService: AuthService, private navCtrl: NavController,
     private menuCtrl: MenuController,
-  private restService:RestService) { }
+  private restService:RestService,private popoverController: PopoverController) { }
 
   async ngOnInit() {
     await this.getUser()
@@ -42,7 +43,7 @@ export class GroupComponent  implements OnInit {
 
 
   async goToCreateGroup() {
-    this.navCtrl.navigateRoot('group/create');
+    this.navCtrl.navigateRoot('group/form');
     this.menuCtrl.close();
   }
 
@@ -137,4 +138,13 @@ export class GroupComponent  implements OnInit {
       this.ngOnInit();
     })
   }
+
+  async goToEditGroup(group:Group){
+    await this.popoverController.dismiss();
+    this.navCtrl.navigateRoot('group/form', {
+      state: { group }
+    });
+  }
+
+  
 }

@@ -18,11 +18,14 @@
     <ion-list [inset]="true">
       <ion-item-sliding *ngFor="let group of listMyGroups; let i = index">
          <ion-item [button]="true" type="button" (click)="openUserModal(group)">
-          <ion-icon id="icon-admin" *ngIf="isAdministrator(group)" name="star" slot="start"></ion-icon>
-          <ion-popover trigger="icon-admin" triggerAction="hover">
+          <ion-icon [id]="'icon-admin-'+i" *ngIf="isAdministrator(group)" name="star" slot="start"></ion-icon>
+          <ion-popover [trigger]="'icon-admin-' + i" triggerAction="hover">
             <ng-template>
               <ion-content class="ion-padding">
-                <p>Eres administrador del grupo</p>
+                <p>Ajustes de administrador</p>
+                <ion-button (click)="goToEditGroup(group)"   fill="clear">
+                  <ion-icon slot="icon-only" name="cog-outline"></ion-icon>
+                </ion-button>
               </ion-content>
             </ng-template>
           </ion-popover>

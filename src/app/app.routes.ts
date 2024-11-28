@@ -21,7 +21,7 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'edit', component: EditUserComponent, canActivate: [AuthGuard] },
   { path: 'group', component: GroupComponent, canActivate: [AuthGuard] },
-  { path: 'group/create', component: CreateGroupComponent, canActivate: [AuthGuard] },
+  { path: 'group/form', component: CreateGroupComponent, canActivate: [AuthGuard] },
   { path: 'group/list', component: ListGroupComponent, canActivate: [AuthGuard] },
   { path: 'user/friends', component: FriendUserComponent, canActivate: [AuthGuard] },
   { path: 'user/list', component: ListUserComponent, canActivate: [AuthGuard] },
