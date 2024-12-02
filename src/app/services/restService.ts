@@ -16,6 +16,7 @@ import { getMyGroups } from '../models/getMyGroups';
 
 import { EditGroup } from '../models/EditGroup';
 import { DeleteMemberGroup } from '../models/deleteMemberGroup';
+import { DeleteGroup } from '../models/DeleteGroup';
 
 @Injectable({
   providedIn: 'root',
@@ -250,6 +251,15 @@ export class RestService  {
     } catch (error) {
         console.error("Request failed", error);
         throw error;
-    }
-}
+    }   
+  }
+
+  async deleteGroup(deleteGroup: DeleteGroup): Promise<any> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const params = convertToHttpParams(deleteGroup);
+    return await this.http.delete<Group>(
+      `${this.path}/api/group/`,
+      { headers,params,observe:'response' }
+    ).toPromise();
+  }
 }

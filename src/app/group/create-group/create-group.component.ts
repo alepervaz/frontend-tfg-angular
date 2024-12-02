@@ -6,6 +6,8 @@ import { AuthService } from 'src/app/services/auth.service';
 import { Group } from 'src/app/models/group';
 import { RestService } from 'src/app/services/restService';
 import { EditGroup } from 'src/app/models/EditGroup';
+import { DeleteGroup } from 'src/app/models/DeleteGroup';
+import { ToastHelperService } from 'src/app/helpers/AlertHelper';
 
 @Component({
   selector: 'app-create-group',
@@ -17,10 +19,11 @@ export class CreateGroupComponent  implements OnInit {
   group: postGroup = new postGroup();
   photo: File|null=null;
   isEditMode=false;
-  newPhoto=false; 
+  newPhoto=false;
+  showPhoto: string | null = null; 
 
   constructor(private dataManagementService: DataManagementService,private restService:RestService, private navCtrl: NavController,
-    private authService: AuthService
+    private authService: AuthService,private toastService: ToastHelperService
   ) { }
 
   ngOnInit() {
@@ -28,6 +31,7 @@ export class CreateGroupComponent  implements OnInit {
     if (navigation && navigation.group) {
       this.group = navigation.group;
       this.photo=navigation.group.photo;
+      this.showPhoto=navigation.group.photo;
       this.isEditMode=true;
       console.log(navigation.group.photo)
       if(this.photo!=null) this.newPhoto=false;
@@ -67,19 +71,34 @@ export class CreateGroupComponent  implements OnInit {
     
   }
   async deleteGroup(group:postGroup){
-    console.log(group.id)
+    const deleteGroupParam=new DeleteGroup();
+    deleteGroupParam.groupId=group.id;
+    console.log(deleteGroupParam)
+    await this.restService.deleteGroup(deleteGroupParam).then((response)=>{
+      console.log(response)
+      this.navCtrl.navigateRoot('/group');
+      this.toastService.presentToast(response.data.message,undefined,'bottom','success')
+    })
   }
 
   onFileSelected(event: any) {
     const file = event.target.files[0];
   if (file) {
     this.photo = file;
-  }
+    this.showPhoto = file.name; // Almacena el nombre del archivo
+      const reader = new FileReader();
+      reader.onload = () => {
+        const base64String = (reader.result as string).split(',')[1];
+        this.showPhoto = base64String;
+      };
+      reader.readAsDataURL(file);
+    }
   }
 
   clearPhoto() {
     this.newPhoto=true;
     this.photo = null;
+    this.showPhoto=null
   }
 
 }

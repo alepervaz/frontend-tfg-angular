@@ -22,7 +22,7 @@
           <ion-item *ngIf="photo">
             <ion-label position="floating">Foto Actual:</ion-label>
             <ion-label><img  
-              [src]="'data:image/jpeg;base64,' + photo" 
+              [src]="'data:image/jpeg;base64,' + showPhoto" 
               alt="Group Photo" 
               width="200"> {{ photo.name }}</ion-label>
             <ion-button color="danger" (click)="clearPhoto()">Eliminar archivo</ion-button>
