@@ -54,7 +54,7 @@
             <ion-button [id]="'open-action-sheet-' + i"  fill="clear">
               <ion-icon slot="icon-only" name="trash"></ion-icon>
             </ion-button>
-            <ion-action-sheet [trigger]="'open-action-sheet-' + i" header="¿Quieres Eliminar el grupo?" [buttons]="actionSheetButtons()"></ion-action-sheet>
+            <ion-action-sheet [trigger]="'open-action-sheet-' + i" header="¿Quieres Eliminar el grupo?" [buttons]="actionSheetButtons(group)"></ion-action-sheet>
           </ion-item-option>
         </ion-item-options> 
 

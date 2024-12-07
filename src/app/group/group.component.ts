@@ -7,6 +7,8 @@ import { getMyGroups } from '../models/getMyGroups';
 import { RestService } from '../services/restService';
 import { DeleteMemberGroup } from '../models/deleteMemberGroup';
 import { CreateGroupComponent } from './create-group/create-group.component';
+import { LeaveGroup } from '../models/LeaveGroup';
+import { ToastHelperService } from '../helpers/AlertHelper';
 
 
 @Component({
@@ -20,12 +22,13 @@ export class GroupComponent  implements OnInit {
   isModalOpen=false;
   groupListParams: getMyGroups={userId:undefined};
   selectedGroup: Group|undefined;
-  deleteMemberParam:DeleteMemberGroup={userId:undefined,groupId:undefined}
+  deleteMemberParam:DeleteMemberGroup={userId:undefined,groupId:undefined};
   editGroupComponent=CreateGroupComponent;
+  leaveGroupParam:LeaveGroup={userId:undefined,groupId:undefined};
 
   constructor( private authService: AuthService, private navCtrl: NavController,
     private menuCtrl: MenuController,
-  private restService:RestService,private popoverController: PopoverController) { }
+  private restService:RestService,private popoverController: PopoverController,private toastService: ToastHelperService) { }
 
   async ngOnInit() {
     await this.getUser()
@@ -52,7 +55,7 @@ export class GroupComponent  implements OnInit {
     this.menuCtrl.close();
   }
 
-  actionSheetButtons() {
+  actionSheetButtons(group:Group) {
     return [{
       text: 'Delete',
       role: 'destructive',
@@ -60,7 +63,7 @@ export class GroupComponent  implements OnInit {
         action: 'delete',
       },
       handler: () => {
-        this.deleteAction();
+        this.deleteAction(group);
       }
     },
     {
@@ -84,7 +87,8 @@ export class GroupComponent  implements OnInit {
     },
   ]
   }
-  deleteAction() {
+  async deleteAction(group:Group) {
+    await this.leaveGroup(group);
   }
 
   shareAction() {
@@ -108,9 +112,9 @@ export class GroupComponent  implements OnInit {
 
   async listAllMyGroups(){
     this.groupListParams.userId=this.userAuth?.id;
-    await this.restService.listAllMyGroups(this.groupListParams).then((respose)=>{
-      this.listMyGroups=respose.body.data
-      console.log(respose)
+    await this.restService.listAllMyGroups(this.groupListParams).then((response)=>{
+      this.listMyGroups=response.body.data
+      console.log(response)
       console.log(this.listMyGroups)
     })  
   }
@@ -144,6 +148,16 @@ export class GroupComponent  implements OnInit {
     this.navCtrl.navigateRoot('group/form', {
       state: { group }
     });
+  }
+
+  async leaveGroup(group: Group){
+    this.leaveGroupParam.userId=this.userAuth?.id;
+    this.leaveGroupParam.groupId=group.id;
+    await this.restService.leaveGroup(this.leaveGroupParam).then((response)=>{
+      this.toastService.presentToast(response.body.message,undefined,'bottom','success')
+      this.ngOnInit();
+    })
+    
   }
 
   
