@@ -1,6 +1,10 @@
+import { User } from "./user";
+
 export interface Group {
     id: number;
     title: string;
     description: string;
-    photoBase64?: string; // Para almacenar la foto en Base64
+    photo?: string; // Para almacenar la foto en Base64
+    miembros?: User[];
+    admin?:User;
 }

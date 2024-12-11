@@ -11,6 +11,13 @@ import { deleteFriend } from '../models/deleteFriend';
 import { convertToHttpParams } from '../helpers/htttpHelper';
 import { getGroupListParams } from '../models/getGroupListParams';
 import { Group } from '../models/group';
+import { JoinGroup } from '../models/joinGroup';
+import { getMyGroups } from '../models/getMyGroups';
+
+import { EditGroup } from '../models/EditGroup';
+import { DeleteMemberGroup } from '../models/deleteMemberGroup';
+import { DeleteGroup } from '../models/DeleteGroup';
+import { LeaveGroup } from '../models/LeaveGroup';
 
 @Injectable({
   providedIn: 'root',
@@ -88,7 +95,6 @@ export class RestService  {
         const response = await this.http.post(
             `${this.path}/api/group/create/`,
             formData
-            // No agregamos headers aquí
         ).toPromise();
 
         console.log("Request successful");
@@ -129,10 +135,11 @@ export class RestService  {
       const response = await this.http.post(
         `${this.path}/api/friends/sendRequest/`,
         {userSend,userReceived},
-        { headers }
+        { headers,observe:'response' }
       ).toPromise(); 
 
       console.log("Request successful");
+      console.log(response)
       return response;
     } catch (error) {
       console.error("Request failed", error);
@@ -164,7 +171,8 @@ export class RestService  {
     console.log(response)
       return response
     }catch(error){
-
+      console.error("Request failed", error);
+      throw error;
     }
     
   }
@@ -177,7 +185,91 @@ export class RestService  {
         `${this.path}/api/group/list/`,
         { headers,params, observe: 'response' }
       ).toPromise();
-    
-    
+  }
+
+
+  async joinGroup(joinGroup:JoinGroup): Promise<any> {
+    try {
+      console.log("hola")
+      console.log(joinGroup.groupId)
+      const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+      const response = await this.http.put(
+        `${this.path}/api/group/list/`,
+        joinGroup,
+        {headers,observe:'response'}
+      ).toPromise(); 
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async listAllMyGroups(groupListParams:getMyGroups): Promise<any> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const params = convertToHttpParams(groupListParams);
+     return await this.http.get(
+      `${this.path}/api/group/list-my-groups/`,
+      { headers,params,observe:'response' }
+    ).toPromise();
+  }
+
+  async deleteMemberGroup(deleteMember: DeleteMemberGroup): Promise<any> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const params = convertToHttpParams(deleteMember);
+    return await this.http.delete<User>(
+      `${this.path}/api/group/member/`,
+      { headers,params,observe:'response' }
+    ).toPromise();
+  }
+
+  async editGroup(group: EditGroup, photo:File|null): Promise<any> {
+    try {
+        const formData = new FormData();
+        console.log(group);
+        // Verifica si group.photo está definido y es de tipo File
+        if(group.newFoto==true){
+          if (photo instanceof File) {
+            formData.append('file', photo);
+          } else {
+              console.error("Error: group.photo no es un archivo válido.");
+          }}else{
+            console.log("hola")
+            photo=new File([], "empty.jpg", { type: "image/jpeg" });
+            formData.append('file', photo);
+          }
+        
+
+        formData.append('group', new Blob([JSON.stringify(group)], { type: 'application/json' }));
+
+        const response = await this.http.put(
+            `${this.path}/api/group/`,
+            formData
+            // No agregamos headers aquí
+        ).toPromise();
+
+        console.log("Request successful");
+        return response;
+    } catch (error) {
+        console.error("Request failed", error);
+        throw error;
+    }   
+  }
+
+  async deleteGroup(deleteGroup: DeleteGroup): Promise<any> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const params = convertToHttpParams(deleteGroup);
+    return await this.http.delete<Group>(
+      `${this.path}/api/group/`,
+      { headers,params,observe:'response' }
+    ).toPromise();
+  }
+
+  async leaveGroup(leaveGroup: LeaveGroup): Promise<any> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const params = convertToHttpParams(leaveGroup);
+    return await this.http.delete(
+      `${this.path}/api/group/list-my-groups`,
+      { headers,params,observe:'response' }
+    ).toPromise();
   }
 }

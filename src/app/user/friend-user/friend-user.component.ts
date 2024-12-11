@@ -89,10 +89,10 @@ export class FriendUserComponent  implements OnInit {
       friendId:friend.id
     };
     this.dataManagementService.deleteFriend(deleteFriendObject).then((response)=>{
-      if(response.status==200){
-        this.toastService.presentToast(response.body.message,undefined,'bottom')
+      if(response.error){
+        this.toastService.presentToast(response.error,undefined,'bottom','danger')
       }else{
-        this.toastService.presentToast(response.error.error,undefined,'bottom','danger')
+        this.toastService.presentToast(response.body.message,undefined,'bottom')
       }
       
       this.ngOnInit()
@@ -120,9 +120,8 @@ export class FriendUserComponent  implements OnInit {
   }
 
   async listAllUser(){
-      this.listMyFriendsUser =await this.dataManagementService.listFriendUser(this.userAuth?.username)
-    
-     
+    console.log(this.userAuth)
+      this.listMyFriendsUser =await this.dataManagementService.listFriendUser(this.userAuth?.username)  
   }
 
   onIonInfinite(ev:any) {

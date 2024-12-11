@@ -18,13 +18,14 @@ import { GroupComponent } from './group/group.component';
 import { CreateGroupComponent } from './group/create-group/create-group.component';
 import { FriendUserComponent } from './user/friend-user/friend-user.component';
 import { ListUserComponent } from './user/list-user/list-user.component';
+import { ListGroupComponent } from './group/list-group/list-group.component';
 
 
 
 
 
 @NgModule({
-  declarations: [AppComponent,RegisterComponent, LoginComponent, EditUserComponent,GroupComponent, CreateGroupComponent,FriendUserComponent,ListUserComponent],
+  declarations: [AppComponent,RegisterComponent, LoginComponent, EditUserComponent,GroupComponent, CreateGroupComponent,FriendUserComponent,ListUserComponent,ListGroupComponent],
   imports: [
     BrowserModule,
     ReactiveFormsModule, 
