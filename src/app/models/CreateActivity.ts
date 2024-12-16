@@ -1,4 +1,4 @@
-export class Activity{
+export class CreateActivity{
     title?:string;
     description?:string;
     startDate?:Date;
@@ -7,4 +7,5 @@ export class Activity{
     payDate?:Date;
     price?:number;
     groupId?:number;
+    userId?:number;
 }

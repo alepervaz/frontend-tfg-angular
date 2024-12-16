@@ -18,6 +18,8 @@ import { EditGroup } from '../models/EditGroup';
 import { DeleteMemberGroup } from '../models/deleteMemberGroup';
 import { DeleteGroup } from '../models/DeleteGroup';
 import { LeaveGroup } from '../models/LeaveGroup';
+import { CreateActivity } from '../models/CreateActivity';
+import { Activity } from '../models/Activity';
 
 @Injectable({
   providedIn: 'root',
@@ -32,8 +34,6 @@ export class RestService  {
   async register(user: User): Promise<any> {
     try {
       const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-      console.log("HOLA");
-      console.log(user);
       const response = await this.http.post(
         `${this.path}/api/users/register/`,
         user,
@@ -272,4 +272,20 @@ export class RestService  {
       { headers,params,observe:'response' }
     ).toPromise();
   }
+
+  async registerActivity(activity:Activity): Promise<any> {
+    try {
+        
+        const response = await this.http.post(
+            `${this.path}/api/activity/`,
+            activity
+        ).toPromise();
+
+        console.log("Request successful");
+        return response;
+    } catch (error) {
+        console.error("Request failed", error);
+        throw error;
+    }
+}
 }

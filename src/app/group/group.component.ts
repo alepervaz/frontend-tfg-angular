@@ -161,6 +161,7 @@ export class GroupComponent  implements OnInit {
   }
 
   async goToActivity(group:Group){
+    console.log(group)
     this.navCtrl.navigateRoot('activities', {
       state: { group }
     });
