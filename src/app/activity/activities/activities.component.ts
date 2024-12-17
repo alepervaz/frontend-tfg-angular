@@ -20,6 +20,9 @@ export class ActivitiesComponent implements OnInit {
   // tendrá { date: string, activities: LoadActivitiesResponse[] }
   groupedActivities: { date: string; activities: LoadActivitiesResponse[] }[] = [];
 
+  isModalOpen = false;
+  selectedActivity: LoadActivitiesResponse | null = null;
+
   constructor(
     private authService: AuthService,
     private navCtrl: NavController,
@@ -100,12 +103,19 @@ export class ActivitiesComponent implements OnInit {
   }
 
   viewDetails(activity: LoadActivitiesResponse) {
-    // Implementa la lógica de ver detalles (navegar a otra página o abrir modal)
+    this.selectedActivity = activity;
+    this.isModalOpen = true;
     console.log('Ver detalles de la actividad', activity);
+  }
+  closeModal() {
+    this.isModalOpen = false;
+    this.selectedActivity = null;
   }
 
   joinActivity(activity: LoadActivitiesResponse) {
     // Implementa la lógica para unirte a la actividad
     console.log('Unirse a la actividad', activity);
   }
+
+  
 }

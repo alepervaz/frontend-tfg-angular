@@ -49,4 +49,35 @@
     </ion-grid>
 
   </div>
+
+  <!-- Modal de Detalles de la Actividad -->
+  <ion-modal [isOpen]="isModalOpen" (ionModalDidDismiss)="closeModal()">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Detalles de la Actividad</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="closeModal()">
+              <ion-icon name="close-outline"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content class="ion-padding">
+        <div *ngIf="selectedActivity">
+          <h2>{{ selectedActivity.title }}</h2>
+          <p><strong>Descripción:</strong> {{ selectedActivity.description }}</p>
+          <p><strong>Fecha:</strong> {{ selectedActivity.startDate | date:'medium' }}</p>
+          <p><strong>Número de participantes:</strong> {{ selectedActivity.participantes?.length }}</p>
+
+          <!-- Podrías añadir más detalles según la estructura de la actividad -->
+          
+          <ion-button (click)="closeModal()" color="secondary" expand="block">
+            Cerrar
+          </ion-button>
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
 </ion-content>
