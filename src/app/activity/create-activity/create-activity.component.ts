@@ -33,7 +33,10 @@ export class CreateActivityComponent  implements OnInit {
     const createActivity: CreateActivity={...this.activity,groupId:this.group.id,userId:this.userAuth?.id}
     this.restService.registerActivity(createActivity).then((response)=>{
       this.toastService.presentToast(response.message,undefined,'bottom','success')
-      this.navCtrl.navigateRoot('/activities');
+      this.navCtrl.navigateRoot('/activities', {
+        state: { group:this.group }
+      });
+      
     })
   }
 

@@ -20,6 +20,7 @@ import { DeleteGroup } from '../models/DeleteGroup';
 import { LeaveGroup } from '../models/LeaveGroup';
 import { CreateActivity } from '../models/CreateActivity';
 import { Activity } from '../models/Activity';
+import { LoadActivitiesRequest } from '../models/LoadActivityRequest';
 
 @Injectable({
   providedIn: 'root',
@@ -287,5 +288,14 @@ export class RestService  {
         console.error("Request failed", error);
         throw error;
     }
-}
+  }
+
+  async loadActivities(loadActivitiesRequest:LoadActivitiesRequest): Promise<any> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const params = convertToHttpParams(loadActivitiesRequest);
+     return await this.http.get(
+      `${this.path}/api/activity`,
+      { headers,params,observe:'response' }
+    ).toPromise();
+  }
 }
