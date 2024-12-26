@@ -2,6 +2,7 @@ import { Group } from "./group";
 import { User } from "./user";
 
 export class LoadActivitiesResponse{
+    activityId?:number;
     title?:string;
     description?:string;
     startDate?:Date;
@@ -13,4 +14,5 @@ export class LoadActivitiesResponse{
     grupos?:Group[];
     organizador?:User;
     participantes?:User[];
+    isJoined?:boolean;
 }

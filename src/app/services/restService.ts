@@ -19,8 +19,9 @@ import { DeleteMemberGroup } from '../models/deleteMemberGroup';
 import { DeleteGroup } from '../models/DeleteGroup';
 import { LeaveGroup } from '../models/LeaveGroup';
 import { CreateActivity } from '../models/CreateActivity';
-import { Activity } from '../models/Activity';
+import { Activity } from '../models/Activity/Activity';
 import { LoadActivitiesRequest } from '../models/LoadActivityRequest';
+import { JoinActivityRequest } from '../models/Activity/JoinActivityRequest';
 
 @Injectable({
   providedIn: 'root',
@@ -298,4 +299,21 @@ export class RestService  {
       { headers,params,observe:'response' }
     ).toPromise();
   }
+
+  async joinActivity(joinActivityRequest:JoinActivityRequest): Promise<any> {
+    try {
+      console.log(joinActivityRequest.userId)
+      console.log(joinActivityRequest.activityId)
+      const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+      const response = await this.http.post(
+        `${this.path}/api/activity/join/`,
+        joinActivityRequest,
+        {headers,observe:'response'}
+      ).toPromise(); 
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+
 }

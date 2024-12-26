@@ -5,6 +5,8 @@ import { Group } from 'src/app/models/group';
 import { RestService } from 'src/app/services/restService';
 import { LoadActivitiesRequest } from 'src/app/models/LoadActivityRequest';
 import { LoadActivitiesResponse } from 'src/app/models/LoadActivityResponse';
+import { JoinActivityRequest } from 'src/app/models/Activity/JoinActivityRequest';
+import { User } from 'src/app/models/user';
 
 @Component({
   selector: 'app-activities',
@@ -14,6 +16,8 @@ import { LoadActivitiesResponse } from 'src/app/models/LoadActivityResponse';
 export class ActivitiesComponent implements OnInit {
   group: Group = new Group();
   activities: LoadActivitiesResponse[] | undefined;
+  joinActivityRequest: JoinActivityRequest= new JoinActivityRequest();
+  user:User|undefined;
 
   // Estructura para agrupar actividades por fecha:
   // groupedActivities será un array en el que cada elemento 
@@ -26,13 +30,18 @@ export class ActivitiesComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private navCtrl: NavController,
-    private restService: RestService
+    private restService: RestService,
   ) {}
 
   async ngOnInit() {
     const navigation = window.history.state;
     this.group = navigation.group;
+    await this.authService.getUser().then(data=>
+      this.user=data
+    )
     await this.loadActivities();
+    
+
   }
 
   goToCreateActivity(group: Group) {
@@ -45,6 +54,10 @@ export class ActivitiesComponent implements OnInit {
     const loadActivitiesRequest: LoadActivitiesRequest = { groupId: this.group.id };
     const response = await this.restService.loadActivities(loadActivitiesRequest);
     this.activities = response.body.data;
+    if(this.activities){this.activities.forEach(activity => {
+      activity.isJoined = this.isJoined(activity);
+    });}
+    
   
     console.log('Actividades recibidas:', this.activities);
   
@@ -114,7 +127,21 @@ export class ActivitiesComponent implements OnInit {
 
   joinActivity(activity: LoadActivitiesResponse) {
     // Implementa la lógica para unirte a la actividad
-    console.log('Unirse a la actividad', activity);
+    this.joinActivityRequest={activityId:activity.activityId,userId:this.user?.id}
+    this.restService.joinActivity(this.joinActivityRequest).then((response)=>{
+      console.log(response)
+    })
+  }
+
+  isJoined(activity: LoadActivitiesResponse) {
+    console.log(this.user)
+    console.log(activity.participantes)
+    if (!this.user || !activity.participantes) { 
+      console.log("2hola")
+      return false; 
+    }
+    console.log(activity.participantes.some(part => part.id === this.user!.id))
+    return activity.participantes.some(part => part.id === this.user!.id);
   }
 
   

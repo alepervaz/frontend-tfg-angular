@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Activity } from 'src/app/models/Activity';
+import { Activity } from 'src/app/models/Activity/Activity';
 import { CreateActivity } from 'src/app/models/CreateActivity';
 import { Group } from 'src/app/models/group';
 import { User } from 'src/app/models/user';

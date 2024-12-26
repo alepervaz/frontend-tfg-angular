@@ -10,7 +10,7 @@
 
 <ion-content>
   <!-- Iteramos sobre el array agrupado por fecha -->
-  <div *ngFor="let group of groupedActivities">
+  <div *ngFor="let group of groupedActivities; let i = index">
     <!-- Cabecera con la fecha -->
     <ion-item-divider color="light">
       <ion-label>
@@ -20,7 +20,7 @@
 
     <ion-grid fixed>
       <ion-row>
-        <ion-col size="12" *ngFor="let activity of group.activities">
+        <ion-col size="12" *ngFor="let activity of group.activities; let i = index">
           <ion-card>
             <ion-card-header>
               <ion-item lines="none">
@@ -38,7 +38,7 @@
                 <ion-icon slot="start" name="information-circle-outline"></ion-icon>
                 Ver detalles
               </ion-button>
-              <ion-button color="success" (click)="joinActivity(activity)">
+              <ion-button *ngIf="!activity.isJoined" color="success" (click)="joinActivity(activity)">
                 <ion-icon slot="start" name="checkmark-circle-outline"></ion-icon>
                 Unirse
               </ion-button>
