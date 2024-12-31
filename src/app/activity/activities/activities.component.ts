@@ -4,9 +4,11 @@ import { NavController } from '@ionic/angular';
 import { Group } from 'src/app/models/group';
 import { RestService } from 'src/app/services/restService';
 import { LoadActivitiesRequest } from 'src/app/models/LoadActivityRequest';
-import { LoadActivitiesResponse } from 'src/app/models/LoadActivityResponse';
+import { LoadActivitiesResponse, StatusActivity } from 'src/app/models/LoadActivityResponse';
 import { JoinActivityRequest } from 'src/app/models/Activity/JoinActivityRequest';
 import { User } from 'src/app/models/user';
+import { CancelActivityRequest } from 'src/app/models/Activity/CancelActivityRequest';
+import { Activity } from 'src/app/models/Activity/Activity';
 
 @Component({
   selector: 'app-activities',
@@ -17,7 +19,7 @@ export class ActivitiesComponent implements OnInit {
   group: Group = new Group();
   activities: LoadActivitiesResponse[] | undefined;
   joinActivityRequest: JoinActivityRequest= new JoinActivityRequest();
-  user:User|undefined;
+  userAuth:User|undefined;
 
   // Estructura para agrupar actividades por fecha:
   // groupedActivities será un array en el que cada elemento 
@@ -37,7 +39,7 @@ export class ActivitiesComponent implements OnInit {
     const navigation = window.history.state;
     this.group = navigation.group;
     await this.authService.getUser().then(data=>
-      this.user=data
+      this.userAuth=data
     )
     await this.loadActivities();
     
@@ -57,13 +59,9 @@ export class ActivitiesComponent implements OnInit {
     if(this.activities){this.activities.forEach(activity => {
       activity.isJoined = this.isJoined(activity);
     });}
-    
-  
-    console.log('Actividades recibidas:', this.activities);
   
     if (this.activities && this.activities.length > 0) {
       this.groupActivitiesByDate();
-      console.log('Actividades agrupadas:', this.groupedActivities);
     }
   }
   
@@ -118,7 +116,6 @@ export class ActivitiesComponent implements OnInit {
   viewDetails(activity: LoadActivitiesResponse) {
     this.selectedActivity = activity;
     this.isModalOpen = true;
-    console.log('Ver detalles de la actividad', activity);
   }
   closeModal() {
     this.isModalOpen = false;
@@ -127,22 +124,61 @@ export class ActivitiesComponent implements OnInit {
 
   joinActivity(activity: LoadActivitiesResponse) {
     // Implementa la lógica para unirte a la actividad
-    this.joinActivityRequest={activityId:activity.activityId,userId:this.user?.id}
+    this.joinActivityRequest={activityId:activity.activityId,userId:this.userAuth?.id}
     this.restService.joinActivity(this.joinActivityRequest).then((response)=>{
       console.log(response)
     })
   }
 
   isJoined(activity: LoadActivitiesResponse) {
-    console.log(this.user)
-    console.log(activity.participantes)
-    if (!this.user || !activity.participantes) { 
+    if (!this.userAuth || !activity.participantes) { 
       console.log("2hola")
       return false; 
     }
-    console.log(activity.participantes.some(part => part.id === this.user!.id))
-    return activity.participantes.some(part => part.id === this.user!.id);
+    return activity.participantes.some(part => part.id === this.userAuth!.id);
+  }
+
+  isAdministrator(){
+    if(this.group.admin?.id==this.userAuth?.id)return true;
+    return false
   }
 
   
+  async cancelActivity(activity:LoadActivitiesResponse){
+    const cancelActivityRequest=new CancelActivityRequest();
+    cancelActivityRequest.activityId=activity.activityId;
+    this.restService.cancelActivity(cancelActivityRequest).then((response)=>{
+      console.log(response)
+      this.loadActivities();
+    })
+
+  }
+
+  getStatusColor(status: StatusActivity): string {
+    switch (status) {
+      case StatusActivity.ACTIVE:
+        return 'success';
+      case StatusActivity.CANCELLED:
+        return 'danger';     
+      case StatusActivity.FINISHED:
+        return 'warning';   
+      default:
+        return 'medium';     
+    }
+  }
+
+  async goToEditActivity(editActivity:LoadActivitiesResponse){
+    const activity=new Activity();
+    activity.title=editActivity.title;
+    activity.description=editActivity.description;
+    activity.startDate=editActivity.startDate;
+    activity.endDate=editActivity.endDate;
+    activity.price=editActivity.price;
+    activity.id=editActivity.activityId;
+    this.navCtrl.navigateRoot('create-activity', {
+      state: { activity: activity,
+        group:this.group }
+    });
+  }
+
 }

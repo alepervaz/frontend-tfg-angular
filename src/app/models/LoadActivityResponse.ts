@@ -15,4 +15,12 @@ export class LoadActivitiesResponse{
     organizador?:User;
     participantes?:User[];
     isJoined?:boolean;
+    statusActivity?:StatusActivity;
 }
+
+export enum StatusActivity {
+    ACTIVE = 'ACTIVE',
+    CANCELLED = 'CANCELLED',
+    FINISHED = 'FINISHED'
+  }
+  

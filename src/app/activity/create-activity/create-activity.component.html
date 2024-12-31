@@ -1,44 +1,86 @@
 <ion-content>
-  <ion-grid>
-    <ion-row>
-      <ion-col>
-        <form (ngSubmit)="onSubmit()" #registerForm="ngForm">
-          <!-- Campo de usuario -->
-          <ion-item>
-            <ion-input type="text" label="Titulo" [(ngModel)]="activity.title" name="Title" required></ion-input>
-          </ion-item>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Crear Actividad</ion-card-title>
+    </ion-card-header>
 
-          <ion-item>
-            <ion-input type="text" label="Descripcion" [(ngModel)]="activity.description" name="Description" required></ion-input>
-          </ion-item>
+    <ion-card-content>
+      <form (ngSubmit)="onSubmit()" #registerForm="ngForm">
+        
+        <!-- TÍTULO -->
+        <ion-item>
+          <ion-label position="floating">Título</ion-label>
+          <ion-input 
+            type="text" 
+            [(ngModel)]="activity.title" 
+            name="title" 
+            required>
+          </ion-input>
+        </ion-item>
 
-          <ion-item>
-            
-            <ion-input type="date" label="fecha de inicio" [(ngModel)]="activity.startDate" name="Title" required></ion-input>
-          </ion-item>
-          <ion-item>
-            
-            <ion-input type="date" label="fecha de fin" [(ngModel)]="activity.endDate" name="Title" required></ion-input>
-          </ion-item>
-          <ion-item>
-            
-            <ion-input type="number" label="Precio" [(ngModel)]="activity.price" name="Title" required></ion-input>
-          </ion-item>
-          
-          
-          <!-- Mostrar el nombre del archivo si ya hay uno -->
-         
-          
+        <!-- DESCRIPCIÓN -->
+        <ion-item>
+          <ion-label position="floating">Descripción</ion-label>
+          <ion-textarea
+            rows="2"
+            [(ngModel)]="activity.description" 
+            name="description" 
+            required>
+          </ion-textarea>
+        </ion-item>
 
-      
-     
-          <!-- Botón de registro -->
-          <ion-button *ngIf="isEditMode==false" expand="block" type="submit" color="primary">Crear grupo</ion-button>
-          <!-- <ion-button *ngIf="isEditMode==true" expand="block" type="submit" color="primary">Editar Grupo</ion-button>
-          -->
-        </form>
-      
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+        <!-- FECHA DE INICIO Y FECHA DE FIN (en dos columnas) -->
+        <ion-row>
+          <ion-col>
+            <ion-item>
+              <ion-label>Fecha de inicio</ion-label>
+              <ion-datetime
+                displayFormat="YYYY-MM-DD"
+                pickerFormat="YYYY-MM-DD"
+                presentation="time-date"
+                [(ngModel)]="activity.startDate"
+                name="startDate"
+                required>
+              </ion-datetime>
+            </ion-item>
+          </ion-col>
+          <ion-col>
+            <ion-item>
+              <ion-label>Fecha de fin</ion-label>
+              <ion-datetime
+                displayFormat="YYYY-MM-DD"
+                pickerFormat="YYYY-MM-DD"
+                presentation="time-date"
+                [(ngModel)]="activity.endDate"
+                name="endDate"
+                required>
+              </ion-datetime>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+
+        <!-- PRECIO -->
+        <ion-item>
+          <ion-label position="floating">Precio</ion-label>
+          <ion-input 
+            type="number" 
+            [(ngModel)]="activity.price" 
+            name="price" 
+            required>
+          </ion-input>
+        </ion-item>
+
+        <!-- BOTÓN SUBMIT -->
+        <ion-button 
+          expand="block" 
+          type="submit" 
+          color="primary"
+          *ngIf="editMode==false"
+          >
+          Crea actividad
+        </ion-button>
+        <ion-button *ngIf="editMode==true" expand="block" type="submit" color="primary">Editar Actividad</ion-button>
+      </form>
+    </ion-card-content>
+  </ion-card>
 </ion-content>

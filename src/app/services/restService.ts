@@ -22,6 +22,8 @@ import { CreateActivity } from '../models/CreateActivity';
 import { Activity } from '../models/Activity/Activity';
 import { LoadActivitiesRequest } from '../models/LoadActivityRequest';
 import { JoinActivityRequest } from '../models/Activity/JoinActivityRequest';
+import { CancelActivityRequest } from '../models/Activity/CancelActivityRequest';
+import { EditActivity } from '../models/Activity/EditActivity';
 
 @Injectable({
   providedIn: 'root',
@@ -302,12 +304,38 @@ export class RestService  {
 
   async joinActivity(joinActivityRequest:JoinActivityRequest): Promise<any> {
     try {
-      console.log(joinActivityRequest.userId)
-      console.log(joinActivityRequest.activityId)
       const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
       const response = await this.http.post(
         `${this.path}/api/activity/join/`,
         joinActivityRequest,
+        {headers,observe:'response'}
+      ).toPromise(); 
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async cancelActivity(cancelActivityRequest:CancelActivityRequest): Promise<any> {
+    try {
+      const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+      const response = await this.http.put(
+        `${this.path}/api/activity/cancel`,
+        cancelActivityRequest,
+        {headers,observe:'response'}
+      ).toPromise(); 
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async editActivity(editActivity:EditActivity): Promise<any> {
+    try {
+      const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+      const response = await this.http.put(
+        `${this.path}/api/activity`,
+        editActivity,
         {headers,observe:'response'}
       ).toPromise(); 
       return response;
