@@ -1,0 +1,79 @@
+<ion-header>
+  <ion-toolbar>
+    <!-- Aquí iría el título del grupo o del viaje -->
+    <ion-title>City Trip</ion-title>
+  </ion-toolbar>
+
+  <!-- Sección opcional para la imagen del grupo en la parte superior -->
+  <ion-toolbar>
+    <ion-img src="assets/img/group-photo.jpg" alt="Foto del grupo" style="height: 200px; object-fit: cover;"></ion-img>
+  </ion-toolbar>
+
+  <!-- Tabs/Segment para navegar: Gastos, Balances, Fotos -->
+  <!-- Puedes reemplazar ion-segment por tabs si así lo deseas -->
+  <ion-toolbar>
+    <ion-segment [(ngModel)]="selectedSegment">
+      <ion-segment-button value="expenses">
+        <ion-label>Gastos</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="balances">
+        <ion-label>Balances</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- Contenido de la sección Balances (se mostrará si selectedSegment === 'balances') -->
+  <ng-container *ngIf="selectedSegment === 'balances'">
+    <!-- Cabecera de Balances con el total que te deben -->
+    <ion-card class="balance-card">
+      <ion-card-content>
+        <ion-label class="balance-owed-label">
+          Te deben: 
+          <strong>{{ totalOwed | currency:'EUR':'symbol':'1.2-2' }}</strong>
+        </ion-label>
+        <p class="balance-info-text">
+          Descubre cómo Brian y Thomas necesitan pagarte
+        </p>
+        <ion-button expand="block" fill="outline">
+          Ver todas las sugerencias de reembolso
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Lista de balances individuales -->
+    <ion-list>
+      <ion-item
+        *ngFor="let persona of listaBalances"
+        lines="none"
+        [ngClass]="{'persona-positiva': persona.monto > 0, 'persona-negativa': persona.monto < 0}"
+      >
+        <ion-label>
+          <h2>{{ persona.nombre }}</h2>
+        </ion-label>
+        <ion-note
+          slot="end"
+          [color]="persona.monto > 0 ? 'success' : 'danger'"
+        >
+          <!-- Añadimos un signo + si el monto es positivo -->
+          {{ persona.monto > 0 ? '+' : '' }}{{ persona.monto | currency:'EUR':'symbol':'1.2-2' }}
+        </ion-note>
+      </ion-item>
+    </ion-list>
+  </ng-container>
+
+  <!-- Puedes usar secciones similares para 'expenses' y 'photos' si deseas, o navegar con tabs reales -->
+  <ng-container *ngIf="selectedSegment === 'expenses'">
+    <!-- Aquí iría el contenido de la vista de Gastos -->
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Mis Gastos: {{ misGastos | currency:'EUR' }}</ion-card-title>
+        <ion-card-subtitle>Gastos Totales: {{ gastosTotales | currency:'EUR' }}</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <p>Listado de todos los gastos, etc...</p>
+      </ion-card-content>
+    </ion-card>
+  </ng-container>
+</ion-content>

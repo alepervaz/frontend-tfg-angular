@@ -11,6 +11,7 @@ import { FriendUserComponent } from './user/friend-user/friend-user.component';
 import { ListGroupComponent } from './group/list-group/list-group.component';
 import { ActivitiesComponent } from './activity/activities/activities.component';
 import { CreateActivityComponent } from './activity/create-activity/create-activity.component';
+import { BalanceComponent } from './balance/balance.component';
 
 export const routes: Routes = [
   {
@@ -29,6 +30,7 @@ export const routes: Routes = [
   { path: 'user/list', component: ListUserComponent, canActivate: [AuthGuard] },
   { path: 'activities', component: ActivitiesComponent, canActivate: [AuthGuard] },
   { path: 'create-activity', component: CreateActivityComponent, canActivate: [AuthGuard] },
+  { path: 'balance', component: BalanceComponent, canActivate: [AuthGuard] },
   
   
 ];

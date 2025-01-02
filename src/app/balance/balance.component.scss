@@ -1,0 +1,24 @@
+.balance-card {
+    margin-top: 1rem;
+  }
+  
+  .balance-owed-label {
+    font-size: 1.2em;
+  }
+  
+  .balance-info-text {
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+    color: var(--ion-text-color, #666);
+  }
+  
+  .persona-positiva {
+    /* Ejemplo: poner un fondo claro verde si el monto es positivo */
+    /* background-color: #e7fbe7; */
+  }
+  
+  .persona-negativa {
+    /* Ejemplo: poner un fondo claro rojizo si el monto es negativo */
+    /* background-color: #fde7e7; */
+  }
+  

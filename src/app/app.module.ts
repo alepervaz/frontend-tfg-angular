@@ -21,6 +21,7 @@ import { ListUserComponent } from './user/list-user/list-user.component';
 import { ListGroupComponent } from './group/list-group/list-group.component';
 import { ActivitiesComponent } from './activity/activities/activities.component';
 import { CreateActivityComponent } from './activity/create-activity/create-activity.component';
+import { BalanceComponent } from './balance/balance.component';
 
 
 
@@ -28,7 +29,7 @@ import { CreateActivityComponent } from './activity/create-activity/create-activ
 
 @NgModule({
   declarations: [AppComponent,RegisterComponent, LoginComponent, EditUserComponent,GroupComponent, CreateGroupComponent,FriendUserComponent,
-    ListUserComponent,ListGroupComponent,ActivitiesComponent,CreateActivityComponent],
+    ListUserComponent,ListGroupComponent,ActivitiesComponent,CreateActivityComponent,BalanceComponent],
   imports: [
     BrowserModule,
     ReactiveFormsModule, 
