@@ -39,7 +39,9 @@
         </ion-item>
         <ion-item-options slot="end">
           <ion-item-option color="dark">
-            <ion-icon slot="icon-only" name="list-outline"></ion-icon>
+            <ion-button (click)="goToActivity(group)"  fill="clear">
+              <ion-icon slot="icon-only" name="list-outline"></ion-icon>
+            </ion-button>
           </ion-item-option>
           <ion-item-option color="medium">
             <ion-icon slot="icon-only" name="chatbox-ellipses-outline"></ion-icon>

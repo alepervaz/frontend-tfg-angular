@@ -18,6 +18,12 @@ import { EditGroup } from '../models/EditGroup';
 import { DeleteMemberGroup } from '../models/deleteMemberGroup';
 import { DeleteGroup } from '../models/DeleteGroup';
 import { LeaveGroup } from '../models/LeaveGroup';
+import { CreateActivity } from '../models/CreateActivity';
+import { Activity } from '../models/Activity/Activity';
+import { LoadActivitiesRequest } from '../models/LoadActivityRequest';
+import { JoinActivityRequest } from '../models/Activity/JoinActivityRequest';
+import { CancelActivityRequest } from '../models/Activity/CancelActivityRequest';
+import { EditActivity } from '../models/Activity/EditActivity';
 
 @Injectable({
   providedIn: 'root',
@@ -32,8 +38,6 @@ export class RestService  {
   async register(user: User): Promise<any> {
     try {
       const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-      console.log("HOLA");
-      console.log(user);
       const response = await this.http.post(
         `${this.path}/api/users/register/`,
         user,
@@ -272,4 +276,72 @@ export class RestService  {
       { headers,params,observe:'response' }
     ).toPromise();
   }
+
+  async registerActivity(activity:Activity): Promise<any> {
+    try {
+        
+        const response = await this.http.post(
+            `${this.path}/api/activity/`,
+            activity
+        ).toPromise();
+
+        console.log("Request successful");
+        return response;
+    } catch (error) {
+        console.error("Request failed", error);
+        throw error;
+    }
+  }
+
+  async loadActivities(loadActivitiesRequest:LoadActivitiesRequest): Promise<any> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const params = convertToHttpParams(loadActivitiesRequest);
+     return await this.http.get(
+      `${this.path}/api/activity`,
+      { headers,params,observe:'response' }
+    ).toPromise();
+  }
+
+  async joinActivity(joinActivityRequest:JoinActivityRequest): Promise<any> {
+    try {
+      const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+      const response = await this.http.post(
+        `${this.path}/api/activity/join/`,
+        joinActivityRequest,
+        {headers,observe:'response'}
+      ).toPromise(); 
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async cancelActivity(cancelActivityRequest:CancelActivityRequest): Promise<any> {
+    try {
+      const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+      const response = await this.http.put(
+        `${this.path}/api/activity/cancel`,
+        cancelActivityRequest,
+        {headers,observe:'response'}
+      ).toPromise(); 
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async editActivity(editActivity:EditActivity): Promise<any> {
+    try {
+      const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+      const response = await this.http.put(
+        `${this.path}/api/activity`,
+        editActivity,
+        {headers,observe:'response'}
+      ).toPromise(); 
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+
 }
