@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-
+import { AuthService } from '../services/auth.service';
+import { RestService } from '../services/restService';
+import { ToastHelperService } from '../helpers/AlertHelper';
+import { NavController,MenuController,InfiniteScrollCustomEvent,PopoverController } from '@ionic/angular';
+import { Group } from '../models/group';
 @Component({
   selector: 'app-balance',
   templateUrl: './balance.component.html',
@@ -7,6 +11,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BalanceComponent  implements OnInit {
 
+  group:Group=new Group;
   // Control para el ion-segment (o tabs)
   selectedSegment: string = 'balances';
   listaBalances = [
@@ -22,8 +27,18 @@ export class BalanceComponent  implements OnInit {
   // Para la sección de gastos (ejemplo)
   misGastos: number = 98.75;
   gastosTotales: number = 395.00;
-  constructor() { }
+  constructor( private authService: AuthService, private navCtrl: NavController,
+      private menuCtrl: MenuController,
+    private restService:RestService,private popoverController: PopoverController,private toastService: ToastHelperService) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    const navigation = window.history.state;
+    if (navigation && navigation.group) {
+      this.group = navigation.group;
+      console.log(this.group)
+    }
+  }
 
+
+  
 }

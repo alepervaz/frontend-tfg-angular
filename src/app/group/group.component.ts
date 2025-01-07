@@ -166,4 +166,10 @@ export class GroupComponent  implements OnInit {
       state: { group }
     });
   }
+
+  async goToBalance(group:Group){
+    this.navCtrl.navigateRoot('balance', {
+      state: { group }
+    });
+  }
 }

@@ -17,7 +17,7 @@
 
     <ion-list [inset]="true">
       <ion-item-sliding *ngFor="let group of listMyGroups; let i = index">
-         <ion-item [button]="true" type="button" (click)="openUserModal(group)">
+         <ion-item [button]="true" type="button" (click)="goToBalance(group)">
           <ion-icon [id]="'icon-admin-'+i" *ngIf="isAdministrator(group)" name="star" slot="start"></ion-icon>
           <ion-popover [trigger]="'icon-admin-' + i" triggerAction="hover">
             <ng-template>
