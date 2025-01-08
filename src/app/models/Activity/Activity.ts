@@ -1,3 +1,6 @@
+import { StatusActivity } from "../LoadActivityResponse";
+import { User } from "../user";
+
 export class Activity{
     id?:number;
     title?:string;
@@ -8,4 +11,7 @@ export class Activity{
     payDate?:Date;
     price?:number;
     groupId?:number;
+    statusActivity?:StatusActivity;
+    organizador?:User;
+    participantes?:User[];
 }

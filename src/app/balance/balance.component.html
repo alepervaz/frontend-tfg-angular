@@ -36,11 +36,12 @@
           Te deben: 
           <strong>{{ totalOwed | currency:'EUR':'symbol':'1.2-2' }}</strong>
         </ion-label>
-        <p class="balance-info-text">
-          Descubre cómo Brian y Thomas necesitan pagarte
-        </p>
+        <ion-label class="balance-owed-label">
+          <br>Debes: 
+          <strong>{{ totalDebt | currency:'EUR':'symbol':'1.2-2' }}</strong>
+        </ion-label>
         <ion-button expand="block" fill="outline">
-          Ver todas las sugerencias de reembolso
+          Pagar mis deudas
         </ion-button>
       </ion-card-content>
     </ion-card>
@@ -50,17 +51,17 @@
       <ion-item
         *ngFor="let persona of listaBalances"
         lines="none"
-        [ngClass]="{'persona-positiva': persona.monto > 0, 'persona-negativa': persona.monto < 0}"
+        [ngClass]="{'persona-positiva': (persona.monto ?? 0) > 0, 'persona-negativa': (persona.monto ?? 0) < 0}"
       >
         <ion-label>
           <h2>{{ persona.nombre }}</h2>
         </ion-label>
         <ion-note
           slot="end"
-          [color]="persona.monto > 0 ? 'success' : 'danger'"
+          [color]="(persona.monto ?? 0) > 0 ? 'success' : 'danger'"
         >
           <!-- Añadimos un signo + si el monto es positivo -->
-          {{ persona.monto > 0 ? '+' : '' }}{{ persona.monto | currency:'EUR':'symbol':'1.2-2' }}
+          {{ (persona.monto ?? 0) > 0 ? '+' : '' }}{{ (persona.monto ?? 0) | currency:'EUR':'symbol':'1.2-2' }}
         </ion-note>
       </ion-item>
     </ion-list>
