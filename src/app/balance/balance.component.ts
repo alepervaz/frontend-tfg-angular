@@ -115,10 +115,10 @@ export class BalanceComponent  implements OnInit {
   
     if (myBalance?.monto && myBalance.monto >= 0) {
       // Guarda el valor absoluto de myBalance.monto en totalOwed
-      this.totalOwed = Math.abs(myBalance.monto);
+      this.totalDebt = Math.abs(myBalance.monto);
     } else if (myBalance?.monto && myBalance.monto < 0) {
       // Guarda el valor absoluto de myBalance.monto en totalDebt
-      this.totalDebt = Math.abs(myBalance.monto);
+      this.totalOwed = Math.abs(myBalance.monto);
     } else {
       this.totalDebt = 0;
       this.totalOwed = 0;
