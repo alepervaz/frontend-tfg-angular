@@ -7,7 +7,8 @@ import { Group } from '../models/group';
 import { Activity } from '../models/Activity/Activity';
 import { User } from '../models/user';
 import { StatusActivity } from '../models/LoadActivityResponse';
-import { BalanceItem } from '../models/balance';
+import { BalanceItem } from '../models/Balance/Balance';
+
 @Component({
   selector: 'app-balance',
   templateUrl: './balance.component.html',
@@ -29,6 +30,30 @@ export class BalanceComponent  implements OnInit {
   // Para la sección de gastos (ejemplo)
   misGastos: number = 98.75;
   gastosTotales: number=0;
+
+  //pagos
+  currentDate: Date = new Date();
+  // Ejemplo de propiedades en tu componente
+  totalPendingAmount: number = 0; // Total de lo que te adeudan
+  pendingPayments = [
+    {
+      payerName: 'Juan Pérez',
+      activityDescription: 'Aporte viaje Cancún',
+      amount: 50,
+      dueDate: new Date(),
+      avatar: 'avatar4.png'
+    },
+    {
+      payerName: 'María López',
+      activityDescription: 'Reserva Airbnb',
+      amount: 85,
+      dueDate: new Date(),
+      userPhoto: 'assets/img/maria.jpg'
+    },
+  // ...
+];
+
+  //
   constructor( private authService: AuthService, private navCtrl: NavController,
       private menuCtrl: MenuController,
     private restService:RestService,private popoverController: PopoverController,private toastService: ToastHelperService) { }
@@ -56,31 +81,6 @@ export class BalanceComponent  implements OnInit {
     this.gastosTotales=this.activities.map(activity=>activity.price ?? 0).reduce((acumulado, precioActual) => acumulado + precioActual, 0);
   }
 
-  // debtToMe() {
-  //   this.totalOwed = (this.activities ?? [])
-  //     .filter(activity =>
-  //       activity.statusActivity === StatusActivity.ACTIVE &&
-  //       activity.organizador?.id == this.userAuth?.id
-  //     )
-  //     .reduce((acumulado, activity) => acumulado + ((activity.price ?? 0)/(activity.participantes?.length ?? 1)), 0);
-  // }
-
-  // debtYou() {
-  //   this.totalDebt = (this.activities ?? [])
-  //     .filter(activity =>
-  //       activity.statusActivity === StatusActivity.ACTIVE &&
-  //       activity.organizador?.id != this.userAuth?.id
-  //     )
-  //     .reduce((acumulado, activity) => {
-  //       if(){
-  //         return acumulado + ((activity.price ?? 0)/(activity.participantes?.length ?? 1))
-  //       }else if(){
-
-  //       }else{
-  //         acumulado + ((activity.price ?? 0)/(activity.participantes?.length ?? 1))
-  //       }
-  //     }, 0);
-  // }
 
   balance(){
     this.listaBalances = (this.group.miembros ?? []).map(user => {
@@ -125,5 +125,13 @@ export class BalanceComponent  implements OnInit {
     }
   }
   
-  
+  remindAllDebtors() {
+    // Lógica para enviar recordatorio a todos
+    console.log('Enviando recordatorio a todos los deudores...');
+  }
+
+  onPaymentAction(payment: any) {
+    console.log('Acción individual sobre:', payment);
+    // Podrías mostrar un modal, o realizar otra operación...
+  }
 }

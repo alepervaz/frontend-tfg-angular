@@ -1,5 +1,6 @@
-import { Activity } from "../Activity/Activity";
-import { User } from "../user";
+import { Activity } from "./Activity/Activity";
+import { User } from "./user";
+
 
 export class GetGroupResponse {
     id?: number;
