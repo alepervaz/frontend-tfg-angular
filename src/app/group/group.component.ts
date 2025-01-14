@@ -114,8 +114,6 @@ export class GroupComponent  implements OnInit {
     this.groupListParams.userId=this.userAuth?.id;
     await this.restService.listAllMyGroups(this.groupListParams).then((response)=>{
       this.listMyGroups=response.body.data
-      console.log(response)
-      console.log(this.listMyGroups)
     })  
   }
 

@@ -106,8 +106,8 @@
       <ion-list>
         <ion-item *ngFor="let payment of pendingPayments">
           <!-- Podrías mostrar el avatar/foto del usuario que debe pagar -->
-          <ion-avatar slot="start" *ngIf="payment.avatar">
-            <img alt="" [src]="'assets/perfiles/' + payment.avatar" />
+          <ion-avatar slot="start" *ngIf="payment.userPhoto">
+            <img alt="" [src]="'assets/perfiles/' + payment.userPhoto" />
           </ion-avatar>
 
           <ion-label>
@@ -130,7 +130,7 @@
           >
             {{ payment.amount | currency:'EUR':'symbol':'1.2-2' }}
           </ion-note>
-          <ion-button
+          <!-- <ion-button
           slot="end"
           fill="outline"
           color="primary"
@@ -138,7 +138,15 @@
           (click)="onPaymentAction(payment)"
         >
           Acción
-        </ion-button>
+        </ion-button> -->
+        <ion-button
+          slot="end"
+          fill="outline"
+          color="primary"
+          (click)="onPaymentAction(payment)"
+        >
+          Acción
+      </ion-button>
         </ion-item>
       </ion-list>
 

@@ -14,4 +14,5 @@ export class Activity{
     statusActivity?:StatusActivity;
     organizador?:User;
     participantes?:User[];
+    pagadores?:User[];
 }

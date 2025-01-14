@@ -24,6 +24,8 @@ import { LoadActivitiesRequest } from '../models/LoadActivityRequest';
 import { JoinActivityRequest } from '../models/Activity/JoinActivityRequest';
 import { CancelActivityRequest } from '../models/Activity/CancelActivityRequest';
 import { EditActivity } from '../models/Activity/EditActivity';
+import { PendingPayments } from '../models/Balance/PendingPayments';
+import { GetGroupRequest } from '../models/Balance/GetGroupRequest';
 
 @Injectable({
   providedIn: 'root',
@@ -344,4 +346,26 @@ export class RestService  {
     }
   }
 
+  async confirmedPay(paymentRequest: PendingPayments): Promise<any> {
+    try {
+      const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+      const response = await this.http.put(
+        `${this.path}/api/activity/confirmedPay/`,
+        paymentRequest,
+        {headers,observe:'response'}
+      ).toPromise(); 
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async getGroup(getGroupRequest:GetGroupRequest): Promise<any> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const params = convertToHttpParams(getGroupRequest);
+     return await this.http.get(
+      `${this.path}/api/group/myGroup`,
+      { headers,params,observe:'response' }
+    ).toPromise();
+  }
 }
