@@ -1,5 +1,6 @@
 import { StatusActivity } from "../LoadActivityResponse";
 import { User } from "../user";
+import { ActivityPayment } from "./ActivityPayment";
 
 export class Activity{
     id?:number;
@@ -14,5 +15,5 @@ export class Activity{
     statusActivity?:StatusActivity;
     organizador?:User;
     participantes?:User[];
-    pagadores?:User[];
+    activityPayments?: ActivityPayment[];
 }

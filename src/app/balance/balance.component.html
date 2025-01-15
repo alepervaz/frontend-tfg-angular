@@ -35,17 +35,13 @@
     <!-- Cabecera de Balances con el total que te deben -->
     <ion-card class="balance-card">
       <ion-card-content>
-        <ion-label class="balance-owed-label">
-          Te deben: 
-          <strong>{{ totalOwed | currency:'EUR':'symbol':'1.2-2' }}</strong>
-        </ion-label>
-        <ion-label class="balance-owed-label">
-          <br>Debes: 
-          <strong>{{ totalDebt | currency:'EUR':'symbol':'1.2-2' }}</strong>
-        </ion-label>
-        <ion-button *ngIf="totalDebt>0" expand="block" fill="outline">
-          Pagar mis deudas
-        </ion-button>
+        <ion-note
+          slot="end"
+          [color]="(myBalance?.monto ?? 0) >= 0 ? 'success' : 'danger'"
+        >
+          <!-- Añadimos un signo + si el monto es positivo -->
+          Tu saldo actual es de: {{ (myBalance?.monto ?? 0) > 0 ? '+' : '' }}{{ (myBalance?.monto ?? 0) | currency:'EUR':'symbol':'1.2-2' }}
+        </ion-note>
       </ion-card-content>
     </ion-card>
 
@@ -54,14 +50,14 @@
       <ion-item
         *ngFor="let persona of listaBalances"
         lines="none"
-        [ngClass]="{'persona-positiva': (persona.monto ?? 0) > 0, 'persona-negativa': (persona.monto ?? 0) < 0}"
+        [ngClass]="{'persona-positiva': (persona.monto ?? 0) >= 0, 'persona-negativa': (persona.monto ?? 0) < 0}"
       >
         <ion-label>
           <h2>{{ persona.nombre }}</h2>
         </ion-label>
         <ion-note
           slot="end"
-          [color]="(persona.monto ?? 0) > 0 ? 'success' : 'danger'"
+          [color]="(persona.monto ?? 0) >= 0 ? 'success' : 'danger'"
         >
           <!-- Añadimos un signo + si el monto es positivo -->
           {{ (persona.monto ?? 0) > 0 ? '+' : '' }}{{ (persona.monto ?? 0) | currency:'EUR':'symbol':'1.2-2' }}
@@ -70,19 +66,50 @@
     </ion-list>
   </ng-container>
 
-  <!-- Puedes usar secciones similares para 'expenses' y 'photos' si deseas, o navegar con tabs reales -->
-  <ng-container *ngIf="selectedSegment === 'expenses'">
-    <!-- Aquí iría el contenido de la vista de Gastos -->
-    <ion-card>
-      <ion-card-header>
-        <ion-card-title>Mis Gastos: {{ misGastos | currency:'EUR' }}</ion-card-title>
-        <ion-card-subtitle>Gastos Totales: {{ gastosTotales | currency:'EUR' }}</ion-card-subtitle>
-      </ion-card-header>
-      <ion-card-content>
-        <p>Listado de todos los gastos, etc...</p>
-      </ion-card-content>
-    </ion-card>
-  </ng-container>
+  <!-- Sección de Gastos (expenses) -->
+<!-- <ng-container *ngIf="selectedSegment === 'expenses'">
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Mis gastos: {{ myGastosTotales | currency:'EUR' }}</ion-card-title>
+      <ion-card-subtitle>Gastos total del grupo: {{ gastosTotalesGroup | currency:'EUR' }}</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content> -->
+      <!-- Aquí un texto breve o explicativo si se desea -->
+      <!-- <p>Consulta tus gastos detallados en las distintas actividades:</p>
+    </ion-card-content>
+  </ion-card> -->
+
+  <!-- Listado de actividades y gastos -->
+  <!-- <ion-card>
+    <ion-card-header>
+      <ion-card-title>Gastos por Actividad</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list> -->
+        <!-- Recorremos la lista de gastos (puedes cambiar el nombre de variable “expensesList” 
+             al que uses en tu controlador) -->
+        <!-- <ion-item *ngFor="let gasto of expensesList"> -->
+
+          <!-- Información principal del gasto -->
+          <!-- <ion-label>
+            <h2>{{ gasto.activityName }}</h2>
+            <p>Fecha: {{ gasto.date | date:'shortDate' }}</p>
+            <p *ngIf="gasto.description">
+              <ion-icon name="information-circle-outline"></ion-icon>
+              {{ gasto.description }}
+            </p>
+          </ion-label> -->
+
+          <!-- Monto del gasto -->
+          <!-- <ion-note slot="end" color="primary" style="font-weight: bold;">
+            {{ gasto.amount | currency:'EUR':'symbol':'1.2-2' }}
+          </ion-note>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+</ng-container> -->
+
   <!-- Sección de Pagos (pendientes de recibir) -->
 <ng-container *ngIf="selectedSegment === 'confirmedPaid'">
   <ion-card>
