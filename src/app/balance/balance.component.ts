@@ -28,7 +28,7 @@ export class BalanceComponent  implements OnInit {
   listaBalances: BalanceItem[] = [];
   myBalance:BalanceItem|undefined;
   userAuth:User|undefined;
-  expenseList:ExpenseItem[]|undefined;
+  expensesList:ExpenseItem[]|undefined;
   
 
   // Para la sección de gastos (ejemplo)
@@ -65,6 +65,7 @@ export class BalanceComponent  implements OnInit {
         this.myOwnBalance();
         this.listPendingPayments();
         this.myTotalPendingAmount();
+        this.myExpensesList();
       })
       
       
@@ -198,12 +199,13 @@ export class BalanceComponent  implements OnInit {
   }
 
   myTotalHistoryPay(){
-    this.myGastosTotales=this.activities?.reduce((acumulador,activity)=>{
-      if(activity.participantes?.some(participant=>participant.id==this.userAuth?.id) && activity.price!=null){
-        return acumulador+activity.price;
-      }else{
-        return acumulador;
-      }
+    this.myGastosTotales=this.activities
+    ?.map(activity => activity.activityPayments || []) // Mapear a los arrays internos
+    .flat() // Aplanar los arrays internos en un solo array
+    .filter(payment => payment.userId === this.userAuth?.id).reduce((acumulador,payment)=>{
+      
+        return acumulador+payment.amountPaid;
+      
     },0)??0
   }
 
@@ -212,21 +214,18 @@ export class BalanceComponent  implements OnInit {
     this.gastosTotalesGroup=this.activities.map(activity=>activity.price ?? 0).reduce((acumulado, precioActual) => acumulado + precioActual, 0);
   }
 
-  // myExpensesList(){
-  //   this.expenseList = this.activities
-  // ?.filter((activity: Activity) =>
-  //   activity.activityPayments?.some((pagador: ActivityPayment) => pagador.id === this.userAuth?.id)
-  // )
-  // .flatMap((activity: Activity) =>
-  //   activity.activityPayments
-  //     ?.filter((payment: ActivityPayment) => payment.id === this.userAuth?.id)
-  //     .map((payment: ActivityPayment) => ({
-  //       date: payment.paymentDate || new Date(),
-  //       descripcion: activity.description || '',
-  //       amount: payment.amountPaid || 0
-  //     } as ExpenseItem))
-  // )
-  // .filter((item: ExpenseItem | undefined) => item !== undefined);
-
-  // }
+  myExpensesList() {
+    const activityPayments = this.activities
+      ?.map(activity => activity.activityPayments || []) // Mapear a los arrays internos
+      .flat() // Aplanar los arrays internos en un solo array
+      .filter(payment => payment.userId === this.userAuth?.id); // Filtrar por userId
+  
+    this.expensesList = activityPayments?.map(payment => ({
+      date: payment.paymentDate,
+      amount: payment.amountPaid,
+      activityName: this.activities?.find(activity => activity.id === payment.activityId)?.title,
+      descripcion: this.activities?.find(activity => activity.id === payment.activityId)?.title,
+    })) as ExpenseItem[];
+  }
+  
 }
