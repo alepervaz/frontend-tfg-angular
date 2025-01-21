@@ -6,4 +6,5 @@ export class PendingPayments {
     dueDate?:Date;
     userPhoto?:string;
     userId?:number;
+    title?:string;
   }

@@ -12,6 +12,7 @@ import { PendingPayments } from '../models/Balance/PendingPayments';
 import { GetGroupRequest } from '../models/Balance/GetGroupRequest';
 import { ExpenseItem } from '../models/Balance/ExpenseItem';
 import { ActivityPayment } from '../models/Activity/ActivityPayment';
+import { SendEmailRequest } from '../models/Email/SendEmailRequest';
 
 @Component({
   selector: 'app-balance',
@@ -166,6 +167,7 @@ export class BalanceComponent  implements OnInit {
               pending.userId = participant.id;
               pending.payerName = participant.username;
               pending.activityDescription = activity.description;
+              pending.title=activity.title;
               if (activity.price != null && activity.participantes != null && activity.price !== 0) {
                 pending.amount = activity.price / activity.participantes.length;
               }
@@ -189,6 +191,23 @@ export class BalanceComponent  implements OnInit {
   
   remindAllDebtors() {
     // Lógica para enviar recordatorio a todos
+    let boolValue=false
+    this.pendingPayments.forEach(async pending=>{
+      const sendEmail=new SendEmailRequest();
+      sendEmail.userPendingId=pending.userId;
+      sendEmail.userWaiterId=this.userAuth?.id;
+      sendEmail.activityTitle=pending.title;
+      sendEmail.startDate=pending.dueDate;
+      sendEmail.groupTitle=this.group.title;
+      sendEmail.price=pending.amount;
+      this.restService.sendEmail(sendEmail).then((response)=>{
+        console.log(response)
+        if(!response.body.message){
+          this.toastService.presentToast(response.message,undefined,'bottom','danger')
+        }
+      })
+    })
+    this.toastService.presentToast("correos enviados de formas correcta",undefined,'bottom','success')
     console.log('Enviando recordatorio a todos los deudores...');
   }
 

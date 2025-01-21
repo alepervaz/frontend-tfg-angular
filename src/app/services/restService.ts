@@ -26,6 +26,7 @@ import { CancelActivityRequest } from '../models/Activity/CancelActivityRequest'
 import { EditActivity } from '../models/Activity/EditActivity';
 import { PendingPayments } from '../models/Balance/PendingPayments';
 import { GetGroupRequest } from '../models/Balance/GetGroupRequest';
+import { SendEmailRequest } from '../models/Email/SendEmailRequest';
 
 @Injectable({
   providedIn: 'root',
@@ -367,5 +368,19 @@ export class RestService  {
       `${this.path}/api/group/myGroup`,
       { headers,params,observe:'response' }
     ).toPromise();
+  }
+
+  async sendEmail(sendEmailRequest: SendEmailRequest): Promise<any> {
+    try {
+      const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+      const response = await this.http.post(
+        `${this.path}/api/sendEmail/`,
+        sendEmailRequest,
+        {headers,observe:'response'}
+      ).toPromise(); 
+      return response;
+    } catch (error) {
+      throw error;
+    }
   }
 }
