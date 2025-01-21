@@ -19,6 +19,7 @@ export class AuthService {
   login(username: string, password: string): Observable<boolean> {
     return this.http.post<any>(`${this.apiURL}/authenticate`, { username, password })
       .pipe(map(response => {
+        console.log('Token from API:', response.jwt); // Depuración
         localStorage.setItem('token', response.jwt);
         return true;
       }));

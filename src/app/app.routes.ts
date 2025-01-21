@@ -12,6 +12,7 @@ import { ListGroupComponent } from './group/list-group/list-group.component';
 import { ActivitiesComponent } from './activity/activities/activities.component';
 import { CreateActivityComponent } from './activity/create-activity/create-activity.component';
 import { BalanceComponent } from './balance/balance.component';
+import { ChatComponent } from './chat/chat.component';
 
 export const routes: Routes = [
   {
@@ -31,6 +32,7 @@ export const routes: Routes = [
   { path: 'activities', component: ActivitiesComponent, canActivate: [AuthGuard] },
   { path: 'create-activity', component: CreateActivityComponent, canActivate: [AuthGuard] },
   { path: 'balance', component: BalanceComponent, canActivate: [AuthGuard] },
+  { path: 'chat/:userId', component: ChatComponent, canActivate: [AuthGuard] },
   
   
 ];

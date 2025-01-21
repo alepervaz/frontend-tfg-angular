@@ -22,6 +22,7 @@ import { ListGroupComponent } from './group/list-group/list-group.component';
 import { ActivitiesComponent } from './activity/activities/activities.component';
 import { CreateActivityComponent } from './activity/create-activity/create-activity.component';
 import { BalanceComponent } from './balance/balance.component';
+import { ChatComponent } from './chat/chat.component';
 
 
 
@@ -29,7 +30,7 @@ import { BalanceComponent } from './balance/balance.component';
 
 @NgModule({
   declarations: [AppComponent,RegisterComponent, LoginComponent, EditUserComponent,GroupComponent, CreateGroupComponent,FriendUserComponent,
-    ListUserComponent,ListGroupComponent,ActivitiesComponent,CreateActivityComponent,BalanceComponent],
+    ListUserComponent,ListGroupComponent,ActivitiesComponent,CreateActivityComponent,BalanceComponent,ChatComponent],
   imports: [
     BrowserModule,
     ReactiveFormsModule, 
