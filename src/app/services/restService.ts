@@ -27,6 +27,7 @@ import { EditActivity } from '../models/Activity/EditActivity';
 import { PendingPayments } from '../models/Balance/PendingPayments';
 import { GetGroupRequest } from '../models/Balance/GetGroupRequest';
 import { SendEmailRequest } from '../models/Email/SendEmailRequest';
+import { Chat } from '../models/Chat/Chat';
 
 @Injectable({
   providedIn: 'root',
@@ -382,5 +383,14 @@ export class RestService  {
     } catch (error) {
       throw error;
     }
+  }
+
+  async getChatsGroups(groupId: string): Promise<any> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+    return await this.http.get<Chat>(
+      `${this.path}/${groupId}`,
+      { headers }
+    ).toPromise();
   }
 }

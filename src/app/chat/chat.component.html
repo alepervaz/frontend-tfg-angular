@@ -1,31 +1,51 @@
-<div class="chat_window">
-  <div class="top_menu">
-    <div class="buttons">
-      <div class="button close"></div>
-      <div class="button minimize"></div>
-      <div class="button maximize"></div>
-    </div>
-    <div class="title">
-      <!-- <img src="../../../assets/whatsapp-icon.png" width="25px" height="25px"> -->
-      WhatsApp
-    </div>
-  </div>
-  <ul class="messages">
-    <li class="message right" *ngFor="let item of messageList"
-    [ngClass]="{'left':item.message_side==='receiver','right': item.message_side==='sender'}">
-      <div class="avatar"></div>
-      <div class="text_wrapper">
-        <div class="text">{{item.message}}</div>
-      </div>
-    </li>
-  </ul>
-  <div class="bottom_wrapper clearfix">
-    <div class="message_input_wrapper">
-      <input class="message_input" placeholder="Message..." [(ngModel)]="messageInput"/>
-    </div>
-    <div class="send_message" (click)="sendMessage()">
-      <div class="icon"></div>
-      <div class="text">Send</div>
-    </div>
-  </div>
-</div>
+<!-- chat.component.html -->
+<ion-header>
+  <ion-toolbar>
+    <ion-title>WhatsApp</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- Lista de mensajes -->
+  <ion-list>
+    <ion-item
+      *ngFor="let item of messageList"
+      [ngClass]="{
+        'sender': item.message_side === 'sender',
+        'receiver': item.message_side === 'receiver'
+      }"
+      lines="none"
+    >
+      <!-- Avatar a la izquierda si es receptor, a la derecha si es emisor -->
+      <ion-avatar slot="start" *ngIf="item.message_side === 'receiver'">
+        <img alt="Avatares" [src]="'assets/perfiles/' + item.avatar" />
+      </ion-avatar>
+
+      <ion-avatar slot="end" *ngIf="item.message_side === 'sender'">
+        <img alt="Avatares" [src]="'assets/perfiles/' + item.avatar" />
+      </ion-avatar>
+
+      <ion-label>
+        <h3>{{ item.username }}</h3>
+        <h2>{{ item.message }}</h2>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>
+
+<!-- Barra inferior para enviar mensajes -->
+<ion-footer>
+  <ion-toolbar>
+    <ion-input
+      type="text"
+      placeholder="Message..."
+      [(ngModel)]="messageInput"
+      clearInput
+    >
+    </ion-input>
+    <ion-button (click)="sendMessage()">
+      <ion-icon slot="start" name="send"></ion-icon>
+      Enviar
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

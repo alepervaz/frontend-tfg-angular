@@ -26,6 +26,8 @@ export class GroupComponent  implements OnInit {
   editGroupComponent=CreateGroupComponent;
   leaveGroupParam:LeaveGroup={userId:undefined,groupId:undefined};
 
+  messageList:any[]=[];
+
   constructor( private authService: AuthService, private navCtrl: NavController,
     private menuCtrl: MenuController,
   private restService:RestService,private popoverController: PopoverController,private toastService: ToastHelperService) { }
@@ -171,4 +173,24 @@ export class GroupComponent  implements OnInit {
       state: { groupId }
     });
   }
+
+  async goToChat(group: Group) {
+    if(group.id)await this.restService.getChatsGroups(group.id.toString() ?? '').then((response)=>{
+    const messages = response.data;
+    this.messageList = messages.map((item: any) => ({
+  ...item,
+  message_side: item.user === (this.userAuth?.id ? this.userAuth.id.toString() : '') ? 'sender' : 'receiver'
+}));
+
+this.navCtrl.navigateRoot(`chat/${this.userAuth?.id}`, {
+  state: { group,messageList: this.messageList, miembros:group.miembros },
+});
+  });
+  
+  
+ 
+    
+  }
+  
+
 }
