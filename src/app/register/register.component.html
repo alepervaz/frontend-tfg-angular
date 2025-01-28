@@ -4,61 +4,139 @@
       <ion-col>
         <form (ngSubmit)="onSubmit()" #registerForm="ngForm">
           <!-- Campo de usuario -->
-          <ion-item>
+           <!-- Campo de usuario -->
+           <ion-item>
             <ion-label position="floating">Username</ion-label>
-            <ion-input type="text" [(ngModel)]="user.username" name="username" required></ion-input>
+            <ion-input 
+              type="text" 
+              [(ngModel)]="user.username" 
+              name="username" 
+              #username="ngModel" 
+              required 
+              minlength="3" 
+              maxlength="20">
+            </ion-input>
           </ion-item>
+          <!-- Mensajes de error para username -->
+          <ion-text color="danger" *ngIf="username.invalid && (username.dirty || username.touched)">
+            <p *ngIf="username.errors?.['required']">El nombre de usuario es requerido.</p>
+            <p *ngIf="username.errors?.['minlength']">
+              El nombre de usuario debe tener al menos 3 caracteres.
+            </p>
+            <p *ngIf="username.errors?.['maxlength']">
+              El nombre de usuario no puede exceder los 20 caracteres.
+            </p>
+          </ion-text>
       
           <!-- Campo de dni -->
           <ion-item>
-            <ion-label position="floating">dni</ion-label>
-            <ion-input type="text" [(ngModel)]="user.dni" name="dni" required></ion-input>
+            <ion-label position="floating">DNI</ion-label>
+            <ion-input
+              type="text"
+              [(ngModel)]="user.dni"
+              name="dni"
+              #dni="ngModel"
+              required
+              pattern="^[0-9]{8}[A-Z]$"
+              >
+            </ion-input>
           </ion-item>
+          <!-- Mensajes de error para dni -->
+          <ion-text color="danger" *ngIf="dni.invalid && (dni.dirty || dni.touched)">
+            <p *ngIf="dni.errors?.['required']">El DNI es requerido.</p>
+            <p *ngIf="dni.errors?.['pattern']">
+              El DNI debe tener 8 dígitos y una letra final en mayúscula. (Ej: 12345678A)
+            </p>
+          </ion-text>
       
           <!-- Campo de email -->
           <ion-item>
             <ion-label position="floating">Email</ion-label>
-            <ion-input type="text" [(ngModel)]="user.email" name="email" required></ion-input>
+            <ion-input
+              type="email"
+              [(ngModel)]="user.email"
+              name="email"
+              #email="ngModel"
+              required
+            >
+            </ion-input>
           </ion-item>
+          <!-- Mensajes de error para email -->
+          <ion-text color="danger" *ngIf="email.invalid && (email.dirty || email.touched)">
+            <p *ngIf="email.errors?.['required']">El email es requerido.</p>
+            <p *ngIf="email.errors?.['email']">Formato de email no válido.</p>
+          </ion-text>
       
           <!-- Campo de contraseña -->
           <ion-item>
             <ion-label position="floating">Password</ion-label>
-            <ion-input type="password" [(ngModel)]="user.password" name="password" required></ion-input>
+            <ion-input
+              type="password"
+              [(ngModel)]="user.password"
+              name="password"
+              #password="ngModel"
+              required
+              minlength="6"
+            >
+            </ion-input>
           </ion-item>
+          <!-- Mensajes de error para password -->
+          <ion-text color="danger" *ngIf="password.invalid && (password.dirty || password.touched)">
+            <p *ngIf="password.errors?.['required']">La contraseña es requerida.</p>
+            <p *ngIf="password.errors?.['minlength']">
+              La contraseña debe tener al menos 6 caracteres.
+            </p>
+          </ion-text>
 
           <!-- Campo de género -->
           <ion-item>
             <ion-label>Género</ion-label>
-            <ion-select [(ngModel)]="user.gender" name="gender" placeholder="género" >
-              <ion-select-option *ngFor="let gender of genders" [value]="gender">{{ gender }}</ion-select-option>
+            <ion-select [(ngModel)]="user.gender" name="gender" placeholder="género">
+              <ion-select-option *ngFor="let gender of genders" [value]="gender">
+                {{ gender }}
+              </ion-select-option>
             </ion-select>
           </ion-item>
 
           <!-- Campo de avatar -->
           <ion-item>
             <ion-label>Elige tu propio avatar</ion-label>
-            <ion-select [(ngModel)]="user.avatar" name="avatar" (ionChange)="seleccionarAvatar($event.detail.value)" interface="popover">
+            <ion-select 
+              [(ngModel)]="user.avatar" 
+              name="avatar" 
+              (ionChange)="seleccionarAvatar($event.detail.value)" 
+              interface="popover">
               <ion-select-option *ngFor="let avatar of avatares" [value]="avatar">
-                <img [src]="'assets/perfiles/' + avatar" [alt]="avatar" width="30" height="30" style="border-radius: 50%; margin-right: 10px;">
+                <img 
+                  [src]="'assets/perfiles/' + avatar" 
+                  [alt]="avatar"
+                  width="30" 
+                  height="30" 
+                  style="border-radius: 50%; margin-right: 10px;">
                 {{ getAvatarName(avatar) }}
               </ion-select-option>
             </ion-select>
           </ion-item>
-      
+
           <!-- Mostrar avatar seleccionado -->
           <ion-item *ngIf="user.avatar">
             <ion-label>Avatar seleccionado:</ion-label>
-            <img [src]="'assets/perfiles/' + user.avatar" [alt]="user.avatar" width="75" height="75" style="border-radius: 50%;">
+            <img 
+              [src]="'assets/perfiles/' + user.avatar" 
+              [alt]="user.avatar" 
+              width="75" 
+              height="75" 
+              style="border-radius: 50%;">
           </ion-item>
+      
 
-          <!-- Campo de fecha de nacimiento (Birthday) -->
+          <!-- Campo de fecha de nacimiento -->
           <ion-item>
             <ion-label>Fecha de Nacimiento</ion-label>
-            <ion-datetime 
-              [(ngModel)]="user.birthday" 
-              name="birthday" 
-              display-format="DD MMMM YYYY" 
+            <ion-datetime
+              [(ngModel)]="user.birthday"
+              name="birthday"
+              display-format="DD MMMM YYYY"
               picker-format="DD MMMM YYYY"
               placeholder="Selecciona tu fecha de nacimiento"
               presentation="date">
@@ -67,7 +145,14 @@
           
       
           <!-- Botón de registro -->
-          <ion-button expand="block" type="submit" color="primary">Register</ion-button>
+          <ion-button 
+            expand="block" 
+            type="submit" 
+            color="primary"
+            [disabled]="registerForm.invalid"
+          >
+            Register
+          </ion-button>
         </form>
       </ion-col>
     </ion-row>

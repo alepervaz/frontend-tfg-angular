@@ -40,21 +40,17 @@ export class RestService  {
   constructor(private http: HttpClient) {}
 
   async register(user: User): Promise<any> {
-    try {
-      const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+  
+    // try {
       const response = await this.http.post(
         `${this.path}/api/users/register/`,
         user,
-        { headers }
-      ).toPromise(); 
-
-      console.log("Request successful");
-      return response;
-    } catch (error) {
-      console.error("Request failed", error);
-      throw error;
-    }
+        { headers, observe: 'response' }
+      ).toPromise();
+      return response; 
   }
+  
   
 
 

@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { Gender, RegisterUser, User,obtenerValoresEnum  } from '../models/user';
 import { DataManagementService } from '../services/data-management.service.service';
 import { NavController } from '@ionic/angular';
+import { RestService } from '../services/restService';
+import { ToastHelperService } from '../helpers/AlertHelper';
 
 
 @Component({
@@ -23,20 +25,25 @@ export class RegisterComponent {
   ];
   avatarSeleccionado: string = this.avatares[0]; // Inicializa con el primer avatar
 
-  constructor(private userService: DataManagementService, private navCtrl: NavController) { }
+  constructor(private restService: RestService, private navCtrl: NavController,private toastService: ToastHelperService) { }
 
   async onSubmit() {
     console.log(this.user);
-    this.userService.register(this.user).then(
-      data => {
-        console.log('User registered successfully!', data);
-        this.navCtrl.navigateRoot('');
-      },
-      error => {
-        console.error('Error registering user!', error);
+    try {
+      await this.restService.register(this.user).then((response)=>{
+        console.log('Registro exitoso:', response);
+      if(response.status==200){
+        this.toastService.presentToast(response.body.message, undefined, 'bottom', 'success');
       }
-    );
+      this.navCtrl.navigateRoot('');
+      });
+      
+    } catch (response:any) {
+      console.error('Error al registrar usuario:', response);
+      this.toastService.presentToast(response.error.message, undefined, 'bottom', 'danger');
+    }
   }
+  
 
   seleccionarAvatar(avatar: string) {
     this.avatarSeleccionado = avatar;
