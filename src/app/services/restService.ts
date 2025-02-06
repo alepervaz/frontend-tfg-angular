@@ -28,6 +28,7 @@ import { PendingPayments } from '../models/Balance/PendingPayments';
 import { GetGroupRequest } from '../models/Balance/GetGroupRequest';
 import { SendEmailRequest } from '../models/Email/SendEmailRequest';
 import { Chat } from '../models/Chat/Chat';
+import { Notification } from '../models/Notification';
 
 @Injectable({
   providedIn: 'root',
@@ -389,4 +390,14 @@ export class RestService  {
       { headers }
     ).toPromise();
   }
+
+  async getNotifications(userId: number): Promise<any> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+    return await this.http.get<Notification>(
+      `${this.path}/api/notification/${userId}`,
+      { headers }
+    ).toPromise();
+  }
+
 }

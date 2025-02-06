@@ -180,6 +180,7 @@
         color="primary"
         (click)="remindAllDebtors()"
         style="margin-top: 16px;"
+        *ngIf="pendingPayments.length>0"
       >
         Enviar Recordatorio a Todos
       </ion-button>
