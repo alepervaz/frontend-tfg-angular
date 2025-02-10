@@ -49,8 +49,9 @@ export class ListUserComponent  implements OnInit {
     const decodedToken: any = jwtDecode(token);
     const username = decodedToken.sub;  // Aquí `sub` corresponde al subject, que es el username.
     const users: User[]| undefined= await this.dataManagementService.listAllUser(username);
-    console.log(users?.length);
-    this.listUser=[...(users ?? [])];  
+    console.log(users);
+    this.listUser=[...(users ?? [])];
+    console.log(this.listUser)  
   }
 }
 
