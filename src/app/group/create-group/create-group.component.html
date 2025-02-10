@@ -2,41 +2,94 @@
   <ion-grid>
     <ion-row>
       <ion-col>
-        <form (ngSubmit)="onSubmit()" #registerForm="ngForm">
-          <!-- Campo de usuario -->
-          <ion-item>
-            <ion-label position="floating">Titulo del grupo</ion-label>
-            <ion-input type="text" [(ngModel)]="group.title" name="Title" required></ion-input>
-          </ion-item>
+        <!-- Añadimos template variable #registerForm para poder validar en el submit -->
+        <form (ngSubmit)="onSubmit()" #registerForm="ngForm" novalidate>
 
+          <!-- Campo de titulo -->
           <ion-item>
-            <ion-label position="floating">Descripcion</ion-label>
-            <ion-input type="text" [(ngModel)]="group.description" name="Description" required></ion-input>
+            <ion-label position="floating">Título del grupo</ion-label>
+            <ion-input 
+              type="text" 
+              name="Title" 
+              required 
+              minlength="3" 
+              maxlength="20"
+              [(ngModel)]="group.title"
+              #title="ngModel">
+            </ion-input>
           </ion-item>
+          <!-- Mensajes de error para el título -->
+          <ion-note color="danger" *ngIf="title.invalid && title.touched">
+            <span *ngIf="title.errors?.['required']">El título es obligatorio.</span>
+            <span *ngIf="title.errors?.['minlength']">El título debe tener al menos 3 caracteres.</span>
+            <span *ngIf="title.errors?.['maxlength']">El título no puede superar los 20 caracteres.</span>
+          </ion-note>
 
-          <ion-item *ngIf="photo==null">
+          <!-- Campo de descripción -->
+          <ion-item>
+            <ion-label position="floating">Descripción</ion-label>
+            <ion-input 
+              type="text" 
+              name="Description" 
+              required 
+              minlength="5" 
+              maxlength="100"
+              [(ngModel)]="group.description"
+              #description="ngModel">
+            </ion-input>
+          </ion-item>
+          <!-- Mensajes de error para la descripción -->
+          <ion-note color="danger" *ngIf="description.invalid && description.touched">
+            <span *ngIf="description.errors?.['required']">La descripción es obligatoria.</span>
+            <span *ngIf="description.errors?.['minlength']">La descripción debe tener al menos 5 caracteres.</span>
+            <span *ngIf="description.errors?.['maxlength']">La descripción no puede superar los 100 caracteres.</span>
+          </ion-note>
+
+          <!-- Subida de foto -->
+          <ion-item *ngIf="photo == null">
             <input type="file" (change)="onFileSelected($event)">
           </ion-item>
           
           <!-- Mostrar el nombre del archivo si ya hay uno -->
           <ion-item *ngIf="photo">
             <ion-label position="floating">Foto Actual:</ion-label>
-            <ion-label><img  
-              [src]="'data:image/jpeg;base64,' + showPhoto" 
-              alt="Group Photo" 
-              width="200"></ion-label>
+            <ion-label>
+              <img  
+                [src]="'data:image/jpeg;base64,' + showPhoto" 
+                alt="Group Photo" 
+                width="200"
+              >
+            </ion-label>
             <ion-button color="danger" (click)="clearPhoto()">Eliminar archivo</ion-button>
           </ion-item>
-          
 
-      
-     
-          <!-- Botón de registro -->
-          <ion-button *ngIf="isEditMode==false" expand="block" type="submit" color="primary">Crear grupo</ion-button>
-          <ion-button *ngIf="isEditMode==true" expand="block" type="submit" color="primary">Editar Grupo</ion-button>
-          <ion-button *ngIf="isEditMode==true" expand="block" (click)="deleteGroup(group)" color="danger">Eliminar grupo</ion-button>
+          <!-- Botón de Crear/Editar solo se habilita si el formulario es válido -->
+          <ion-button 
+            *ngIf="!isEditMode" 
+            expand="block" 
+            type="submit" 
+            color="primary"
+            [disabled]="registerForm.invalid">
+            Crear grupo
+          </ion-button>
+          
+          <ion-button 
+            *ngIf="isEditMode" 
+            expand="block" 
+            type="submit" 
+            color="primary"
+            [disabled]="registerForm.invalid">
+            Editar Grupo
+          </ion-button>
+          
+          <ion-button 
+            *ngIf="isEditMode" 
+            expand="block" 
+            (click)="deleteGroup(group)" 
+            color="danger">
+            Eliminar grupo
+          </ion-button>
         </form>
-      
       </ion-col>
     </ion-row>
   </ion-grid>

@@ -9,7 +9,7 @@
     </ion-item>
     <ion-item>
       <ion-label>Activides completadas</ion-label>
-      <ion-badge color="success">80</ion-badge>
+      <ion-badge color="success">{{finishedActivitiesByUser.length}}</ion-badge>
     </ion-item>
     <ion-item>
       <ion-label>Notificaciones recibidas</ion-label>
@@ -17,6 +17,6 @@
     </ion-item>
     <ion-item>
       <ion-label>Pagos pendientes</ion-label>
-      <ion-badge color="danger">1000</ion-badge>
+      <ion-badge color="danger">{{activitiesWithoutPayment.length}}</ion-badge>
     </ion-item>
   </ion-list>

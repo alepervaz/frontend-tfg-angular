@@ -29,6 +29,7 @@ import { GetGroupRequest } from '../models/Balance/GetGroupRequest';
 import { SendEmailRequest } from '../models/Email/SendEmailRequest';
 import { Chat } from '../models/Chat/Chat';
 import { Notification } from '../models/Notification';
+import { LoadStadisticActivity } from '../models/Activity/LoadStadisticActivity';
 
 @Injectable({
   providedIn: 'root',
@@ -397,6 +398,26 @@ export class RestService  {
     return await this.http.get<Notification>(
       `${this.path}/api/notification/${userId}`,
       { headers }
+    ).toPromise();
+  }
+
+  async loadFinishedActivitiesByUser(loadStadisticActivity:LoadStadisticActivity): Promise<any> {
+    console.log("rest1",loadStadisticActivity)
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const params = convertToHttpParams(loadStadisticActivity);
+     return await this.http.get(
+      `${this.path}/api/activity/finishedActivitiesByUser`,
+      { headers,params,observe:'response' }
+    ).toPromise();
+  }
+
+  async loadfindActivitiesWithoutPayment(loadStadisticActivity:LoadStadisticActivity): Promise<any> {
+    console.log("rest2",loadStadisticActivity)
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const params = convertToHttpParams(loadStadisticActivity);
+     return await this.http.get(
+      `${this.path}/api/activity/activitiesWithoutPayment`,
+      { headers,params,observe:'response' }
     ).toPromise();
   }
 

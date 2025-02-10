@@ -10,6 +10,8 @@ import { RestService } from '../services/restService';
 import { Friend, User } from '../models/user';
 import { Group } from '../models/group';
 import { getMyGroups } from '../models/getMyGroups';
+import { Activity } from '../models/Activity/Activity';
+import { LoadStadisticActivity } from '../models/Activity/LoadStadisticActivity';
 
 @Component({
   selector: 'app-tabs',
@@ -23,6 +25,8 @@ export class TabsPage {
   groups:Group[]=[];
   friends:Friend[]=[];
   userAuth: User| undefined;
+  activitiesWithoutPayment:Activity[]=[];
+  finishedActivitiesByUser:Activity[]=[];
   public environmentInjector = inject(EnvironmentInjector);
 
   constructor( private authService: AuthService, private navCtrl: NavController, private restService:RestService) {
@@ -34,6 +38,8 @@ export class TabsPage {
     await this.loadNotification()
     await this.listAllMyGroup()
     await this.listAllMyfriends()
+    await this.listAllfinishedActivitiesByUser()
+    await this.listAllActivitiesWithoutPayment()
     console.log(this.userAuth)
   }
 
@@ -75,6 +81,30 @@ async listAllMyfriends(){
     await this.restService.listFriendUser(this.userAuth.username).then((response)=>{
       console.log(response)
       if(response!=null)this.friends=response
+  })
+}
+}
+
+async listAllfinishedActivitiesByUser(){
+  const loadStadisticActivityParam=new LoadStadisticActivity();
+  if(this.userAuth?.username!=null) {
+    loadStadisticActivityParam.userId=this.userAuth.id;
+    console.log("prueba",loadStadisticActivityParam)
+    await this.restService.loadFinishedActivitiesByUser(loadStadisticActivityParam).then((response)=>{
+      console.log("listAllfinishedActivitiesByUser",response)
+      this.finishedActivitiesByUser=response.body.data
+     
+  })
+}
+}
+async listAllActivitiesWithoutPayment(){
+  const loadStadisticActivityParam=new LoadStadisticActivity();
+  if(this.userAuth?.username!=null) {
+    loadStadisticActivityParam.userId=this.userAuth.id;
+    await this.restService.loadfindActivitiesWithoutPayment(loadStadisticActivityParam).then((response)=>{
+      console.log("listAllActivitiesWithoutPayment",response)
+      this.activitiesWithoutPayment=response.body.data
+      
   })
 }
 }
