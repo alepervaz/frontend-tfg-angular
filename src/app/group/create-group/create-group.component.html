@@ -47,7 +47,7 @@
 
           <!-- Subida de foto -->
           <ion-item *ngIf="photo == null">
-            <input type="file" (change)="onFileSelected($event)">
+            <input type="file" required accept="image/jpeg" (change)="onFileSelected($event)">
           </ion-item>
           
           <!-- Mostrar el nombre del archivo si ya hay uno -->
@@ -69,7 +69,7 @@
             expand="block" 
             type="submit" 
             color="primary"
-            [disabled]="registerForm.invalid">
+            [disabled]="registerForm.invalid || errorPhoto">
             Crear grupo
           </ion-button>
           

@@ -13,6 +13,8 @@ import { ActivitiesComponent } from './activity/activities/activities.component'
 import { CreateActivityComponent } from './activity/create-activity/create-activity.component';
 import { BalanceComponent } from './balance/balance.component';
 import { ChatComponent } from './chat/chat.component';
+import { FeedBackComponent } from './feed-back/feed-back.component';
+import { FeedBackCreateComponent } from './feed-back/feed-back-create/feed-back-create.component';
 
 export const routes: Routes = [
   {
@@ -33,6 +35,8 @@ export const routes: Routes = [
   { path: 'create-activity', component: CreateActivityComponent, canActivate: [AuthGuard] },
   { path: 'balance', component: BalanceComponent, canActivate: [AuthGuard] },
   { path: 'chat/:userId', component: ChatComponent, canActivate: [AuthGuard] },
+  { path: 'feedBack/list', component: FeedBackComponent, canActivate: [AuthGuard] },
+  { path: 'feedBack/form', component: FeedBackCreateComponent, canActivate: [AuthGuard] }
   
   
 ];

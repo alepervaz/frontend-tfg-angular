@@ -1,0 +1,58 @@
+<ion-content class="feedback-list-content">
+
+  <!--
+    Título o encabezado (puedes modificarlo o quitarlo si no lo necesitas)
+  -->
+  <ion-header>
+    <ion-toolbar color="primary">
+      <ion-title>Feedback de Usuario</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <!--
+    Contenedor principal de la lista de feedbacks
+    Usamos ion-list para agrupar varios items
+  -->
+  <ion-list lines="none" class="feedback-list">
+
+    <!--
+      Cada ion-item representará un feedback.
+      En un proyecto real, esto se poblaría de forma dinámica
+      a través de *ngFor="let feedback of feedbacks".
+    -->
+    <ion-item class="feedback-item" *ngFor="let feedback of feedbacks">
+      
+      <!-- Contenedor del contenido principal de cada feedback -->
+      <ion-card class="feedback-card">
+        
+        <!-- Sección superior de la tarjeta: incluye la valoración, 
+             por ejemplo, usando un ícono repetido tantas veces como la valoración -->
+        <ion-card-header>
+          <div class="rating">
+            <ion-icon 
+              *ngFor="let star of [1,2,3,4,5]" 
+              name="star" 
+              [class.filled]="star <= feedback.valoracion">
+            </ion-icon>
+          </div>
+        </ion-card-header>
+
+        <!-- Sección principal del comentario -->
+        <ion-card-content>
+          <p class="feedback-comment">
+            {{ feedback.comentario }}
+          </p>
+          
+          <!-- Fecha del feedback. Puedes formatearla con un pipe en Angular (p. ej. date) -->
+          <p class="feedback-date">
+            Enviado el: 
+            <strong>{{ feedback.fecha | date: 'shortDate' }}</strong>
+          </p>
+        </ion-card-content>
+      </ion-card>
+
+    </ion-item>
+
+  </ion-list>
+
+</ion-content>

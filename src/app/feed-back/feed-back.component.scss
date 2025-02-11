@@ -1,0 +1,44 @@
+.feedback-list-content {
+    --background: #f1f1f1; /* Color de fondo suave */
+  }
+  
+  .feedback-list {
+    margin: 1rem;
+  }
+  
+  .feedback-item {
+    margin-bottom: 1rem;
+  }
+  
+  .feedback-card {
+    width: 100%;
+    border-radius: 10px;
+  }
+  
+  .rating {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .rating ion-icon {
+    font-size: 1.4rem;
+    color: #ccc; /* Estrella por defecto */
+    margin: 0 2px;
+  }
+  
+  /* Cambia el color de la estrella cuando está llena */
+  .rating ion-icon.filled {
+    color: #FFD700; /* Dorado */
+  }
+  
+  .feedback-comment {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .feedback-date {
+    font-size: 0.9rem;
+    color: #666;
+  }
+  

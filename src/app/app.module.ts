@@ -23,6 +23,8 @@ import { ActivitiesComponent } from './activity/activities/activities.component'
 import { CreateActivityComponent } from './activity/create-activity/create-activity.component';
 import { BalanceComponent } from './balance/balance.component';
 import { ChatComponent } from './chat/chat.component';
+import { FeedBackComponent } from './feed-back/feed-back.component';
+import { FeedBackCreateComponent } from './feed-back/feed-back-create/feed-back-create.component';
 
 
 
@@ -30,7 +32,7 @@ import { ChatComponent } from './chat/chat.component';
 
 @NgModule({
   declarations: [AppComponent,RegisterComponent, LoginComponent, EditUserComponent,GroupComponent, CreateGroupComponent,FriendUserComponent,
-    ListUserComponent,ListGroupComponent,ActivitiesComponent,CreateActivityComponent,BalanceComponent,ChatComponent],
+    ListUserComponent,ListGroupComponent,ActivitiesComponent,CreateActivityComponent,BalanceComponent,ChatComponent,FeedBackComponent,FeedBackCreateComponent],
   imports: [
     BrowserModule,
     ReactiveFormsModule, 

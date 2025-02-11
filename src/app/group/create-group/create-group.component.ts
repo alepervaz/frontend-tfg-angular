@@ -21,6 +21,7 @@ export class CreateGroupComponent  implements OnInit {
   isEditMode=false;
   newPhoto=false;
   showPhoto: string | null = null; 
+  errorPhoto=true;
 
   constructor(private dataManagementService: DataManagementService,private restService:RestService, private navCtrl: NavController,
     private authService: AuthService,private toastService: ToastHelperService
@@ -84,6 +85,13 @@ export class CreateGroupComponent  implements OnInit {
   onFileSelected(event: any) {
     const file = event.target.files[0];
   if (file) {
+    if (file.size > 10485760) {
+      // Mostrar error o notificar al usuario que el archivo excede el límite
+      this.toastService.presentToast("La foto supera el tamaño maximo permitido",undefined,'bottom','danger')
+      this.errorPhoto=true
+      return;
+    }
+    this.errorPhoto=false;
     this.photo = file;
     this.showPhoto = file.name; // Almacena el nombre del archivo
       const reader = new FileReader();

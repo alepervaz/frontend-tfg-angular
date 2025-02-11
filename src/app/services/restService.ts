@@ -30,6 +30,7 @@ import { SendEmailRequest } from '../models/Email/SendEmailRequest';
 import { Chat } from '../models/Chat/Chat';
 import { Notification } from '../models/Notification';
 import { LoadStadisticActivity } from '../models/Activity/LoadStadisticActivity';
+import { FeedBackRequest } from '../models/FeedBack/FeedBackRequest';
 
 @Injectable({
   providedIn: 'root',
@@ -419,6 +420,28 @@ export class RestService  {
       `${this.path}/api/activity/activitiesWithoutPayment`,
       { headers,params,observe:'response' }
     ).toPromise();
+  }
+
+  async loadFeedBackUser(userId:Number): Promise<any> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return await this.http.get(
+      `${this.path}/api/feedBack/${userId}`,
+      { headers }
+    ).toPromise();
+  }
+
+  async saveFeedBack(feedbackRequest: FeedBackRequest): Promise<any> {
+    try {
+      const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+      const response = await this.http.post(
+        `${this.path}/api/feedBack/`,
+        feedbackRequest,
+        {headers,observe:'response'}
+      ).toPromise(); 
+      return response;
+    } catch (error) {
+      throw error;
+    }
   }
 
 }

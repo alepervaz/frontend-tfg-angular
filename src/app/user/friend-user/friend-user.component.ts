@@ -146,5 +146,10 @@ async goToList() {
   this.menuCtrl.close();
 }
 
+// async goToFeedBack(user: User) {
+//   this.navCtrl.navigateRoot('feedBack/list');
+//   this.menuCtrl.close();
+// }
+
 
 }
