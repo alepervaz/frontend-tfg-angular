@@ -1,5 +1,5 @@
 export class FeedBackRequest{
     comment?:string;
-    valuation?:number;
-    clientId?:number;
+    valuation?:Number;
+    clientId?:Number;
 }

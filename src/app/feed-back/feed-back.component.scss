@@ -41,4 +41,13 @@
     font-size: 0.9rem;
     color: #666;
   }
+  ion-modal {
+    --height: 80%;
+    --width: 90%;
+    --border-radius: 10px;
+  }
+  
+  ion-modal ion-content {
+    padding: 1rem;
+  }
   

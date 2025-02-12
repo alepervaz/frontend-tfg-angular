@@ -1,58 +1,138 @@
 <ion-content class="feedback-list-content">
-
-  <!--
-    Título o encabezado (puedes modificarlo o quitarlo si no lo necesitas)
-  -->
+ 
   <ion-header>
     <ion-toolbar color="primary">
       <ion-title>Feedback de Usuario</ion-title>
+      <ion-buttons slot="end">
+        <ion-button (click)="setOpen(true)"><ion-icon name="reader-outline"></ion-icon></ion-button>
+      </ion-buttons>
     </ion-toolbar>
   </ion-header>
 
-  <!--
-    Contenedor principal de la lista de feedbacks
-    Usamos ion-list para agrupar varios items
-  -->
-  <ion-list lines="none" class="feedback-list">
 
-    <!--
-      Cada ion-item representará un feedback.
-      En un proyecto real, esto se poblaría de forma dinámica
-      a través de *ngFor="let feedback of feedbacks".
-    -->
+  <ion-list lines="none" class="feedback-list">
+    
     <ion-item class="feedback-item" *ngFor="let feedback of feedbacks">
-      
-      <!-- Contenedor del contenido principal de cada feedback -->
+   
       <ion-card class="feedback-card">
         
-        <!-- Sección superior de la tarjeta: incluye la valoración, 
-             por ejemplo, usando un ícono repetido tantas veces como la valoración -->
         <ion-card-header>
           <div class="rating">
-            <ion-icon 
-              *ngFor="let star of [1,2,3,4,5]" 
-              name="star" 
-              [class.filled]="star <= feedback.valoracion">
+            <ion-icon
+              *ngFor="let star of [1, 2, 3, 4, 5]"
+              name="star"
+              [class.filled]="star <= (feedback?.valuation ?? 0)"
+            >
             </ion-icon>
           </div>
         </ion-card-header>
 
-        <!-- Sección principal del comentario -->
+        
         <ion-card-content>
           <p class="feedback-comment">
-            {{ feedback.comentario }}
+            {{ feedback.comment }}
           </p>
+
           
-          <!-- Fecha del feedback. Puedes formatearla con un pipe en Angular (p. ej. date) -->
           <p class="feedback-date">
-            Enviado el: 
-            <strong>{{ feedback.fecha | date: 'shortDate' }}</strong>
+            Enviado el:
+            <strong>{{ feedback.sendDate | date : "shortDate" }}</strong>
           </p>
         </ion-card-content>
       </ion-card>
-
     </ion-item>
-
   </ion-list>
 
+  <ion-modal
+  [isOpen]="isNewFeedbackModalOpen"
+  >
+    <ng-template>
+      <ion-header>
+        <ion-toolbar color="primary">
+          <ion-title>Nuevo Feedback</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="setOpen(false)">Close</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content>
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              
+              <form
+                (ngSubmit)="submitNewFeedback()"
+                #newFeedbackForm="ngForm"
+                novalidate
+              >
+               
+                <ion-item>
+                  <ion-label position="floating">Comentario</ion-label>
+                  <ion-textarea
+                    name="comentario"
+                    required
+                    [(ngModel)]="newFeedback.comment"
+                    #comentario="ngModel"
+                  >
+                  </ion-textarea>
+                </ion-item>
+            
+                <ion-note
+                  color="danger"
+                  *ngIf="
+                    comentario.invalid &&
+                    (comentario.touched || newFeedbackForm.submitted)
+                  "
+                >
+                  <span *ngIf="comentario.errors?.['required']">
+                    El comentario es obligatorio.
+                  </span>
+                </ion-note>
+
+              
+                <ion-item>
+                  <ion-label>Valoración</ion-label>
+                  <ion-select
+                    name="valoracion"
+                    required
+                    [(ngModel)]="newFeedback.valuation"
+                    #valoracion="ngModel"
+                  >
+                    <ion-select-option
+                      *ngFor="let rate of [1, 2, 3, 4, 5]"
+                      [value]="rate"
+                    >
+                      {{ rate }}
+                    </ion-select-option>
+                  </ion-select>
+                </ion-item>
+                <ion-note
+                  color="danger"
+                  *ngIf="
+                    valoracion.invalid &&
+                    (valoracion.touched || newFeedbackForm.submitted)
+                  "
+                >
+                  <span *ngIf="valoracion.errors?.['required']">
+                    La valoración es obligatoria.
+                  </span>
+                </ion-note>
+
+              
+                <ion-button
+                  expand="block"
+                  type="submit"
+                  color="primary"
+                  [disabled]="newFeedbackForm.invalid"
+                >
+                  Añadir Feedback
+                </ion-button>
+              </form>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
 </ion-content>
