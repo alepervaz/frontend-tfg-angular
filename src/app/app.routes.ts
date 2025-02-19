@@ -36,7 +36,12 @@ export const routes: Routes = [
   { path: 'balance', component: BalanceComponent, canActivate: [AuthGuard] },
   { path: 'chat/:userId', component: ChatComponent, canActivate: [AuthGuard] },
   { path: 'feedBack/list', component: FeedBackComponent, canActivate: [AuthGuard] },
-  { path: 'feedBack/form', component: FeedBackCreateComponent, canActivate: [AuthGuard] }
+  { path: 'feedBack/form', component: FeedBackCreateComponent, canActivate: [AuthGuard] },
+  {
+    path: 'faq',
+    loadComponent: () => import('./faq/faq.page').then( m => m.FaqPage),canActivate: [AuthGuard]
+  }
+
   
   
 ];

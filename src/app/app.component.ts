@@ -40,6 +40,10 @@ export class AppComponent {
     this.navCtrl.navigateRoot('user/friends');
     this.menuCtrl.close();
   }
+  async goToFAQ() {
+    this.navCtrl.navigateRoot('faq');
+    this.menuCtrl.close();
+  }
 
   isAuthenticated(): boolean {
     return this.authService.isAuthenticated();
