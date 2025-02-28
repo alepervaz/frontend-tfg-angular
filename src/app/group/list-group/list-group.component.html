@@ -1,11 +1,15 @@
 <ion-card>
   <ion-card-header>
     <ion-card-title>Grupos</ion-card-title>
-    <ion-card-subtitle>Hola</ion-card-subtitle>
   </ion-card-header>
   <ion-card-content>
+    <ion-searchbar 
+  placeholder="Buscar usuarios..." 
+  [debounce]="1000" 
+  (ionInput)="handleInput($event)">
+</ion-searchbar>
     <ion-list>
-      <ion-item type="button" (click)="OpenModal(group)" *ngFor="let group of groupList; let i = index">
+      <ion-item type="button" (click)="OpenModal(group)" *ngFor="let group of filterListGroup; let i = index">
         
         <ion-thumbnail slot="start">
       
@@ -29,17 +33,17 @@
           </ion-header>
           <ion-content class="ion-padding">
             <ion-card>
-              <img *ngIf="group.photo" 
-               [src]="'data:image/jpeg;base64,' + group.photo" 
+              <img *ngIf="groupSelected?.photo" 
+               [src]="'data:image/jpeg;base64,' + groupSelected?.photo" 
                alt="Group Photo" 
                width="200">
                <ion-card-header>
-                <ion-card-title>{{group?.title}}</ion-card-title>
+                <ion-card-title>{{groupSelected?.title}}</ion-card-title>
               </ion-card-header>
               
               <ion-card-content>
-                <h1>Descripción del grupo: {{group?.description}}</h1>
-                <ion-button (click)="joinGroup(group!)">Unirse al grupo</ion-button>
+                <h1>Descripción del grupo: {{groupSelected?.description}}</h1>
+                <ion-button (click)="joinGroup(groupSelected!)">Unirse al grupo</ion-button>
               </ion-card-content>
             </ion-card>
           </ion-content>

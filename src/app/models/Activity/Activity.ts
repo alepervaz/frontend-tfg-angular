@@ -16,4 +16,5 @@ export class Activity{
     organizador?:User;
     participantes?:User[];
     activityPayments?: ActivityPayment[];
+    maxParticipant?:number;
 }

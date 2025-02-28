@@ -28,10 +28,8 @@ export class RegisterComponent {
   constructor(private restService: RestService, private navCtrl: NavController,private toastService: ToastHelperService) { }
 
   async onSubmit() {
-    console.log(this.user);
     try {
       await this.restService.register(this.user).then((response)=>{
-        console.log('Registro exitoso:', response);
       if(response.status==200){
         this.toastService.presentToast(response.body.message, undefined, 'bottom', 'success');
       }

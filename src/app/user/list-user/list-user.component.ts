@@ -40,7 +40,6 @@ export class ListUserComponent implements OnInit {
 
     this.authService.getUser().then(user => {
       this.userAuth = user;
-      console.log(this.userAuth);
     });
   }
 
@@ -50,9 +49,7 @@ export class ListUserComponent implements OnInit {
       const decodedToken: any = jwtDecode(token);
       const username = decodedToken.sub; // Aquí `sub` corresponde al subject, que es el username.
       const users: User[] | undefined = await this.dataManagementService.listAllUser(username);
-      console.log(users);
       this.listUser = [...(users ?? [])];
-      console.log(this.listUser);
     }
   }
 
@@ -71,9 +68,6 @@ export class ListUserComponent implements OnInit {
 
   // Filtra la lista combinando búsqueda por nombre, rango de valoración y cantidad de amigos
   applyFilters() {
-    // Para depuración, imprime los valores actuales de los rangos
-    console.log('Rating Range:', this.ratingRange);
-    console.log('Friend Range:', this.friendRange);
   
     this.filterListUser = (this.listUser ?? []).filter(user => {
       const username = user.username?.toLowerCase() || '';
@@ -97,20 +91,17 @@ export class ListUserComponent implements OnInit {
     // event.detail.value => { lower: number, upper: number }
     const { lower, upper } = event.detail.value;
     this.ratingRange = [lower, upper];
-    console.log('Rating Range:', this.ratingRange);
     this.applyFilters();
   }
   
   onFriendChange(event: any) {
     const { lower, upper } = event.detail.value;
     this.friendRange = [lower, upper];
-    console.log('Friend Range:', this.friendRange);
     this.applyFilters();
   }
   
   async sendRequestFriend(userReceived: string | undefined): Promise<void> {
     const userSend = await this.authService.getUser();
-    console.log(userReceived);
     if (userReceived) {
       await this.dataManagementService.sendRequestFriend(userSend?.username, userReceived);
       this.ngOnInit();

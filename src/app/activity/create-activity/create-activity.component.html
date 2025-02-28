@@ -70,6 +70,16 @@
           </ion-input>
         </ion-item>
 
+        <ion-item>
+          <ion-label position="floating">Nº máximo participantes</ion-label>
+          <ion-input 
+            type="number" 
+            [(ngModel)]="activity.maxParticipant" 
+            name="price" 
+            required>
+          </ion-input>
+        </ion-item>
+
         <!-- BOTÓN SUBMIT -->
         <ion-button 
           expand="block" 

@@ -68,10 +68,9 @@ export class RestService  {
         { headers }
       ).toPromise(); 
 
-      console.log("Request successful");
+      
       return response;
     } catch (error) {
-      console.error("Request failed", error);
       throw error;
     }
   }
@@ -104,10 +103,8 @@ export class RestService  {
             formData
         ).toPromise();
 
-        console.log("Request successful");
         return response;
     } catch (error) {
-        console.error("Request failed", error);
         throw error;
     }
 }
@@ -145,11 +142,8 @@ export class RestService  {
         { headers,observe:'response' }
       ).toPromise(); 
 
-      console.log("Request successful");
-      console.log(response)
       return response;
     } catch (error) {
-      console.error("Request failed", error);
       throw error;
     }
   }
@@ -175,10 +169,8 @@ export class RestService  {
         `${this.path}/api/friends/MyFriends/`,
         { headers, params, observe: 'response' } // Cambiamos para observar toda la respuesta
     ).toPromise();
-    console.log(response)
       return response
     }catch(error){
-      console.error("Request failed", error);
       throw error;
     }
     
@@ -197,8 +189,6 @@ export class RestService  {
 
   async joinGroup(joinGroup:JoinGroup): Promise<any> {
     try {
-      console.log("hola")
-      console.log(joinGroup.groupId)
       const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
       const response = await this.http.put(
         `${this.path}/api/group/list/`,
@@ -232,7 +222,6 @@ export class RestService  {
   async editGroup(group: EditGroup, photo:File|null): Promise<any> {
     try {
         const formData = new FormData();
-        console.log(group);
         // Verifica si group.photo está definido y es de tipo File
         if(group.newFoto==true){
           if (photo instanceof File) {
@@ -240,7 +229,6 @@ export class RestService  {
           } else {
               console.error("Error: group.photo no es un archivo válido.");
           }}else{
-            console.log("hola")
             photo=new File([], "empty.jpg", { type: "image/jpeg" });
             formData.append('file', photo);
           }
@@ -254,10 +242,8 @@ export class RestService  {
             // No agregamos headers aquí
         ).toPromise();
 
-        console.log("Request successful");
         return response;
     } catch (error) {
-        console.error("Request failed", error);
         throw error;
     }   
   }
@@ -288,7 +274,6 @@ export class RestService  {
             activity
         ).toPromise();
 
-        console.log("Request successful");
         return response;
     } catch (error) {
         console.error("Request failed", error);
@@ -403,7 +388,6 @@ export class RestService  {
   }
 
   async loadFinishedActivitiesByUser(loadStadisticActivity:LoadStadisticActivity): Promise<any> {
-    console.log("rest1",loadStadisticActivity)
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     const params = convertToHttpParams(loadStadisticActivity);
      return await this.http.get(
@@ -413,7 +397,6 @@ export class RestService  {
   }
 
   async loadfindActivitiesWithoutPayment(loadStadisticActivity:LoadStadisticActivity): Promise<any> {
-    console.log("rest2",loadStadisticActivity)
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     const params = convertToHttpParams(loadStadisticActivity);
      return await this.http.get(

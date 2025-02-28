@@ -34,9 +34,7 @@ export class CreateGroupComponent  implements OnInit {
       this.photo=navigation.group.photo;
       this.showPhoto=navigation.group.photo;
       this.isEditMode=true;
-      console.log(navigation.group.photo)
       if(this.photo!=null) this.newPhoto=false;
-      console.log('Received Group:', this.group);
     }
   }
 
@@ -51,7 +49,6 @@ export class CreateGroupComponent  implements OnInit {
       editGroup.newFoto=this.newPhoto;
       this.restService.editGroup(editGroup, this.photo).then(
         data => {
-          console.log('Group created successfully!', data);
           this.navCtrl.navigateRoot('/group');
         },
         error => {
@@ -61,7 +58,6 @@ export class CreateGroupComponent  implements OnInit {
     }else{
       this.dataManagementService.registerGroup(this.group, this.photo).then(
         data => {
-          console.log('Group created successfully!', data);
           this.navCtrl.navigateRoot('/group');
         },
         error => {
@@ -74,9 +70,7 @@ export class CreateGroupComponent  implements OnInit {
   async deleteGroup(group:postGroup){
     const deleteGroupParam=new DeleteGroup();
     deleteGroupParam.groupId=group.id;
-    console.log(deleteGroupParam)
     await this.restService.deleteGroup(deleteGroupParam).then((response)=>{
-      console.log(response)
       this.navCtrl.navigateRoot('/group');
       this.toastService.presentToast(response.data.message,undefined,'bottom','success')
     })

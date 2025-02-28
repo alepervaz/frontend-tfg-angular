@@ -8,4 +8,5 @@ export class CreateActivity{
     price?:number;
     groupId?:number;
     userId?:number;
+    maxParticipant?:number;
 }

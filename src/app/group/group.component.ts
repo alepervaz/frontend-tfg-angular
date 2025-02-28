@@ -19,13 +19,14 @@ import { ToastHelperService } from '../helpers/AlertHelper';
 export class GroupComponent  implements OnInit {
   userAuth: User| undefined;
   listMyGroups: Group[]|undefined=[];
+  filterListGroup: Group[] = [];
   isModalOpen=false;
   groupListParams: getMyGroups={userId:undefined};
   selectedGroup: Group|undefined;
   deleteMemberParam:DeleteMemberGroup={userId:undefined,groupId:undefined};
   editGroupComponent=CreateGroupComponent;
   leaveGroupParam:LeaveGroup={userId:undefined,groupId:undefined};
-
+  searchQuery: string = '';
   messageList:any[]=[];
 
   constructor( private authService: AuthService, private navCtrl: NavController,
@@ -34,8 +35,9 @@ export class GroupComponent  implements OnInit {
 
   async ngOnInit() {
     await this.getUser()
-    await this.listAllMyGroups()
-    console.log(this.userAuth)
+    await this.listAllMyGroups().then(() => {
+      this.applyFilters();
+    });
   }
 
 
@@ -161,7 +163,6 @@ export class GroupComponent  implements OnInit {
   }
 
   async goToActivity(group:Group){
-    console.log(group)
     this.navCtrl.navigateRoot('activities', {
       state: { group }
     });
@@ -186,11 +187,23 @@ this.navCtrl.navigateRoot(`chat/${this.userAuth?.id}`, {
   state: { group,messageList: this.messageList, miembros:group.miembros },
 });
   });
-  
-  
- 
-    
   }
-  
 
+
+  handleInput(event: any) {
+    this.searchQuery = event.target.value?.toLowerCase() || '';
+    this.applyFilters();
+  }
+
+
+  applyFilters() {
+  
+    this.filterListGroup = (this.listMyGroups ?? []).filter(group => {
+      const username = group.title?.toLowerCase() || '';
+  
+      return (
+        username.includes(this.searchQuery)
+      );
+    });
+  }
 }

@@ -56,10 +56,8 @@ export class BalanceComponent  implements OnInit {
       const getGroup=new GetGroupRequest();
       getGroup.groupId=navigation.groupId;
       this.restService.getGroup(getGroup).then((response)=>{
-        console.log(response)
         this.group=response.body.data
         this.activities=this.group.actividades;
-        console.log(this.activities)
         this.theTotalGroupBill();
         this.myTotalHistoryPay();
         this.balance();
@@ -149,7 +147,6 @@ export class BalanceComponent  implements OnInit {
   }
 
   myOwnBalance(){
-    console.log(this.userAuth?.username)
     this.myBalance=this.listaBalances.find(balance=>balance.nombre===this.userAuth?.username)
   }
 
@@ -201,14 +198,12 @@ export class BalanceComponent  implements OnInit {
       sendEmail.groupTitle=this.group.title;
       sendEmail.price=pending.amount;
       this.restService.sendEmail(sendEmail).then((response)=>{
-        console.log(response)
         if(!response.body.message){
           this.toastService.presentToast(response.message,undefined,'bottom','danger')
         }
       })
     })
     this.toastService.presentToast("correos enviados de formas correcta",undefined,'bottom','success')
-    console.log('Enviando recordatorio a todos los deudores...');
   }
 
   onPaymentAction(paymentRequest: PendingPayments) {

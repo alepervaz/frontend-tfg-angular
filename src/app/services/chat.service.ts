@@ -25,13 +25,9 @@ export class ChatService {
   }
 
   joinRoom(roomId: string) {
-    console.log("holas4")
-    console.log(roomId)
-          
    this.stompClient.connect({},()=>{
     this.stompClient.subscribe(`/topic/${roomId}`,(messages:any)=>{
       const messageContent=JSON.parse(messages.body);
-      console.log(messageContent)
       const currentMessage=this.messageSubject.getValue();
       currentMessage.push(messageContent);
       this.messageSubject.next(currentMessage);

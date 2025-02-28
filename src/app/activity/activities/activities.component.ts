@@ -126,13 +126,11 @@ export class ActivitiesComponent implements OnInit {
     // Implementa la lógica para unirte a la actividad
     this.joinActivityRequest={activityId:activity.activityId,userId:this.userAuth?.id}
     this.restService.joinActivity(this.joinActivityRequest).then((response)=>{
-      console.log(response)
     })
   }
 
   isJoined(activity: LoadActivitiesResponse) {
     if (!this.userAuth || !activity.participantes) { 
-      console.log("2hola")
       return false; 
     }
     return activity.participantes.some(part => part.id === this.userAuth!.id);
@@ -148,7 +146,6 @@ export class ActivitiesComponent implements OnInit {
     const cancelActivityRequest=new CancelActivityRequest();
     cancelActivityRequest.activityId=activity.activityId;
     this.restService.cancelActivity(cancelActivityRequest).then((response)=>{
-      console.log(response)
       this.loadActivities();
     })
 

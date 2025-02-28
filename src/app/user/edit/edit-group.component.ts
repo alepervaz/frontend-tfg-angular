@@ -39,7 +39,6 @@ export class EditUserComponent  implements OnInit {
   async onSubmit() {
     this.userService.editUser(this.user).then(
       data => {
-        console.log('User edited successfully!', data);
         //this.navCtrl.navigateRoot('');
       },
       error => {
@@ -56,7 +55,6 @@ export class EditUserComponent  implements OnInit {
       this.user= await this.userService.getUser(username);
       this.getGender(this.user);
     }
-    console.log(this.user);
   }
 
   async deleteUser(){
@@ -67,7 +65,6 @@ export class EditUserComponent  implements OnInit {
       this.user= await this.userService.deleteUser(username);
       this.auth.logout()
     }
-    console.log(this.user);
   }
 
   getGender(user:User){

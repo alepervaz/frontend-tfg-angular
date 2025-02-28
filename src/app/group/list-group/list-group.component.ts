@@ -13,33 +13,34 @@ import { RestService } from 'src/app/services/restService';
 })
 export class ListGroupComponent  implements OnInit {
   groupList:Group[]|undefined=[];
+  filterListGroup: Group[] = [];
   groupListParams: getGroupListParams={userId:undefined}
   isModalOpen: Boolean=false;
   groupSelected:Group|undefined
   joinGroupParam:JoinGroup={userId:undefined,groupId:undefined}
   userAuth:User|undefined
+  searchQuery: string = '';
 
   constructor(private authService: AuthService, private restService: RestService) { }
 
   async ngOnInit() {
     this.userAuth= await this.authService.getUser() 
-    this.getListgroup();
+    this.getListgroup().then(() => {
+      this.applyFilters();
+    });;
   }
 
 
   async getListgroup(){
     this.groupListParams.userId = this.userAuth?.id;
     await this.restService.getListGroup(this.groupListParams).then((response)=>{
-      console.log(response.body.data)
       this.groupList=response.body.data
-      console.log(this.groupList)
     })
 
   }
 
   OpenModal(group:Group){
     this.groupSelected=group;
-    console.log(group)
     this.isModalOpen=true;
   }
 
@@ -50,11 +51,26 @@ export class ListGroupComponent  implements OnInit {
   async joinGroup(group:Group){
     this.joinGroupParam.userId=this.userAuth?.id
     this.joinGroupParam.groupId=group.id
-    console.log(this.joinGroupParam)
     await this.restService.joinGroup(this.joinGroupParam).then((response)=>{
       this.setOpen(false);
       this.ngOnInit();
     })
   }
 
+  handleInput(event: any) {
+    this.searchQuery = event.target.value?.toLowerCase() || '';
+    this.applyFilters();
+  }
+
+
+  applyFilters() {
+  
+    this.filterListGroup = (this.groupList ?? []).filter(group => {
+      const username = group.title?.toLowerCase() || '';
+  
+      return (
+        username.includes(this.searchQuery)
+      );
+    });
+  }
 }

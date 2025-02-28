@@ -35,7 +35,6 @@ export class FriendUserComponent  implements OnInit {
     await this.listAllUser().then(() => {
       this.handleInput({ target: { value: '' } });
     });
-    console.log(this.listAllUser.length)
   }
   
 
@@ -120,7 +119,6 @@ export class FriendUserComponent  implements OnInit {
   }
 
   async listAllUser(){
-    console.log(this.userAuth)
       this.listMyFriendsUser =await this.dataManagementService.listFriendUser(this.userAuth?.username)  
   }
 

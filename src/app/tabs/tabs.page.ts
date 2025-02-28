@@ -40,7 +40,6 @@ export class TabsPage {
     await this.listAllMyfriends()
     await this.listAllfinishedActivitiesByUser()
     await this.listAllActivitiesWithoutPayment()
-    console.log(this.userAuth)
   }
 
   async getUser(): Promise<User|undefined>{
@@ -79,7 +78,6 @@ export class TabsPage {
 async listAllMyfriends(){
   if(this.userAuth?.username!=null) {
     await this.restService.listFriendUser(this.userAuth.username).then((response)=>{
-      console.log(response)
       if(response!=null)this.friends=response
   })
 }
@@ -89,9 +87,7 @@ async listAllfinishedActivitiesByUser(){
   const loadStadisticActivityParam=new LoadStadisticActivity();
   if(this.userAuth?.username!=null) {
     loadStadisticActivityParam.userId=this.userAuth.id;
-    console.log("prueba",loadStadisticActivityParam)
     await this.restService.loadFinishedActivitiesByUser(loadStadisticActivityParam).then((response)=>{
-      console.log("listAllfinishedActivitiesByUser",response)
       this.finishedActivitiesByUser=response.body.data
      
   })
@@ -102,7 +98,6 @@ async listAllActivitiesWithoutPayment(){
   if(this.userAuth?.username!=null) {
     loadStadisticActivityParam.userId=this.userAuth.id;
     await this.restService.loadfindActivitiesWithoutPayment(loadStadisticActivityParam).then((response)=>{
-      console.log("listAllActivitiesWithoutPayment",response)
       this.activitiesWithoutPayment=response.body.data
       
   })

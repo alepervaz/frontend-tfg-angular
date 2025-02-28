@@ -54,7 +54,6 @@ export class ChatComponent  implements OnInit {
       message:this.messageInput,
       user:this.userId
     }as ChatMessage
-    console.log(chatMessage);
     this.chatService.sendMessage(this.group.id?.toString()??'',chatMessage);
     this.messageInput='';
   }
@@ -83,9 +82,6 @@ export class ChatComponent  implements OnInit {
             ...this.messageList,
             mappedLastMessage
         ];
-
-        console.log("Pasa por aquí");
-        console.log(this.messageList);
     });
 }
 

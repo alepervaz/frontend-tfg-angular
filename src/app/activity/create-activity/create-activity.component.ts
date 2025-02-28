@@ -29,8 +29,6 @@ export class CreateActivityComponent  implements OnInit {
     await this.getUser();
     if(navigation.activity){
       this.activity=navigation.activity;
-      console.log("hola")
-      console.log(this.activity)
       this.editMode=true;
     }
     
@@ -39,8 +37,6 @@ export class CreateActivityComponent  implements OnInit {
 
   onSubmit(){
     if(this.editMode){
-      console.log("hola");
-      console.log(this.activity);
       const editActivity=new EditActivity();
       editActivity.title=this.activity.title;
       editActivity.description=this.activity.description;
@@ -49,7 +45,6 @@ export class CreateActivityComponent  implements OnInit {
       editActivity.price=this.activity.price;
       editActivity.activityId=this.activity.id;
       this.restService.editActivity(editActivity).then((response)=>{
-        console.log(response.body)
         this.toastService.presentToast(response.body.message,undefined,'bottom','success')
         this.navCtrl.navigateRoot('/activities', {
           state: { group:this.group }
