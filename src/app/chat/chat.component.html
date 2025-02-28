@@ -1,4 +1,3 @@
-<!-- chat.component.html -->
 <ion-header>
   <ion-toolbar>
     <ion-title>WhatsApp</ion-title>
@@ -16,17 +15,33 @@
       }"
       lines="none"
     >
-      <!-- Avatar a la izquierda si es receptor, a la derecha si es emisor -->
-      <ion-avatar slot="start" *ngIf="item.message_side === 'receiver'">
-        <img alt="Avatares" [src]="'assets/perfiles/' + item.avatar" />
+      <!-- Avatar a la izquierda si es receptor -->
+      <ion-avatar
+        slot="start"
+        *ngIf="item.message_side === 'receiver' && item.avatar"
+      >
+        <img
+          alt="Avatares"
+          [src]="'assets/perfiles/' + item.avatar"
+          (error)="handleImageError(item)"
+        />
       </ion-avatar>
 
-      <ion-avatar slot="end" *ngIf="item.message_side === 'sender'">
-        <img alt="Avatares" [src]="'assets/perfiles/' + item.avatar" />
+      <!-- Avatar a la derecha si es emisor -->
+      <ion-avatar
+        slot="end"
+        *ngIf="item.message_side === 'sender' && item.avatar"
+      >
+        <img
+          alt="Avatares"
+          [src]="'assets/perfiles/' + item.avatar"
+          (error)="handleImageError(item)"
+        />
       </ion-avatar>
 
       <ion-label>
-        <h3>{{ item.username }}</h3>
+        <!-- Si no hay username, se muestra 'Anónimo' -->
+        <h3>{{ item.username ? item.username : 'Anónimo' }}</h3>
         <h2>{{ item.message }}</h2>
       </ion-label>
     </ion-item>

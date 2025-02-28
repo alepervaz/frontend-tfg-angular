@@ -86,7 +86,12 @@ export class ChatComponent  implements OnInit {
 }
 
   
-
+ // Método para manejar el error al cargar la imagen
+ handleImageError(item: any) {
+  // Si falla la carga de la imagen, ponemos al usuario como anónimo y sin avatar
+  item.username = 'Anónimo';
+  item.avatar = null;
+}
   
 
 }
