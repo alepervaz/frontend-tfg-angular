@@ -1,7 +1,9 @@
 <ion-header>
-    <div><ion-button expand="clear"  (click)="goToList()" color="primary">Amigos</ion-button></div>
-    <ion-toolbar>
+    <ion-toolbar >
       <ion-title>Mis Amigos</ion-title>
+      <ion-buttons slot="end">
+        <ion-button (click)="goToList()"><ion-icon name="people"></ion-icon></ion-button>
+      </ion-buttons>
     </ion-toolbar>
   </ion-header>
   <ion-searchbar [debounce]="1000" (ionInput)="handleInput($event)"></ion-searchbar>
@@ -16,7 +18,7 @@
         <ion-item-options slot="end">
           <ion-item-option color="light">
             <ion-button  expand="block" fill="clear" (click)="goToFeedBack(user)">
-              <ion-icon slot="icon-only" name="person-outline"></ion-icon>
+              <ion-icon slot="icon-only" name="pencil-outline"></ion-icon>
             </ion-button>
           </ion-item-option>
           <ion-item-option color="warning">
@@ -39,7 +41,7 @@
                   <img alt="Avatares" [src]="'assets/perfiles/' + selectedUser.avatar" />
                   <ion-card-header>
                     <ion-card-title>{{selectedUser.username}}</ion-card-title>
-                    <ion-card-subtitle>Tiene: x amigos</ion-card-subtitle>
+                    <ion-card-subtitle>Tiene: {{ selectedUser.friends?.length }} amigos</ion-card-subtitle>
                   </ion-card-header>
                   
                   <ion-card-content>

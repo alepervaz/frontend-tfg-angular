@@ -44,7 +44,7 @@
                 <ion-icon slot="start" name="information-circle-outline"></ion-icon>
                 Ver detalles
               </ion-button>
-              <ion-button *ngIf="!activity.isJoined && activity.statusActivity=='ACTIVE'" color="success" (click)="joinActivity(activity)">
+              <ion-button *ngIf="!activity.isJoined && activity.statusActivity=='ACTIVE' && (activity.participantes?.length ?? 0) < (activity.maxParticipant ?? 0)" color="success" (click)="joinActivity(activity)">
                 <ion-icon slot="start" name="checkmark-circle-outline"></ion-icon>
                 Unirse
               </ion-button>
@@ -83,7 +83,7 @@
           <h2>{{ selectedActivity.title }}</h2>
           <p><strong>Descripción:</strong> {{ selectedActivity.description }}</p>
           <p><strong>Fecha:</strong> {{ selectedActivity.startDate | date:'medium':'UTC' }}</p>
-          <p><strong>Número de participantes:</strong> {{ selectedActivity.participantes?.length }}</p>
+          <p><strong>Número de participantes:</strong> {{ selectedActivity.maxParticipant }}</p>
 
           <!-- Podrías añadir más detalles según la estructura de la actividad -->
           

@@ -9,6 +9,7 @@ import { JoinActivityRequest } from 'src/app/models/Activity/JoinActivityRequest
 import { User } from 'src/app/models/user';
 import { CancelActivityRequest } from 'src/app/models/Activity/CancelActivityRequest';
 import { Activity } from 'src/app/models/Activity/Activity';
+import { ToastHelperService } from 'src/app/helpers/AlertHelper';
 
 @Component({
   selector: 'app-activities',
@@ -33,6 +34,7 @@ export class ActivitiesComponent implements OnInit {
     private authService: AuthService,
     private navCtrl: NavController,
     private restService: RestService,
+    private toastService: ToastHelperService
   ) {}
 
   async ngOnInit() {
@@ -55,6 +57,7 @@ export class ActivitiesComponent implements OnInit {
   async loadActivities() {
     const loadActivitiesRequest: LoadActivitiesRequest = { groupId: this.group.id };
     const response = await this.restService.loadActivities(loadActivitiesRequest);
+    console.log(response)
     this.activities = response.body.data;
     if(this.activities){this.activities.forEach(activity => {
       activity.isJoined = this.isJoined(activity);
@@ -122,10 +125,12 @@ export class ActivitiesComponent implements OnInit {
     this.selectedActivity = null;
   }
 
-  joinActivity(activity: LoadActivitiesResponse) {
+  async joinActivity(activity: LoadActivitiesResponse) {
     // Implementa la lógica para unirte a la actividad
     this.joinActivityRequest={activityId:activity.activityId,userId:this.userAuth?.id}
-    this.restService.joinActivity(this.joinActivityRequest).then((response)=>{
+    await this.restService.joinActivity(this.joinActivityRequest).then(async (response)=>{
+      this.toastService.presentToast("Te has unido a la activiadad",undefined,'bottom','success');
+      await this.ngOnInit();
     })
   }
 

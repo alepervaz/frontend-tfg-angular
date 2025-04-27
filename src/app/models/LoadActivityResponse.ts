@@ -16,6 +16,7 @@ export class LoadActivitiesResponse{
     participantes?:User[];
     isJoined?:boolean;
     statusActivity?:StatusActivity;
+    maxParticipant?:number;
 }
 
 export enum StatusActivity {
