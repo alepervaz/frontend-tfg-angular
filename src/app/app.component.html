@@ -18,7 +18,13 @@
     <ion-toolbar>
       <ion-buttons slot="start">
         <ion-menu-button></ion-menu-button>
-        <ion-img class="responsive-img" [src]="'assets/images/logotipo.png'" alt="Logotipo de la aplicación"></ion-img>
+        <a [routerLink]="['/tabs/tab1']">
+          <ion-img
+            class="responsive-img"
+            [src]="'assets/images/logotipo.png'"
+            alt="Logotipo de la aplicación">
+          </ion-img>
+        </a>
       </ion-buttons>
     </ion-toolbar>
   </ion-header>

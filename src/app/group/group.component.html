@@ -1,18 +1,12 @@
-<ion-button  (click)="goToCreateGroup()" color="primary">
-  Crear Grupo
-  <ion-icon name="people-circle-outline"></ion-icon>
-</ion-button>
-
-
-<ion-button  (click)="goToListGroup()" color="primary">
-  Listado de grupos
-  <ion-icon name="people-circle-outline"></ion-icon>
-</ion-button>
 
 <ion-header>
   <div>
     <ion-toolbar>
     <ion-title>Mis Grupos</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="goToCreateGroup()"><ion-icon name="people-outline"></ion-icon></ion-button>
+      <ion-button (click)="goToListGroup()"><ion-icon name="list-outline"></ion-icon></ion-button>
+    </ion-buttons>
   </ion-toolbar>
   <ion-searchbar 
   placeholder="Buscar usuarios..." 
