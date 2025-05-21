@@ -15,7 +15,7 @@ import { JoinGroup } from '../models/joinGroup';
 import { getMyGroups } from '../models/getMyGroups';
 
 import { EditGroup } from '../models/EditGroup';
-import { DeleteMemberGroup } from '../models/deleteMemberGroup';
+import { DeleteMemberGroup } from '../models/DeleteMemberGroup';
 import { DeleteGroup } from '../models/DeleteGroup';
 import { LeaveGroup } from '../models/LeaveGroup';
 import { CreateActivity } from '../models/CreateActivity';
@@ -210,7 +210,7 @@ export class RestService  {
     ).toPromise();
   }
 
-  async deleteMemberGroup(deleteMember: DeleteMemberGroup): Promise<any> {
+  async deleteMemberGroups(deleteMember: DeleteMemberGroup): Promise<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     const params = convertToHttpParams(deleteMember);
     return await this.http.delete<User>(

@@ -5,7 +5,7 @@ import { User } from '../models/user';
 import { Group } from '../models/group';
 import { getMyGroups } from '../models/getMyGroups';
 import { RestService } from '../services/restService';
-import { DeleteMemberGroup } from '../models/deleteMemberGroup';
+import { DeleteMemberGroup } from '../models/DeleteMemberGroup';
 import { CreateGroupComponent } from './create-group/create-group.component';
 import { LeaveGroup } from '../models/LeaveGroup';
 import { ToastHelperService } from '../helpers/AlertHelper';
@@ -139,7 +139,7 @@ export class GroupComponent  implements OnInit {
   async deleteMember(member:User,group: Group){
     this.deleteMemberParam.userId=member.id;
     this.deleteMemberParam.groupId=group.id;
-    await this.restService.deleteMemberGroup(this.deleteMemberParam).then((response)=>{
+    await this.restService.deleteMemberGroups(this.deleteMemberParam).then((response)=>{
       this.setOpen(false);
       this.ngOnInit();
     })
