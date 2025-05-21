@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  apiUrl: 'https://backend-tfg-spring.up.railway.app/api'
 };
